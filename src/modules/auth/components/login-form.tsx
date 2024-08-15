@@ -14,9 +14,9 @@ import AuthAcctions from "../actions/auth-actions";
 
 export default function LoginForm() {
   return (
-    <div className="w-[350px]">
+    <div className="w-fit">
       <CardHeader>
-        <CardTitle>Coopervaço - Atas</CardTitle>
+        <CardTitle className="text-4xl">Login - Sistema de Atas</CardTitle>
         <CardDescription>Faça login para continuar</CardDescription>
       </CardHeader>
       <form className="space-y-4" action={AuthAcctions.login}>

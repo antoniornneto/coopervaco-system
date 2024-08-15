@@ -1,11 +1,11 @@
 import Header from "@/components/ui/header";
 
-export default function SobrePage() {
+export default function PaginaDeParceiros() {
   return (
     <main>
-      <title>Coopervaço - Sobre</title>
+      <title>Coopervaço - Parceiros</title>
       <Header />
-      <h1>Sobre</h1>
+      <h1>Parceiros</h1>
     </main>
   );
 }

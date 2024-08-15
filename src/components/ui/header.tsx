@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../../public/assets/logo.png";
-import { Menu } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { logoCooperativa } from "@/lib/utils";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLinks = [
@@ -39,16 +39,39 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const [burguerMenuState, setBurguerMenuState] = useState(false);
   const pathname = usePathname();
-  const [orientacoesModal, setOrientacoesModal] = useState(false);
+
+  const menuBurguerOpenAndClose = (state: boolean) => {
+    if (!state) {
+      setBurguerMenuState(true);
+      return;
+    } else {
+      setBurguerMenuState(false);
+    }
+  };
 
   return (
-    <header className="flex w-full h-16 bg-dark_green text-white justify-around items-center">
-      <div className="flex w-[75%] justify-between items-center h-full">
-        <div className="">
-          <Image src={logo} alt="logo da cooperativa" />
+    <header className="flex relative w-full h-16 bg-dark_green text-white justify-around items-center">
+      <div className="flex w-[75%] justify-between items-center h-full lg:w-[90%]">
+        <div>
+          <Image
+            className="h-auto w-48"
+            priority
+            src={logoCooperativa}
+            width={0}
+            height={0}
+            alt="logo da cooperativa"
+          />
         </div>
         <nav className="h-full flex justify-center items-center">
+          <button
+            className="hidden md:block"
+            onClick={() => menuBurguerOpenAndClose(burguerMenuState)}
+          >
+            <Menu size={44} className="cursor-pointer" />
+          </button>
+          {/* Menu Desktop */}
           <ul className="flex h-full gap-2 text-sm md:hidden transition-all">
             {navLinks.map((link, index) => (
               <li
@@ -64,52 +87,127 @@ export default function Header() {
                 <Link
                   className={`${
                     pathname === link.path_name
-                      ? "bg-light_green font-bold py-2 px-3 rounded"
+                      ? "bg-light_green font-bold py-2 px-3 rounded-lg"
                       : ""
-                  } hover:bg-light_green hover:font-bold hover:rounded hover:px-3 hover:py-2`}
+                  } hover:bg-light_green hover:font-bold hover:rounded-lg hover:px-3 hover:py-2`}
                   href={link.path_name}
                 >
                   {link.name}
                 </Link>
-                <div className="absolute transition-all rounded-lg gap-1 hidden justify-around flex-col right-0 top-10 bg-light_green py-3 group-hover:flex w-full h-28">
-                  <Link
-                    href={"/orientacoes/convenios"}
-                    className={`${
-                      pathname === link.path_name
-                        ? "bg-light_green py-2 px-3 rounded"
-                        : ""
-                    } hover:underline`}
-                  >
-                    Convênios
-                  </Link>
-                  <Link
-                    href={"/orientacoes/parceiros"}
-                    className={`${
-                      pathname === link.path_name
-                        ? "bg-light_green py-2 px-3 rounded"
-                        : ""
-                    } hover:underline`}
-                  >
-                    Parceiros
-                  </Link>
-                  <Link
-                    href={"/orientacoes/noticias"}
-                    className={`${
-                      pathname === link.path_name
-                        ? "bg-light_green py-2 px-3 rounded"
-                        : ""
-                    } hover:underline`}
-                  >
-                    Notícias
-                  </Link>
-                </div>
+                <ul className="absolute transition-all rounded-lg py-4 space-y-2 hidden flex-col right-0 top-10 bg-light_green group-hover:flex w-full">
+                  <li>
+                    <Link
+                      href={"/orientacoes/convenios"}
+                      className={`${
+                        pathname === link.path_name
+                          ? "bg-light_green px-3 rounded"
+                          : ""
+                      } hover:underline`}
+                    >
+                      Convênios
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={"/orientacoes/parceiros"}
+                      className={`${
+                        pathname === link.path_name
+                          ? "bg-light_green px-3 rounded"
+                          : ""
+                      } hover:underline`}
+                    >
+                      Parceiros
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={"/orientacoes/noticias"}
+                      className={`${
+                        pathname === link.path_name
+                          ? "bg-light_green px-3 rounded"
+                          : ""
+                      } hover:underline`}
+                    >
+                      Notícias
+                    </Link>
+                  </li>
+                </ul>
               </li>
             ))}
           </ul>
         </nav>
       </div>
 
-      {/* Navbar mobile */}
+      {burguerMenuState && (
+        <aside
+          className={`fixed top-0 right-0 flex-col bg-dark_green h-screen w-1/3 text-2xl space-y-3 hidden md:flex`}
+        >
+          <button onClick={() => menuBurguerOpenAndClose(burguerMenuState)}>
+            <X size={44} className="m-auto" />
+          </button>
+          <nav>
+            <ul className="flex flex-col gap-3">
+              {navLinks.map((link, index) => (
+                <li className={`m-auto`} key={index}>
+                  <Link
+                    className="flex hover:underline items-center gap-2"
+                    href={link.path_name}
+                  >
+                    {link.name}
+                    <ChevronDown
+                      className={
+                        link.name === "Orientações" ? "block" : "hidden"
+                      }
+                    />
+                  </Link>
+                  <ul
+                    className={`${
+                      link.name === "Orientações" ? "flex flex-col" : "hidden"
+                    } rounded-lg gap-2 items-center py-4 bg-light_green`}
+                  >
+                    <li>
+                      <Link
+                        href={"/orientacoes/convenios"}
+                        className={`${
+                          pathname === link.path_name
+                            ? "bg-light_green py-2 px-3 rounded"
+                            : ""
+                        } hover:underline`}
+                      >
+                        Convênios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={"/orientacoes/parceiros"}
+                        className={`${
+                          pathname === link.path_name
+                            ? "bg-light_green py-2 px-3 rounded"
+                            : ""
+                        } hover:underline`}
+                      >
+                        Parceiros
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={"/orientacoes/noticias"}
+                        className={`${
+                          pathname === link.path_name
+                            ? "bg-light_green py-2 px-3 rounded"
+                            : ""
+                        } hover:underline`}
+                      >
+                        Notícias
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )}
     </header>
   );
 }

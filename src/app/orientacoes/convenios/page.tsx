@@ -1,6 +1,6 @@
 import Header from "@/components/ui/header";
 
-export default function ConveniosPage() {
+export default function PaginaDeConvenios() {
   return (
     <main>
       <title>Coopervaço - Convênios</title>

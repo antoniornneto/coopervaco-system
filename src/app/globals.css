@@ -67,9 +67,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.backgroundImage {
-  background-image: url("../../public/assets/home_bg.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
