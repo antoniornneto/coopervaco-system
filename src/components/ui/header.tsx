@@ -140,15 +140,15 @@ export default function Header() {
 
       {burguerMenuState && (
         <aside
-          className={`fixed top-0 right-0 flex-col bg-dark_green h-screen w-1/3 text-2xl space-y-3 hidden md:flex`}
+          className={`fixed top-0 right-0 flex-col bg-dark_green h-screen w-1/3 text-2xl space-y-4 hidden md:flex`}
         >
           <button onClick={() => menuBurguerOpenAndClose(burguerMenuState)}>
             <X size={44} className="m-auto" />
           </button>
           <nav>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-4">
               {navLinks.map((link, index) => (
-                <li className={`m-auto`} key={index}>
+                <li className={`m-auto flex flex-col gap-2`} key={index}>
                   <Link
                     className="flex hover:underline items-center gap-2"
                     href={link.path_name}
