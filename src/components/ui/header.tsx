@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { logoCooperativa } from "@/lib/utils";
+import { logoCooperativaX } from "@/lib/utils";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import clsx from "clsx";
 
 const navLinks = [
   {
@@ -58,19 +59,19 @@ export default function Header() {
           <Image
             className="h-auto w-48"
             priority
-            src={logoCooperativa}
+            src={logoCooperativaX}
             width={0}
             height={0}
             alt="logo da cooperativa"
           />
         </div>
         <nav className="h-full flex justify-center items-center">
-          <button
-            className="hidden md:block"
+          <Menu
             onClick={() => menuBurguerOpenAndClose(burguerMenuState)}
-          >
-            <Menu size={44} className="cursor-pointer" />
-          </button>
+            size={44}
+            className="cursor-pointer hidden md:block"
+          />
+
           {/* Menu Desktop */}
           <ul className="flex h-full gap-2 text-sm md:hidden transition-all">
             {navLinks.map((link, index) => (
@@ -89,7 +90,7 @@ export default function Header() {
                     pathname === link.path_name
                       ? "bg-light_green font-bold py-2 px-3 rounded-lg"
                       : ""
-                  } hover:bg-light_green hover:font-bold hover:rounded-lg hover:px-3 hover:py-2`}
+                  } hover:bg-light_green hover:font-bold hover:rounded-lg hover:px-3 hover:py-2 transition ease-out duration-200`}
                   href={link.path_name}
                 >
                   {link.name}
@@ -138,15 +139,23 @@ export default function Header() {
         </nav>
       </div>
 
-      {burguerMenuState && (
+      <div
+        className={clsx(
+          "fixed h-full w-screen bg-black/50 backdrop-blur-sm left-0 top-0 hidden md:flex -translate-x-full transition-all",
+          burguerMenuState && "translate-x-0"
+        )}
+      >
         <aside
-          className={`fixed top-0 right-0 flex-col bg-dark_green h-screen w-1/3 text-2xl space-y-4 hidden md:flex`}
+          className={`absolute left-0 top-0 h-screen flex-col py-8 gap-4 bg-dark_green w-1/2 text-2xl hidden md:flex sm:w-screen`}
         >
-          <button onClick={() => menuBurguerOpenAndClose(burguerMenuState)}>
-            <X size={44} className="m-auto" />
-          </button>
+          <X
+            onClick={() => menuBurguerOpenAndClose(burguerMenuState)}
+            size={44}
+            className="cursor-pointer hidden md:flex mx-auto"
+          />
+
           <nav>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col flex-1 gap-4">
               {navLinks.map((link, index) => (
                 <li className={`m-auto flex flex-col gap-2`} key={index}>
                   <Link
@@ -207,7 +216,7 @@ export default function Header() {
             </ul>
           </nav>
         </aside>
-      )}
+      </div>
     </header>
   );
 }

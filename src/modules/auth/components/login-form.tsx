@@ -34,7 +34,7 @@ export default function LoginForm() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button
-            className="bg-dark_green hover:text-dark_green hover:font-bold hover:border-dark_green text-white"
+            className="bg-dark_green hover:text-dark_green hover:font-bold hover:border-dark_green text-white transition duration-200 ease-out"
             type="submit"
             variant="outline"
           >

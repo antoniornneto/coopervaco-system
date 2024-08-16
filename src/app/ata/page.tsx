@@ -1,7 +1,11 @@
 import Header from "@/components/ui/header";
 import LoginForm from "@/modules/auth/components/login-form";
 import Image from "next/image";
-import { logoCooperativa, backgroundImage } from "@/lib/utils";
+import {
+  logoCooperativaX,
+  logoCooperativaY,
+  backgroundImage,
+} from "@/lib/utils";
 
 export default function LoginPage() {
   return (
@@ -9,7 +13,7 @@ export default function LoginPage() {
       <title>Coopervaço - Login</title>
       <Header />
       <div className="flex flex-1 md:flex-col">
-        <div className="flex-1 md:hidden">
+        <div className="flex-1 md:hidden relative">
           <Image
             className="h-full w-full"
             src={backgroundImage}
@@ -17,10 +21,17 @@ export default function LoginPage() {
             height={0}
             alt="Imagem ilustrativa de pessoas trabalhando"
           />
+          <Image
+            src={logoCooperativaY}
+            width={0}
+            height={0}
+            alt="logo da cooperativa"
+            className="w-[400px] absolute top-[35%] left-[25%] lg:w-[300px] lg:left-[20%]"
+          />
         </div>
         <div className="flex flex-1 items-center justify-center md:flex-col space-y-4">
           <Image
-            src={logoCooperativa}
+            src={logoCooperativaX}
             width={0}
             height={0}
             alt="logo da cooperativa"
