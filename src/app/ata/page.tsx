@@ -6,20 +6,21 @@ import {
   logoCooperativaY,
   backgroundImage,
 } from "@/lib/utils";
+import Footer from "@/components/ui/footer";
 
 export default function LoginPage() {
   return (
-    <main className="flex flex-col h-screen">
+    <main className="flex flex-col">
       <title>Coopervaço - Login</title>
       <Header />
-      <div className="flex flex-1 md:flex-col">
+      <div className="flex h-screen md:flex-col sm:h-[700px]">
         <div className="flex-1 md:hidden relative">
           <Image
-            className="h-full w-full"
             src={backgroundImage}
             width={0}
             height={0}
             alt="Imagem ilustrativa de pessoas trabalhando"
+            className="h-full w-full"
           />
           <Image
             src={logoCooperativaY}
@@ -29,9 +30,9 @@ export default function LoginPage() {
             className="w-[400px] absolute top-[35%] left-[25%] lg:w-[300px] lg:left-[20%]"
           />
         </div>
-        <div className="flex flex-1 items-center justify-center md:flex-col space-y-4">
+        <div className="flex flex-1 items-center justify-center md:flex-col space-y-10">
           <Image
-            src={logoCooperativaX}
+            src={logoCooperativaY}
             width={0}
             height={0}
             alt="logo da cooperativa"
@@ -40,6 +41,7 @@ export default function LoginPage() {
           <LoginForm />
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

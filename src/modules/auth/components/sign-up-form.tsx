@@ -13,15 +13,20 @@ import AuthAcctions from "../actions/auth-actions";
 
 export default function SignUpForm() {
   return (
-    <div>
-      <CardHeader>
-        <CardTitle>Coopervaço - Atas</CardTitle>
-        <CardDescription>
+    <div className="flex flex-col items-center space-y-8">
+      <CardHeader className="w-fit flex md:items-center space-y-3">
+        <CardTitle className="md:text-wrap px-2 text-4xl sm:text-2xl">
+          Cadastro - Sistema de Atas
+        </CardTitle>
+        <CardDescription className="md:text-wrap px-2">
           Preencha os campos abaixo para criar sua conta.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-3" action={AuthAcctions.createAccount}>
+      <CardContent className="flex-1 flex flex-col items-center ">
+        <form
+          className="space-y-6 w-96 md:w-72 flex flex-col items-center"
+          action={AuthAcctions.createAccount}
+        >
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Nome</Label>
@@ -36,7 +41,7 @@ export default function SignUpForm() {
               <Input id="password" name="password" type="password" />
             </div>
           </div>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between sm:flex-col">
             <Button
               className="bg-dark_green hover:text-dark_green hover:font-bold hover:border-dark_green text-white"
               type="submit"

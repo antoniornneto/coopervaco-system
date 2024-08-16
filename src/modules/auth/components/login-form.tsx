@@ -14,13 +14,20 @@ import AuthAcctions from "../actions/auth-actions";
 
 export default function LoginForm() {
   return (
-    <div className="w-fit">
-      <CardHeader>
-        <CardTitle className="text-4xl">Login - Sistema de Atas</CardTitle>
-        <CardDescription>Faça login para continuar</CardDescription>
+    <div className="flex flex-col items-center space-y-8">
+      <CardHeader className="w-fit flex md:items-center space-y-3">
+        <CardTitle className="md:text-wrap px-2 text-4xl sm:text-2xl">
+          Login - Sistema de Atas
+        </CardTitle>
+        <CardDescription className="flex-1">
+          Faça login para continuar
+        </CardDescription>
       </CardHeader>
-      <form className="space-y-4" action={AuthAcctions.login}>
-        <CardContent>
+      <CardContent className="flex-1 flex flex-col items-center">
+        <form
+          className="space-y-6 w-96 md:w-72 flex flex-col items-center"
+          action={AuthAcctions.login}
+        >
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">E-mail</Label>
@@ -31,23 +38,23 @@ export default function LoginForm() {
               <Input id="password" name="password" type="password" required />
             </div>
           </div>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button
-            className="bg-dark_green hover:text-dark_green hover:font-bold hover:border-dark_green text-white transition duration-200 ease-out"
-            type="submit"
-            variant="outline"
-          >
-            Entrar
-          </Button>
-          <Link
-            href="/ata/cadastro"
-            className={buttonVariants({ variant: "link" })}
-          >
-            Criar Conta
-          </Link>
-        </CardFooter>
-      </form>
+          <CardFooter className="flex justify-between sm:flex-col">
+            <Button
+              className="bg-dark_green hover:text-dark_green hover:font-bold hover:border-dark_green text-white transition duration-200 ease-out"
+              type="submit"
+              variant="outline"
+            >
+              Entrar
+            </Button>
+            <Link
+              href="/ata/cadastro"
+              className={buttonVariants({ variant: "link" })}
+            >
+              Criar Conta
+            </Link>
+          </CardFooter>
+        </form>
+      </CardContent>
     </div>
   );
 }
