@@ -73,8 +73,8 @@ const config = {
       screens: {
         sm: { max: "425px" },
         md: { max: "900px" },
-        lg: { max: "1024px" },
-        xl: { max: "1200px" },
+        lg: { min: "1024px" },
+        xl: { min: "1200px" },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
