@@ -22,9 +22,9 @@ export default function SignUpForm() {
           Preencha os campos abaixo para criar sua conta.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col items-center ">
+      <CardContent className="w-full flex-1 flex flex-col items-center">
         <form
-          className="space-y-6 w-96 md:w-72 flex flex-col items-center"
+          className="space-y-6 w-full flex flex-col items-center sm:w-72"
           action={AuthAcctions.createAccount}
         >
           <div className="grid w-full items-center gap-4">

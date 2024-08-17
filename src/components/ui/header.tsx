@@ -56,14 +56,16 @@ export default function Header() {
     <header className="flex relative w-full h-16 bg-dark_green text-white justify-around items-center">
       <div className="flex w-[75%] justify-between items-center h-full lg:w-[90%]">
         <div>
-          <Image
-            className="h-auto w-48"
-            priority
-            src={logoCooperativaX}
-            width={0}
-            height={0}
-            alt="logo da cooperativa"
-          />
+          <Link href={"/"}>
+            <Image
+              className="h-auto w-48"
+              priority
+              src={logoCooperativaX}
+              width={0}
+              height={0}
+              alt="logo da cooperativa"
+            />
+          </Link>
         </div>
         <nav className="h-full flex justify-center items-center">
           <Menu

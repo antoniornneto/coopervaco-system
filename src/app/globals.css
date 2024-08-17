@@ -71,3 +71,10 @@
 :root {
   box-sizing: border-box;
 }
+
+.backgroundImage {
+  background-image: url("../../public/assets/home_bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
+}

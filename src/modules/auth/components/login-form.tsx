@@ -19,7 +19,7 @@ export default function LoginForm() {
         <CardTitle className="md:text-wrap px-2 text-4xl sm:text-2xl">
           Login - Sistema de Atas
         </CardTitle>
-        <CardDescription className="flex-1">
+        <CardDescription className="md:text-wrap px-2">
           Faça login para continuar
         </CardDescription>
       </CardHeader>

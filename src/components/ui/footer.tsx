@@ -17,17 +17,26 @@ export default function Footer() {
         className="w-[300px]"
       />
       <div className="flex items-center gap-8">
-        <Link className="flex flex-col justify-center items-center" href={"#"}>
+        <Link
+          className="flex flex-col justify-center items-center"
+          href={"https://www.facebook.com/"}
+          target="_blank"
+        >
           <SiFacebook />
           <span>Facebook</span>
         </Link>
-        <Link className="flex flex-col justify-center items-center" href={"#"}>
+        <Link
+          className="flex flex-col justify-center items-center"
+          href={"https://www.instagram.com/coopervaco1"}
+          target="_blank"
+        >
           <SiInstagram />
           <span>Instagram</span>
         </Link>
         <Link
           className="flex flex-col justify-center items-center"
           href={"https://painel.curia.coop/login"}
+          target="_blank"
         >
           <PanelsTopLeft />
           <span>Cúria</span>
