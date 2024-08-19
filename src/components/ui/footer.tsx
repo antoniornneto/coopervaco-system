@@ -19,7 +19,7 @@ export default function Footer() {
             className="w-[300px]"
           />
         </div>
-        <hr className="border-white border-[1px] md:border-x-[150px] lg:border-y-[100px]" />
+        <hr className="border-white border-[1px] border-y-[100px] md:border-y-[1px] md:border-x-[150px]" />
         <div className="w-96 space-y-5 flex flex-col justify-center items-center md:w-fit">
           <div className="flex items-center gap-8">
             <Link

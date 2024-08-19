@@ -73,7 +73,7 @@ const config = {
       screens: {
         sm: { max: "425px" },
         md: { max: "900px" },
-        lg: { min: "1024px" },
+        lg: { max: "1024px" },
         xl: { min: "1200px" },
       },
       animation: {
