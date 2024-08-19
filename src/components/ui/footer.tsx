@@ -47,7 +47,7 @@ export default function Footer() {
               <span>Cúria</span>
             </Link>
           </div>
-          <p className="text-2xl">Tel: (31) 3668-2498</p>
+          <p className="text-xl">Tel: (31) 3668-2498</p>
           <p className="text-md text-center md:w-[300px]">
             Avenida Castelo Branco, Número 632 - Sala 210 - Bairro Horto -
             Ipatinga - MG
