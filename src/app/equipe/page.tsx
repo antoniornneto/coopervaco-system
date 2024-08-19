@@ -10,10 +10,10 @@ export default function PaginaDeEquipe() {
       <BgImage />
       <div className="w-screen flex flex-col items-center">
         {/* Initial section */}
-        <div className="w-[60%] flex gap-10 items-center py-10 flex-wrap md:flex-col md:[90%]">
+        <div className="w-[60%] flex gap-10 items-center py-14 flex-wrap md:flex-col md:[90%]">
           <div className="flex-1 space-y-4">
             <hr className="border-[#6eaa64] border-[1px] w-14" />
-            <h1 className="text-4xl">Equipe Coopervaço</h1>
+            <h1 className="text-4xl uppercase">Equipe Coopervaço</h1>
             <h2 className="text-[#6eaa64]">
               Oferecemos orientações que podem facilitar a administração das
               suas finanças.
@@ -29,7 +29,7 @@ export default function PaginaDeEquipe() {
           </div>
         </div>
         {/* Team section */}
-        <div className="w-[60%] flex gap-10 py-10 flex-col md:[90%]">
+        <div className="w-[60%] flex gap-10 py-20 flex-col md:[90%]">
           <h3 className="font-bold text-lg">
             CONSELHO DE ADMINISTRAÇÃO / CARGOS EXECUTIVOS
           </h3>

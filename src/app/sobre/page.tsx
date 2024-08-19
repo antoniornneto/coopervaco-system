@@ -16,7 +16,7 @@ export default function SobrePage() {
         <div className="w-[60%] flex gap-4 justify-center py-10 flex-wrap md:flex-col md:[90%]">
           <div className="flex-1 space-y-4">
             <hr className="border-[#6eaa64] border-[1px] w-14" />
-            <h1 className="text-4xl">Sobre a Coopervaço</h1>
+            <h1 className="text-4xl uppercase">Sobre a Coopervaço</h1>
             <h2 className="text-[#6eaa64]">
               Oferecemos orientações que podem facilitar a administração das
               suas finanças.
