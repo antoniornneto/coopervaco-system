@@ -40,15 +40,6 @@ export default function PaginaDeConvenios() {
               advogados e outros ramos de segmentos, a fim de obter descontos e
               vantagens para classe bancária.
             </p>
-            <Link
-              className="underline text-[#6eaa64]"
-              target="_blank"
-              href={
-                "https://www.diariodoaco.com.br/noticia/0087585-alta-da-gasolina-nao-esta-relacionada-diretamente-a-pandemia-afirma-economista"
-              }
-            >
-              Notícia Completa
-            </Link>
           </div>
         </section>
       </div>
