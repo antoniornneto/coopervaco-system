@@ -2,10 +2,11 @@ import Header from "@/components/ui/header";
 
 export default function PaginaDeParceiros() {
   return (
-    <main>
+    <div>
       <title>Coopervaço - Parceiros</title>
       <Header />
+      <main></main>
       <h1>Parceiros</h1>
-    </main>
+    </div>
   );
 }

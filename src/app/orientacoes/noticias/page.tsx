@@ -5,6 +5,7 @@ export default function PaginaDeNoticias() {
     <main>
       <title>Coopervaço - Notícias</title>
       <Header />
+      <div></div>
       <h1>Notícias</h1>
     </main>
   );

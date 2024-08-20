@@ -5,6 +5,7 @@ export default function PaginaDeConvenios() {
     <main>
       <title>Coopervaço - Convênios</title>
       <Header />
+      <div></div>
       <h1>Convênios</h1>
     </main>
   );

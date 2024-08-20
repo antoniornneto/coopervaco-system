@@ -11,7 +11,7 @@ export default function SobrePage() {
       <title>Coopervaço - Sobre</title>
       <Header />
       <BgImage />
-      <div className="flex flex-col w-screen h-screen justify-center items-center md:h-fit">
+      <div className="flex flex-col h-screen justify-center items-center md:h-fit">
         {/* About section */}
         <div className="w-[60%] flex gap-4 justify-center py-10 flex-wrap md:flex-col md:[90%]">
           <div className="flex-1 space-y-4">

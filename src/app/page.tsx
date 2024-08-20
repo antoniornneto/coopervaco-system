@@ -13,11 +13,11 @@ const pStyle = "text-center text-sm md:text-wrap";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <div className="flex min-h-screen flex-col items-center">
       <title>Coopervaço - Home</title>
       <Header />
-      <div>
-        <BgImage />
+      <BgImage />
+      <main>
         {/* Mission section */}
         <section className="flex justify-center">
           <div className="w-[60%] text-center py-10 space-y-10 md:w-[90%] lg:w-[85%]">
@@ -191,8 +191,8 @@ export default function Home() {
             </form>
           </div>
         </section>
-      </div>
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 }

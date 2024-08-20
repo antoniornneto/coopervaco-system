@@ -8,7 +8,7 @@ export default function PaginaDeEquipe() {
       <title>Coopervaço - Equipe</title>
       <Header />
       <BgImage />
-      <div className="w-screen flex flex-col items-center">
+      <div className="flex flex-col items-center">
         {/* Initial section */}
         <div className="w-[60%] flex gap-10 items-center py-14 flex-wrap md:flex-col md:[90%]">
           <div className="flex-1 space-y-4">

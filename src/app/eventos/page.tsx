@@ -15,7 +15,7 @@ export default function PaginaDeEventos() {
       <title>Coopervaço - Eventos Dia C</title>
       <Header />
       <BgImage />
-      <div className="w-screen flex flex-col items-center">
+      <div className="flex flex-col items-center">
         {/* Initial section */}
         <div className="w-[60%] flex gap-10 items-center py-10 flex-wrap md:flex-col md:[90%]">
           <div className="flex-1 space-y-4">
@@ -28,7 +28,7 @@ export default function PaginaDeEventos() {
           </div>
           <div className="flex-1 flex flex-col justify-center gap-4">
             <h3 className="font-bold text-lg">Nosso Evento</h3>
-            <p>
+            <p className="text-sm">
               Evento cooperativa de trabalho dos profissionais de Instituições
               financeiras do vale do aço de Minas Gerais e adjacências em CENA
               2018 em parceria com UNIMED Vale do Aço, Sicoob , Consul e
