@@ -34,15 +34,6 @@ export default function PaginaDeParceiros() {
               Uma boa gestão exige planejamento, controle e capacidade de tomar
               decisões com base nas necessidades de sua empresa.
             </p>
-            <Link
-              className="underline text-[#6eaa64]"
-              target="_blank"
-              href={
-                "https://www.diariodoaco.com.br/noticia/0087585-alta-da-gasolina-nao-esta-relacionada-diretamente-a-pandemia-afirma-economista"
-              }
-            >
-              Notícia Completa
-            </Link>
           </div>
         </section>
         <section className="w-[60%] flex gap-10 justify-center py-20 flex-wrap md:flex-col md:w-[90%]">

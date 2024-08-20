@@ -39,15 +39,6 @@ export default function PaginaDeNoticias() {
               Selic, colaboraria para o câmbio cair, ajustando o preço final da
               gasolina para o consumidor”, explicou.
             </p>
-            <Link
-              className="underline text-[#6eaa64]"
-              target="_blank"
-              href={
-                "https://www.diariodoaco.com.br/noticia/0087585-alta-da-gasolina-nao-esta-relacionada-diretamente-a-pandemia-afirma-economista"
-              }
-            >
-              Notícia Completa
-            </Link>
           </div>
         </section>
         {/* News section */}
