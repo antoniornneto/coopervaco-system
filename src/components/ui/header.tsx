@@ -27,7 +27,7 @@ const navLinks = [
   },
   {
     name: "Orientações",
-    path_name: "/orientacoes",
+    path_name: "/orientacoes/noticias",
   },
   {
     name: "Contato",

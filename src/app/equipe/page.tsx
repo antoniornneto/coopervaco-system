@@ -14,7 +14,7 @@ export default function PaginaDeEquipe() {
           <div className="flex-1 space-y-4">
             <hr className="border-[#6eaa64] border-[1px] w-14" />
             <h1 className="text-4xl uppercase">Equipe Coopervaço</h1>
-            <h2 className="text-[#6eaa64]">
+            <h2 className="text-[#6eaa64] text-xl">
               Oferecemos orientações que podem facilitar a administração das
               suas finanças.
             </h2>

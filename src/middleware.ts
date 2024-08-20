@@ -10,7 +10,6 @@ const publicRoutes = [
   "/sobre",
   "/equipe",
   "/eventos",
-  "/orientacoes",
   "/orientacoes/convenios",
   "/orientacoes/parceiros",
   "/orientacoes/noticias",
