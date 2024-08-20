@@ -12,7 +12,7 @@ const pStyle = "text-center text-sm md:text-wrap";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main>
       <title>Coopervaço - Home</title>
       <Header />
       <BgImage />
