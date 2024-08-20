@@ -1,7 +1,6 @@
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import Image from "next/image";
-import { backgroundImage } from "@/lib/utils";
 import Link from "next/link";
 import erasmoImg from "../../public/assets/erasmo.jpg";
 import articleImg1 from "../../public/assets/article1.png";
@@ -13,11 +12,11 @@ const pStyle = "text-center text-sm md:text-wrap";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col items-center">
       <title>Coopervaço - Home</title>
       <Header />
       <BgImage />
-      <main>
+      <div>
         {/* Mission section */}
         <section className="flex justify-center">
           <div className="w-[60%] text-center py-10 space-y-10 md:w-[90%] lg:w-[85%]">
@@ -191,8 +190,8 @@ export default function Home() {
             </form>
           </div>
         </section>
-      </main>
+      </div>
       <Footer />
-    </div>
+    </main>
   );
 }
