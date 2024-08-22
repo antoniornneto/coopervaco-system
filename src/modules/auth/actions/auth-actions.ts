@@ -53,7 +53,7 @@ async function login(formData: FormData) {
     email: user.email,
   });
 
-  redirect("/ata");
+  redirect("/coopervaco-system");
 }
 
 const AuthAcctions = {
