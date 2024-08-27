@@ -26,8 +26,15 @@ export async function middleware(req: NextRequest) {
   }
 
   const session = await AuthService.isSessionValid();
+
   if (!session) {
-    return NextResponse.redirect(new URL("/", req.url));
+    const isAPIRoute = pathname.startsWith("/api");
+
+    if (isAPIRoute) {
+      return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+    }
+
+    return NextResponse.redirect(new URL("/ata", req.url));
   }
 
   return NextResponse.next();
