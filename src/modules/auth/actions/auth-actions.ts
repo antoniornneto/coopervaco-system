@@ -56,9 +56,9 @@ async function login(formData: FormData) {
   redirect("/coopervaco-system");
 }
 
-const AuthAcctions = {
+const AuthActions = {
   createAccount,
   login,
 };
 
-export default AuthAcctions;
+export default AuthActions;

@@ -10,7 +10,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import AuthAcctions from "../actions/auth-actions";
+import AuthActions from "../actions/auth-actions";
 
 export default function LoginForm() {
   return (
@@ -26,7 +26,7 @@ export default function LoginForm() {
       <CardContent className="flex-1 flex flex-col items-center">
         <form
           className="space-y-6 w-96 md:w-72 flex flex-col items-center"
-          action={AuthAcctions.login}
+          action={AuthActions.login}
         >
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
