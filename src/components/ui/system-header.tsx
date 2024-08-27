@@ -11,6 +11,7 @@ export default function HeaderSystem() {
           height={0}
           alt="Logo da cooperativa"
           className="w-52"
+          priority
         />
       </div>
       <div className="flex-1 bg-[#3D6C6D]">{/* AVATAR E MENU DE LOGIN */}</div>
