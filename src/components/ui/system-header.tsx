@@ -1,5 +1,6 @@
 import { logoCooperativaX } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function HeaderSystem() {
   return (
@@ -14,7 +15,12 @@ export default function HeaderSystem() {
           priority
         />
       </div>
-      <div className="flex-1 bg-[#3D6C6D]">{/* AVATAR E MENU DE LOGIN */}</div>
+      <div className="flex-1 bg-[#3D6C6D]">
+        {/* AVATAR E MENU DE LOGIN */}
+        <Link className="text-white p-4" href="/api/logout">
+          Sair
+        </Link>
+      </div>
     </header>
   );
 }

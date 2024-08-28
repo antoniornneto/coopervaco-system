@@ -16,6 +16,7 @@ const publicRoutes = [
   "/contato",
   "/ata/cadastro",
   "/ata",
+  "/api/atas",
 ];
 
 export async function middleware(req: NextRequest) {
