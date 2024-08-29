@@ -16,8 +16,6 @@ const publicRoutes = [
   "/contato",
   "/ata/cadastro",
   "/ata",
-  "/api/atas",
-  "/api/atas/:ataId",
 ];
 
 export async function middleware(req: NextRequest) {
@@ -30,11 +28,11 @@ export async function middleware(req: NextRequest) {
   const session = await AuthService.isSessionValid();
 
   if (!session) {
-    // const isAPIRoute = pathname.startsWith("/api");
+    const isAPIRoute = pathname.startsWith("/api");
 
-    // if (isAPIRoute) {
-    //   return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-    // }
+    if (isAPIRoute) {
+      return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+    }
 
     return NextResponse.redirect(new URL("/ata", req.url));
   }

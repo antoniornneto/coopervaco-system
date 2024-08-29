@@ -13,7 +13,7 @@ export default async function Sistema() {
               <div className="w-[80%] flex items-center py-10 gap-10">
                 <h1 className="text-4xl text-[#606060]">Atas de Reuniões</h1>
                 <select
-                  className="rounded-lg bg-transparent border-zinc-300 border-[1px] px-6 text-lg font-semibold"
+                  className="rounded-lg bg-transparent border-zinc-300 borde-[1px] px-6 text-lg font-semibold"
                   name=""
                   id=""
                 >
