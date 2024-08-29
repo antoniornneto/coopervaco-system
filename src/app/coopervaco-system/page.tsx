@@ -1,7 +1,7 @@
 import HeaderSystem from "@/components/ui/system-header";
 import AtasList from "@/modules/users/components/atas-list";
 
-export default function Sistema() {
+export default async function Sistema() {
   return (
     <main>
       <HeaderSystem />
@@ -23,7 +23,7 @@ export default function Sistema() {
             </div>
             {/* AtasList section */}
             <div className="flex justify-center">
-              <div className="w-[80%] flex py-10">
+              <div className="w-[80%] flex flex-col py-10">
                 <AtasList />
               </div>
             </div>

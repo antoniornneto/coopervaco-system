@@ -11,9 +11,9 @@ export default function AtasList() {
   const [atas, setAtas] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("api/atas")
+    fetch("coopervaco-system/api/atas")
       .then((response) => response.json())
-      .then((data) => setAtas(data.atas));
+      .then((atas) => setAtas(atas));
   }, []);
 
   return (
@@ -28,7 +28,7 @@ export default function AtasList() {
             <h1>{ata.title}</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Link href={`/coopervaco-system/ata/${ata.id}`}>
+            <Link href={`/coopervaco-system/${ata.id}`}>
               <Eye />
             </Link>
             <Button className="rounded-3xl bg-[#5DA770]">Assinar Ata</Button>

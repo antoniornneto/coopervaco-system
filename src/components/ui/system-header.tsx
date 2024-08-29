@@ -17,7 +17,7 @@ export default function HeaderSystem() {
       </div>
       <div className="flex-1 bg-[#3D6C6D]">
         {/* AVATAR E MENU DE LOGIN */}
-        <Link className="text-white p-4" href="/api/logout">
+        <Link className="text-white p-4" href="coopervaco-system/api/logout">
           Sair
         </Link>
       </div>
