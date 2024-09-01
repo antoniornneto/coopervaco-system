@@ -2,8 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import AuthService from "../services/auth-service";
+import { db } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+const prisma = db;
 
 async function createAccount(formData: FormData) {
   "use server";
@@ -19,6 +20,7 @@ async function createAccount(formData: FormData) {
       name,
       email,
       password: hashPassword,
+      admin: false,
     },
   });
 

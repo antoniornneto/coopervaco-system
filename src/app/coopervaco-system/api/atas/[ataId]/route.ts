@@ -1,5 +1,7 @@
-import { prisma } from "@/lib/utils";
+import { db } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+
+const prisma = db;
 
 export async function GET(request: Request, context: any) {
   const { params } = context;

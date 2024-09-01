@@ -23,6 +23,3 @@ export const logoCooperativaX = logoH;
 export const logoCooperativaY = logoV;
 export const backgroundImage = bgImage;
 export const logoCooperativaIcon = logoIcon;
-
-// Tools
-export const prisma = new PrismaClient();
