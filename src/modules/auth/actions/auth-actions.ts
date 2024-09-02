@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import AuthService from "../services/auth-service";
@@ -12,6 +11,8 @@ async function createAccount(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const registration = formData.get("registration") as string;
+  const cpf = formData.get("cpf") as string;
 
   const hashPassword = await bcrypt.hash(password, 10);
 
@@ -21,6 +22,8 @@ async function createAccount(formData: FormData) {
       email,
       password: hashPassword,
       admin: false,
+      cpf,
+      registration,
     },
   });
 

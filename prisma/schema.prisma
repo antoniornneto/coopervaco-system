@@ -15,13 +15,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  admin     Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id           String   @id @default(uuid())
+  registration String
+  cpf          String
+  name         String
+  email        String   @unique
+  password     String
+  admin        Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updateAt     DateTime @updatedAt
 }
 
 model Ata {
@@ -29,7 +31,7 @@ model Ata {
   title           String
   topics          String
   approved_topics String
-  signatures      String
+  signatures      String?
   createdAt       DateTime @default(now())
   updateAt        DateTime @updatedAt
 }

@@ -7,7 +7,7 @@ import { Eye } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export default function AtasList() {
+export default function ListarAtas() {
   const [atas, setAtas] = React.useState([]);
 
   React.useEffect(() => {

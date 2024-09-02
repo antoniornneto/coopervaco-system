@@ -1,9 +1,9 @@
-import ListAta from "@/modules/users/components/list-ata";
+import ListarAta from "@/modules/gets/components/listar-ata";
 
 export default function Ata({ params }: { params: { ataId: string } }) {
   return (
     <div>
-      <ListAta id={params.ataId} />
+      <ListarAta id={params.ataId} />
     </div>
   );
 }

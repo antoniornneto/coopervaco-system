@@ -6,7 +6,7 @@ import { dayjs } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
 
-export default function ListAta({ id }: { id: string }) {
+export default function ListarAta({ id }: { id: string }) {
   const [ata, setAta] = React.useState<Ata>();
 
   React.useEffect(() => {
