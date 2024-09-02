@@ -5,7 +5,6 @@ const prisma = db;
 
 async function createAta(formData: FormData) {
   "use server";
-
   const title = formData.get("title") as string;
   const topics = formData.get("topics") as string;
   const approved_topics = formData.get("approved_topics") as string;

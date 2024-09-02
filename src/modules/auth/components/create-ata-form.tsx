@@ -1,21 +1,22 @@
 import { Button } from "@/components/ui/button";
 import PostActions from "@/modules/actions/actions";
+import ListarUsuarios from "@/modules/gets/components/listar-usuarios";
 import { X } from "lucide-react";
 import Link from "next/link";
+import React, { Suspense } from "react";
+
+const date = new Date();
+const month = date.getMonth() + 1;
+const day = date.getDate();
+const year = date.getFullYear();
+const timeHour = date.getHours();
+const timeMinutes = date.getMinutes();
+const today = `${day < 10 ? `0${day}` : day}/${
+  month < 10 ? `0${month}` : month
+}/${year}`;
+const hour = `${timeHour}:${timeMinutes}`;
 
 export default function CriarAtaForm() {
-  const date = new Date();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const year = date.getFullYear();
-  const timeHour = date.getHours();
-  const timeMinutes = date.getMinutes();
-
-  const today = `${day < 10 ? `0${day}` : day}/${
-    month < 10 ? `0${month}` : month
-  }/${year}`;
-  const hour = `${timeHour}:${timeMinutes}`;
-
   return (
     <form action={PostActions.createAta}>
       <div className="bg-[#FCFCFC] flex flex-col items-center">
@@ -91,6 +92,10 @@ export default function CriarAtaForm() {
               <h1 className="font-bold">Participantes da reunião</h1>
             </div>
           </div>
+        </div>
+
+        <div>
+          <ListarUsuarios />
         </div>
       </div>
     </form>

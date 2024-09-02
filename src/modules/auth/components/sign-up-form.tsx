@@ -30,25 +30,30 @@ export default function SignUpForm() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Nome e Sobrenome</Label>
-              <Input id="name" name="name" />
+              <Input id="name" name="name" required />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">E-mail</Label>
-              <Input id="email" name="email" type="email" />
+              <Input id="email" name="email" type="email" required />
             </div>
             <div className="flex gap-4">
               <div className="flex flex-col flex-1 space-y-1.5">
                 <Label htmlFor="registration">Matrícula</Label>
-                <Input id="text" name="registration" type="registration" />
+                <Input
+                  id="text"
+                  name="registration"
+                  type="registration"
+                  required
+                />
               </div>
               <div className="flex flex-col flex-1 space-y-1.5">
                 <Label htmlFor="cpf">CPF</Label>
-                <Input id="text" name="cpf" type="cpf" />
+                <Input id="text" name="cpf" type="cpf" required />
               </div>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Senha</Label>
-              <Input id="password" name="password" type="password" />
+              <Input id="password" name="password" type="password" required />
             </div>
           </div>
           <CardFooter className="flex justify-between sm:flex-col">

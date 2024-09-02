@@ -1,22 +1,15 @@
-"use client";
-
 import { User } from "@prisma/client";
-import React from "react";
 
-export default function ListarUsuarios() {
-  const [users, setUsers] = React.useState([]);
+interface UserlistProps {
+  usersList: never[];
+}
 
-  React.useEffect(() => {
-    fetch("coopervaco-system/api/users")
-      .then((response) => response.json())
-      .then((data) => setUsers(data.users));
-  }, []);
-
+export default function ListarUsuarios({ usersList }: UserlistProps) {
   return (
-    <ul>
-      {users.map((user: User, index) => (
+    <ul className="overflow-y-auto border-[1px] border-zinc-300">
+      {usersList.map((user: User, index) => (
         <li
-          className="border-[1px] border-zinc-300 p-3 flex items-center gap-10"
+          className="border-y-[1px] border-zinc-300 p-3 flex items-center gap-10"
           key={index}
         >
           <p>Mat.: {user.registration}</p>
