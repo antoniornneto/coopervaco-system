@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
-import PostActions from "@/modules/actions/actions";
-import ListarUsuarios from "@/modules/gets/components/listar-usuarios";
+import SystemActions from "@/modules/actions/actions";
 import { X } from "lucide-react";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 
 const date = new Date();
 const month = date.getMonth() + 1;
@@ -18,7 +17,7 @@ const hour = `${timeHour}:${timeMinutes}`;
 
 export default function CriarAtaForm() {
   return (
-    <form action={PostActions.createAta}>
+    <form action={SystemActions.createAta}>
       <div className="bg-[#FCFCFC] flex flex-col items-center">
         {/* CABEÇALHO DA ATA */}
         <div className="w-[90%] py-5">
@@ -92,10 +91,6 @@ export default function CriarAtaForm() {
               <h1 className="font-bold">Participantes da reunião</h1>
             </div>
           </div>
-        </div>
-
-        <div>
-          <ListarUsuarios />
         </div>
       </div>
     </form>

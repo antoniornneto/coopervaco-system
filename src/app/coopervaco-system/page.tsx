@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import HeaderSystem from "@/components/ui/system-header";
-import { db } from "@/lib/prisma";
 import ListarAtas from "@/modules/gets/components/listar-atas";
 import ListarUsuarios from "@/modules/gets/components/listar-usuarios";
+import { redirect } from "next/navigation";
 import { X } from "lucide-react";
 import React from "react";
 
@@ -25,7 +25,7 @@ export default function Sistema() {
       .then((users) => setUsers(users.users));
   }, []);
 
-  console.log(users);
+  function storageUsers() {}
 
   return (
     <main>
@@ -83,7 +83,12 @@ export default function Sistema() {
             <ListarUsuarios usersList={users} />
 
             <div>
-              <Button className="rounded-3xl bg-[#5DA770]">Próximo</Button>
+              <Button
+                onClick={storageUsers}
+                className="rounded-3xl bg-[#5DA770]"
+              >
+                Próximo
+              </Button>
             </div>
           </div>
         </div>

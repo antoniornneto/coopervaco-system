@@ -1,4 +1,5 @@
 import { db } from "@/lib/prisma";
+import { RedirectStatusCode } from "next/dist/client/components/redirect-status-code";
 import { redirect } from "next/navigation";
 
 const prisma = db;
@@ -21,8 +22,8 @@ async function createAta(formData: FormData) {
   redirect("/coopervaco-system");
 }
 
-const PostActions = {
+const SystemActions = {
   createAta,
 };
 
-export default PostActions;
+export default SystemActions;
