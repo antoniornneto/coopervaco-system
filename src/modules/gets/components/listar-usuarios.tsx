@@ -12,11 +12,11 @@ export default function ListarUsuarios({ usersList }: UserlistProps) {
   const [participants, setParticipants] = useState<any>([]);
 
   function getParticipants(element: any) {
-    const elementChecked = element.checked;
-    let participant = element.value;
+    const elementChecked: HTMLInputElement = element.target.checked;
+    let participant: HTMLInputElement = element.target.value;
     const index = participants.indexOf(participant);
 
-    if (elementChecked === true) {
+    if (elementChecked) {
       participants.push(participant);
     } else {
       if (index > -1) {
