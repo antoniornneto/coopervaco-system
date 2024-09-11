@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 interface UserlistProps {
   usersList: never[];
@@ -11,9 +11,9 @@ interface UserlistProps {
 export default function ListarUsuarios({ usersList }: UserlistProps) {
   const [participants, setParticipants] = useState<any>([]);
 
-  function getParticipants(element: HTMLInputElement) {
-    const elementChecked = element.target.checked;
-    let participant = element.target.value;
+  function getParticipants(element: any) {
+    const elementChecked = element.checked;
+    let participant = element.value;
     const index = participants.indexOf(participant);
 
     if (elementChecked === true) {
