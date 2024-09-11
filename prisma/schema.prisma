@@ -28,10 +28,11 @@ model User {
 
 model Ata {
   id              String   @id @default(uuid())
-  title           String
-  topics          String
-  approved_topics String
+  title           String?
+  topics          String?
+  approved_topics String?
   signatures      String?
   createdAt       DateTime @default(now())
   updateAt        DateTime @updatedAt
+  participants    String[]
 }

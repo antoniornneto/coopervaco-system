@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import HeaderSystem from "@/components/ui/system-header";
 import ListarAtas from "@/modules/gets/components/listar-atas";
 import ListarUsuarios from "@/modules/gets/components/listar-usuarios";
-import { redirect } from "next/navigation";
 import { X } from "lucide-react";
 import React from "react";
 
@@ -24,8 +23,6 @@ export default function Sistema() {
       .then((response) => response.json())
       .then((users) => setUsers(users.users));
   }, []);
-
-  function storageUsers() {}
 
   return (
     <main>
@@ -81,15 +78,6 @@ export default function Sistema() {
             </div>
 
             <ListarUsuarios usersList={users} />
-
-            <div>
-              <Button
-                onClick={storageUsers}
-                className="rounded-3xl bg-[#5DA770]"
-              >
-                Próximo
-              </Button>
-            </div>
           </div>
         </div>
       )}

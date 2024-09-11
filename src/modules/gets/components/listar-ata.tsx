@@ -61,6 +61,14 @@ export default function ListarAta({ id }: { id: string }) {
             {ata?.approved_topics}
           </div>
           <div className="flex flex-col gap-4">
+            <h1 className="font-bold">Participantes</h1>
+            {ata?.participants.map((participant, index) => (
+              <div key={index} className="flex flex-col">
+                {participant}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-4">
             <h1 className="font-bold">Assinaturas de participantes</h1>
             {ata?.signatures}
             assinaturas

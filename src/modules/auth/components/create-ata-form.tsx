@@ -1,7 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import SystemActions from "@/modules/actions/actions";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const date = new Date();
@@ -15,9 +17,38 @@ const today = `${day < 10 ? `0${day}` : day}/${
 }/${year}`;
 const hour = `${timeHour}:${timeMinutes}`;
 
-export default function CriarAtaForm() {
+export default function CriarAtaForm({ id }: { id: string }) {
+  const [participants, setParticipants] = React.useState<any>([]);
+  const [title, setTitle] = React.useState<string>("");
+  const [topics, setTopics] = React.useState<string>("");
+  const [approvedTopics, setApprovedTopics] = React.useState<string>("");
+
+  const router = useRouter();
+
+  async function updateAta(
+    title: string,
+    topics: string,
+    approved_topics: string,
+    id: string
+  ) {
+    const req = await fetch(`/coopervaco-system/api/atas/update-ata/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ title, topics, approved_topics }),
+    });
+
+    const res = req.json();
+
+    router.push(`/coopervaco-system`);
+  }
+
+  React.useEffect(() => {
+    fetch(`/coopervaco-system/api/atas/${id}`)
+      .then((req) => req.json())
+      .then((res) => setParticipants(res.participants));
+  }, []);
+
   return (
-    <form action={SystemActions.createAta}>
+    <form>
       <div className="bg-[#FCFCFC] flex flex-col items-center">
         {/* CABEÇALHO DA ATA */}
         <div className="w-[90%] py-5">
@@ -43,7 +74,8 @@ export default function CriarAtaForm() {
             <div className="self-end">
               <Button
                 className="bg-[#5DA770] rounded-3xl text-xl"
-                type="submit"
+                type="button"
+                onClick={(e) => updateAta(title, topics, approvedTopics, id)}
               >
                 Criar Ata
               </Button>
@@ -63,6 +95,7 @@ export default function CriarAtaForm() {
                 type="text"
                 id="title"
                 name="title"
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-4">
@@ -74,6 +107,7 @@ export default function CriarAtaForm() {
                 id="topics"
                 name="topics"
                 rows={10}
+                onChange={(e) => setTopics(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-4">
@@ -85,10 +119,14 @@ export default function CriarAtaForm() {
                 id="approved_topics"
                 name="approved_topics"
                 rows={10}
+                onChange={(e) => setApprovedTopics(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-4">
               <h1 className="font-bold">Participantes da reunião</h1>
+              {participants.map((participant: string, index: number) => (
+                <div key={index}>{participant}</div>
+              ))}
             </div>
           </div>
         </div>

@@ -1,21 +1,23 @@
 import { db } from "@/lib/prisma";
-import { RedirectStatusCode } from "next/dist/client/components/redirect-status-code";
 import { redirect } from "next/navigation";
 
 const prisma = db;
 
-async function createAta(formData: FormData) {
+async function updateAta(id: string, formData: FormData) {
   "use server";
   const title = formData.get("title") as string;
   const topics = formData.get("topics") as string;
   const approved_topics = formData.get("approved_topics") as string;
+  const idAta = id;
 
-  await prisma.ata.create({
+  await prisma.ata.update({
+    where: {
+      id: idAta,
+    },
     data: {
       title,
       topics,
       approved_topics,
-      signatures: "",
     },
   });
 
@@ -23,7 +25,7 @@ async function createAta(formData: FormData) {
 }
 
 const SystemActions = {
-  createAta,
+  updateAta,
 };
 
 export default SystemActions;
