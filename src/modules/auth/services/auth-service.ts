@@ -20,7 +20,7 @@ async function createSessionToken(payload = {}) {
   const { exp } = await openSessionToken(session);
 
   cookies().set("session", session, {
-    expires: (exp as number) * 60 * 60,
+    expires: (exp as number) * 1000,
     path: "/",
   });
 }
@@ -33,7 +33,7 @@ async function isSessionValid() {
     const { exp } = await openSessionToken(value);
     const currentDate = new Date().getDate();
 
-    return (exp as number) * 60 * 60 > currentDate;
+    return (exp as number) * 1000 > currentDate;
   }
   return false;
 }
