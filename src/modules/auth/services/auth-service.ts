@@ -33,7 +33,7 @@ async function isSessionValid() {
     const { exp } = await openSessionToken(value);
     const currentDate = new Date().getDate();
 
-    return (exp as number) * 60 * 60 < currentDate;
+    return (exp as number) * 60 * 60 > currentDate;
   }
   return false;
 }
