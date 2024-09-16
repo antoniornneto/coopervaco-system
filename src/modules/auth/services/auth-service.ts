@@ -14,7 +14,6 @@ async function createSessionToken(payload = {}) {
     .setProtectedHeader({
       alg: "HS256",
     })
-    .setExpirationTime("1h")
     .sign(secret);
 
   const { exp } = await openSessionToken(session);
