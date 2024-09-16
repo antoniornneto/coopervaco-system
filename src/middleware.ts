@@ -35,7 +35,7 @@ export async function middleware(req: NextRequest) {
     // }
 
     return NextResponse.redirect(new URL("/ata", req.url));
-  } else {
-    return NextResponse.next();
   }
+
+  return NextResponse.next();
 }
