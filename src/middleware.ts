@@ -35,7 +35,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
     }
 
-    return NextResponse.redirect(new URL("/portal/login", req.url));
+    return NextResponse.redirect(new URL("/ata", req.url));
   }
 
   return NextResponse.next();
