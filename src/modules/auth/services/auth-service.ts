@@ -14,10 +14,9 @@ async function createSessionToken(payload = {}) {
     .setProtectedHeader({
       alg: "HS256",
     })
-    .setExpirationTime("1min")
+    .setExpirationTime("1d")
     .sign(secret);
-
-  const { exp } = await openSessionToken(session);
+  const { exp, role } = await openSessionToken(session);
 
   cookies().set("session", session, {
     expires: (exp as number) * 1000,
@@ -36,6 +35,7 @@ async function isSessionValid() {
 
     return (exp as number) * 1000 > currentDate;
   }
+
   return false;
 }
 

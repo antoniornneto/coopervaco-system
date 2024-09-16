@@ -19,6 +19,8 @@ const publicRoutes = [
 ];
 
 export async function middleware(req: NextRequest) {
+  console.log(req.nextUrl);
+
   const pathname = req.nextUrl.pathname;
 
   if (publicRoutes.includes(pathname)) {
@@ -26,15 +28,14 @@ export async function middleware(req: NextRequest) {
   }
 
   const session = await AuthService.isSessionValid();
-
   if (!session) {
-    // const isAPIRoute = pathname.startsWith("/coopervaco-system/api");
+    const isAPIRoute = pathname.startsWith("/api");
 
-    // if (isAPIRoute) {
-    //   return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-    // }
+    if (isAPIRoute) {
+      return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+    }
 
-    return NextResponse.redirect(new URL("/ata", req.url));
+    return NextResponse.redirect(new URL("/portal/login", req.url));
   }
 
   return NextResponse.next();
