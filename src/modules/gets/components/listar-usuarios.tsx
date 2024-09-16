@@ -2,16 +2,27 @@
 import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 
-interface UserlistProps {
-  usersList: never[];
+interface UsersProps {
+  usersList: {
+    id: string;
+    registration: string;
+    cpf: string;
+    name: string;
+    email: string;
+    password: string;
+    admin: boolean;
+    createdAt: Date;
+    updateAt: Date;
+  }[];
 }
 
-export default function ListarUsuarios({ usersList }: UserlistProps) {
-  const [participants, setParticipants] = useState<any>([]);
+export default function ListarUsuarios(listUsers: UsersProps) {
+  const usersList = listUsers.usersList;
 
-  function getParticipants(element: any) {
+  const [participants, setParticipants] = React.useState<any>([]);
+  function createArrayParticipants(element: any) {
     const elementChecked: HTMLInputElement = element.target.checked;
     let participant: HTMLInputElement = element.target.value;
     const index = participants.indexOf(participant);
@@ -28,8 +39,9 @@ export default function ListarUsuarios({ usersList }: UserlistProps) {
 
   const router = useRouter();
   async function createAta(participants: string[]) {
-    const req = await fetch("coopervaco-system/api/atas/new-ata", {
+    const req = await fetch("/coopervaco-system/api/atas/new-ata", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ participants }),
     });
 
@@ -38,7 +50,7 @@ export default function ListarUsuarios({ usersList }: UserlistProps) {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       <ul className="overflow-y-auto h-[350px] border-[1px] border-zinc-300">
         {usersList.map((user: User) => (
           <li
@@ -54,13 +66,18 @@ export default function ListarUsuarios({ usersList }: UserlistProps) {
               name="name"
               id={user.id}
               value={user.name}
-              onChange={(e) => getParticipants(e)}
+              onChange={(e) => createArrayParticipants(e)}
             />
           </li>
         ))}
       </ul>
 
-      <Button onClick={(e) => createAta(participants)}>Próximo</Button>
+      <Button
+        className="rounded-xl bg-[#5DA770] px-8 text-white py-2"
+        onClick={(e) => createAta(participants)}
+      >
+        Próximo
+      </Button>
     </div>
   );
 }

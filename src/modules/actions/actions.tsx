@@ -3,16 +3,16 @@ import { redirect } from "next/navigation";
 
 const prisma = db;
 
-async function updateAta(id: string, formData: FormData) {
+async function updateAta(formData: FormData) {
   "use server";
+  const id = formData.get("id") as string;
   const title = formData.get("title") as string;
   const topics = formData.get("topics") as string;
   const approved_topics = formData.get("approved_topics") as string;
-  const idAta = id;
 
   await prisma.ata.update({
     where: {
-      id: idAta,
+      id: id,
     },
     data: {
       title,

@@ -1,21 +1,17 @@
-"use client";
-
-import { Ata } from "@prisma/client";
 import React from "react";
 import { dayjs } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { db } from "@/lib/prisma";
 
-export default function ListarAta({ id }: { id: string }) {
-  const [ata, setAta] = React.useState<Ata>();
+const prisma = db;
 
-  React.useEffect(() => {
-    fetch(`api/atas/${id}`)
-      .then((response) => response.json())
-      .then((ata) => {
-        setAta(ata);
-      });
-  }, [id]);
+export default async function ListarAta({ id }: { id: string }) {
+  const ata = await prisma.ata.findUnique({
+    where: {
+      id,
+    },
+  });
 
   return (
     <div className="pb-10">
@@ -71,7 +67,7 @@ export default function ListarAta({ id }: { id: string }) {
           <div className="flex flex-col gap-4">
             <h1 className="font-bold">Assinaturas de participantes</h1>
             {ata?.signatures}
-            assinaturas
+            *Assinaturas pendentes
           </div>
         </div>
       </div>

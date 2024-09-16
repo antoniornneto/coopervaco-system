@@ -20,15 +20,14 @@ const publicRoutes = [
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
+  const session = await AuthService.isSessionValid();
 
   if (publicRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  const session = await AuthService.isSessionValid();
-
   if (!session) {
-    const isAPIRoute = pathname.startsWith("/api");
+    const isAPIRoute = pathname.startsWith("/coopervaco-system/api");
 
     if (isAPIRoute) {
       return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
