@@ -4,7 +4,6 @@ import logoH from "../../public/assets/logo.png";
 import logoV from "../../public/assets/logoH.png";
 import logoIcon from "../../public/assets/Logo-icone.png";
 import bgImage from "../../public/assets/home_bg.png";
-import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 import localizeFormat from "dayjs/plugin/localizedFormat";
 import "dayjs/locale/pt-br";

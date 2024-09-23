@@ -14,25 +14,41 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Employee {
+  id          String   @id @default(uuid())
+  cpf         String   @unique
+  name        String   @unique
+  inscription String   @unique
+  birthday    DateTime @unique
+  function    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User?
+}
+
 model User {
-  id           String   @id @default(uuid())
-  registration String
-  cpf          String
-  name         String
-  email        String   @unique
-  password     String
-  admin        Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updateAt     DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String?
+  role      String?
+  image     String?
+  signature String?
+  cpf       String?  @unique
+  email     String?  @unique
+  password  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  employee  Employee @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  Ata       Ata[]    @relation("id")
 }
 
 model Ata {
-  id              String   @id @default(uuid())
+  id              String   @id @unique @default(uuid())
   title           String?
   topics          String?
   approved_topics String?
-  signatures      String?
   createdAt       DateTime @default(now())
-  updateAt        DateTime @updatedAt
-  participants    String[]
+  updatedAt       DateTime @updatedAt
+  signatures      String?
+  participants    User[]   @relation("id")
 }

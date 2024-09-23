@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col p-0">
+    <main className="flex flex-col">
       <title>Coopervaço - Login</title>
       <Header />
       <div className="flex h-screen md:flex-col sm:h-[700px]">
@@ -50,6 +50,6 @@ export default function LoginPage() {
         </div>
       </div>
       <Footer />
-    </div>
+    </main>
   );
 }

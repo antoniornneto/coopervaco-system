@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
+import Provider from "@/components/ui/Provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const open = Open_Sans({ subsets: ["latin"] });
 
@@ -15,7 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={open.className}>{children}</body>
+      <body className={open.className}>
+        <Provider>
+          {children}
+          <Toaster />
+        </Provider>
+      </body>
     </html>
   );
 }
