@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { HandMetal } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import UserAccountnav from "./UserAccountnav";
+import LogoutButton from "./LogoutButton";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -14,7 +14,7 @@ const Navbar = async () => {
           <HandMetal />
         </Link>
         {session?.user ? (
-          <UserAccountnav />
+          <LogoutButton />
         ) : (
           <Link className={buttonVariants()} href="/sign-in">
             Login
