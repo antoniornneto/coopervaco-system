@@ -67,7 +67,7 @@ const SignInForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="font-bold">E-mail</FormLabel>
                 <FormControl>
                   <Input placeholder="joao@coopervaco.com" {...field} />
                 </FormControl>
@@ -80,11 +80,11 @@ const SignInForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel className="font-bold">Senha</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="insira a senha"
+                    placeholder="Insira a senha"
                     {...field}
                   />
                 </FormControl>
@@ -93,7 +93,10 @@ const SignInForm = () => {
             )}
           />
         </div>
-        <Button className="w-full mt-6" type="submit">
+        <Button
+          className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+          type="submit"
+        >
           Entrar
         </Button>
       </form>

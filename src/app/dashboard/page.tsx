@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 const page = async () => {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return NextResponse.redirect("/ata");
+    return NextResponse.redirect("/sign-in");
   }
 
   return (

@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import { User } from "@prisma/client";
 import * as z from "zod";
@@ -14,6 +14,28 @@ const userSchema = z.object({
     .min(6, "Senha deve ter pelo menos 6 caracteres"),
   cpf: z.string(),
 });
+
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams;
+  const cpf = params.get("cpf") as string;
+
+  const existingUser = await db.user.findUnique({
+    where: {
+      cpf,
+    },
+  });
+
+  const cpfVazio = existingUser?.cpf === null ? true : false;
+
+  if (!cpfVazio) {
+    return NextResponse.json(
+      { message: "Usuário já possui um cadastro" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json({ message: existingUser }, { status: 201 });
+}
 
 export async function POST(req: Request) {
   try {

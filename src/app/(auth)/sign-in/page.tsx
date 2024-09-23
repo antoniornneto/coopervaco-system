@@ -37,14 +37,17 @@ export default function LoginPage() {
           />
           <div className="w-96">
             <h1>
-              Para o primeiro acesso, por motivos de segurança precisamos
+              Se for o seu primeiro acesso, por motivos de segurança precisamos
               verificar se você é um funcionário da Coopervaço. Clique{" "}
-              <Link className="underline" href={"./employee-verify"}>
+              <Link
+                className="underline font-semibold text-[#5DA770]"
+                href={"./employee-verify"}
+              >
                 aqui.
               </Link>
             </h1>
             <br />
-            <h1>Caso contrário, faça o login abaixo.</h1>
+            <h1 className="mb-5">Caso contrário, faça o login abaixo.</h1>
             <SignInForm />
           </div>
         </div>

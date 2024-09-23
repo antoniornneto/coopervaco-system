@@ -9,7 +9,7 @@ const LogoutButton = () => {
       onClick={() =>
         signOut({
           redirect: true,
-          callbackUrl: `${window.location.origin}/ata`,
+          callbackUrl: `${window.location.origin}/sign-in`,
         })
       }
       className="bg-transparent font-normal text-base p-0 hover:bg-transparent hover:underline"

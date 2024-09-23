@@ -35,7 +35,7 @@ const navLinks = [
   },
   {
     name: "Ata",
-    path_name: "/ata",
+    path_name: "/sign-in",
   },
 ];
 

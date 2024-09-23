@@ -15,9 +15,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Employee } from "@prisma/client";
 import { dayjs } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
+
+interface EmployeeProps {
+  cpf: string | undefined;
+  name: string | undefined;
+  inscription: string | undefined;
+  function: string | undefined;
+  birthday: Date | undefined;
+}
 
 const FormSchema = z
   .object({
@@ -39,15 +48,12 @@ const SignUpForm = () => {
   const cpfParams = useSearchParams().get("cpf") as string;
   const inscriptionParams = useSearchParams().get("inscription");
   const nameParams = useSearchParams().get("name");
-  const [employee, setEmployee] = useState<Employee>({
-    id: "" as string,
-    cpf: "" as string,
-    name: "" as string,
-    birthday: new Date() as Date,
-    inscription: "" as string,
-    function: "" as string,
-    createdAt: new Date() as Date,
-    updatedAt: new Date() as Date,
+  const [employee, setEmployee] = useState<EmployeeProps>({
+    name: undefined,
+    cpf: undefined,
+    birthday: undefined,
+    function: undefined,
+    inscription: undefined,
   });
   useEffect(() => {
     const response = fetch(
@@ -83,7 +89,11 @@ const SignUpForm = () => {
     if (response.ok) {
       router.push("/sign-in");
     } else {
-      console.error("Registration failed");
+      toast({
+        title: "Error",
+        description: "Registro de usuário falhou",
+        variant: "destructive",
+      });
     }
   };
 
@@ -104,7 +114,7 @@ const SignUpForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>CPF</FormLabel>
+                <FormLabel>Nome Completo</FormLabel>
                 <Input defaultValue={employee.name} />
               </FormItem>
             )}
@@ -130,7 +140,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="mail@example.com" {...field} />
+                  <Input placeholder="mail@coopervaco.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,11 +151,11 @@ const SignUpForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Insira sua senha"
                     {...field}
                   />
                 </FormControl>
@@ -158,10 +168,10 @@ const SignUpForm = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Re-Enter your password</FormLabel>
+                <FormLabel>Repita sua senha</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Re-Enter your password"
+                    placeholder="Insira a senha novamente"
                     type="password"
                     {...field}
                   />
@@ -171,19 +181,21 @@ const SignUpForm = () => {
             )}
           />
         </div>
-        <Button className="w-full mt-6" type="submit">
-          Sign up
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            className="flex-1 w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+            type="submit"
+          >
+            Cadastrar
+          </Button>
+          <Link
+            className="flex-1 text-white flex justify-center items-center rounded-md w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+            href={"/sign-in"}
+          >
+            Voltar
+          </Link>
+        </div>
       </form>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
-      <p className="text-center text-sm text-gray-600 mt-2">
-        If you don&apos;t have an account, please&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/sign-in">
-          Sign in
-        </Link>
-      </p>
     </Form>
   );
 };
