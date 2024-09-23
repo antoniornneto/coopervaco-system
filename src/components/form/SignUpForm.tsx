@@ -15,7 +15,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Employee } from "@prisma/client";
 import { dayjs } from "@/lib/utils";
 
@@ -88,103 +88,105 @@ const SignUpForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <div className="space-y-2">
-          <FormField
-            name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CPF</FormLabel>
-                <Input defaultValue={employee.cpf} />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CPF</FormLabel>
-                <Input defaultValue={employee.name} />
-              </FormItem>
-            )}
-          />
-          <FormItem>
-            <FormLabel>Matrícula</FormLabel>
-            <Input defaultValue={employee.inscription} />
-          </FormItem>
-          <FormItem>
-            <FormLabel>Função</FormLabel>
-            <Input defaultValue={employee.function} />
-          </FormItem>
-          <FormItem>
-            <FormLabel>Data de aniversário</FormLabel>
-            <Input
-              defaultValue={dayjs(employee.birthday).format("DD/MM/YYYY")}
+    <Suspense>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+          <div className="space-y-2">
+            <FormField
+              name="cpf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
+                  <Input defaultValue={employee.cpf} />
+                </FormItem>
+              )}
             />
-          </FormItem>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="mail@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter your password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Re-Enter your password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Re-Enter your password"
-                    type="password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
+                  <Input defaultValue={employee.name} />
+                </FormItem>
+              )}
+            />
+            <FormItem>
+              <FormLabel>Matrícula</FormLabel>
+              <Input defaultValue={employee.inscription} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>Função</FormLabel>
+              <Input defaultValue={employee.function} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>Data de aniversário</FormLabel>
+              <Input
+                defaultValue={dayjs(employee.birthday).format("DD/MM/YYYY")}
+              />
+            </FormItem>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="mail@example.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Re-Enter your password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Re-Enter your password"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button className="w-full mt-6" type="submit">
+            Sign up
+          </Button>
+        </form>
+        <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
+          or
         </div>
-        <Button className="w-full mt-6" type="submit">
-          Sign up
-        </Button>
-      </form>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
-      <p className="text-center text-sm text-gray-600 mt-2">
-        If you don&apos;t have an account, please&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/sign-in">
-          Sign in
-        </Link>
-      </p>
-    </Form>
+        <p className="text-center text-sm text-gray-600 mt-2">
+          If you don&apos;t have an account, please&nbsp;
+          <Link className="text-blue-500 hover:underline" href="/sign-in">
+            Sign in
+          </Link>
+        </p>
+      </Form>
+    </Suspense>
   );
 };
 
