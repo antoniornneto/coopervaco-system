@@ -6,13 +6,14 @@ import * as z from "zod";
 
 // Schema de validação
 const userSchema = z.object({
+  cpf: z.string(),
   name: z.string(),
   email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
+  inscription: z.string(),
   password: z
     .string()
     .min(1, "Senha é obrigatório")
     .min(6, "Senha deve ter pelo menos 6 caracteres"),
-  cpf: z.string(),
 });
 
 export async function GET(req: NextRequest) {
@@ -25,9 +26,7 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  const cpfVazio = existingUser?.cpf === null ? true : false;
-
-  if (!cpfVazio) {
+  if (existingUser?.email) {
     return NextResponse.json(
       { message: "Usuário já possui um cadastro" },
       { status: 404 }
@@ -40,7 +39,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { cpf, name, email, password } = userSchema.parse(body);
+    const { cpf, name, email, password, inscription } = userSchema.parse(body);
     const hashPassword = await hash(password, 10);
 
     const newUser = await db.employee.update({
@@ -51,6 +50,7 @@ export async function POST(req: Request) {
         user: {
           update: {
             name,
+            inscription,
             email,
             role: "user",
             password: hashPassword,

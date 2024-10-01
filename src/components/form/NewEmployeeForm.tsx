@@ -13,7 +13,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { toast as toastWarning } from "@/hooks/use-toast";
+import { Toaster, toast } from "sonner";
 
 const FormSchema = z.object({
   cpf: z.string().min(11, "Preencha o campo corretamente"),
@@ -23,11 +24,10 @@ const FormSchema = z.object({
     .min(4, "Preencha com no mínimo 4 caracteres")
     .max(4, "Preencha com no máximo 4 caracteres"),
   birthday: z.string(),
-  function: z.string().min(6, "Preencha o campo corretamente"),
+  position: z.string().min(6, "Preencha o campo corretamente"),
 });
 
 const NewEmployeeForm = () => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,7 +35,7 @@ const NewEmployeeForm = () => {
       name: "",
       inscription: "",
       birthday: "",
-      function: "",
+      position: "",
     },
   });
 
@@ -48,15 +48,29 @@ const NewEmployeeForm = () => {
         name: values.name,
         inscription: values.inscription,
         birhtday: values.birthday,
-        function: values.function,
+        position: values.position,
       }),
     });
 
-    location.reload();
+    const responseJSON = await createEmployee.json().then((res) => res);
+
+    if (!createEmployee.ok) {
+      toastWarning({
+        title: "Error",
+        description: `${JSON.stringify(responseJSON.message)}`,
+        variant: "destructive",
+      });
+    } else {
+      toast.success(`${JSON.stringify(responseJSON.message)}`);
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    }
   };
 
   return (
     <Form {...form}>
+      <Toaster position="top-left" richColors />
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <div className="space-y-2">
           <FormField
@@ -113,7 +127,7 @@ const NewEmployeeForm = () => {
           />
           <FormField
             control={form.control}
-            name="function"
+            name="position"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Função:</FormLabel>
@@ -125,7 +139,10 @@ const NewEmployeeForm = () => {
             )}
           />
         </div>
-        <Button className="w-full mt-6" type="submit">
+        <Button
+          className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+          type="submit"
+        >
           Cadastrar funcionário
         </Button>
       </form>

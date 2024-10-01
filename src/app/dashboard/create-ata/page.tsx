@@ -1,6 +1,6 @@
-import AdminPage from "@/components/pages/AdminPage";
-import UserPage from "@/components/pages/UserPage";
+import UsersList from "@/components/users-list";
 import { authOptions } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -11,9 +11,8 @@ const page = async () => {
     redirect("/sign-in");
   }
 
-  return (
-    <div>{session?.user.role == "admin" ? <AdminPage /> : <UserPage />}</div>
-  );
+  const users = await db.employee.findMany();
+  return <UsersList users={users} />;
 };
 
 export default page;

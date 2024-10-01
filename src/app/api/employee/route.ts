@@ -81,10 +81,12 @@ export async function POST(req: Request) {
       name: body.name,
       inscription: body.inscription,
       birthday: birthdayDate,
-      function: body.function,
+      position: body.position,
       user: {
         create: {
           cpf: body.cpf,
+          name: body.name,
+          inscription: body.inscription,
         },
       },
     },

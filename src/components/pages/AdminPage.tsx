@@ -16,7 +16,7 @@ const AdminPage = async () => {
             <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
               <option value="2024">2024</option>
             </select>
-            <Link href={"#"} className={linkButtonStyle}>
+            <Link href={"/dashboard/create-ata"} className={linkButtonStyle}>
               Criar Ata
             </Link>
             <Link

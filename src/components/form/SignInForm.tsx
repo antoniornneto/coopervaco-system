@@ -13,9 +13,10 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast as toastWarning } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Toaster, toast } from "sonner";
 
 const FormSchema = z.object({
   email: z
@@ -30,7 +31,6 @@ const FormSchema = z.object({
 
 const SignInForm = () => {
   const router = useRouter();
-  const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,60 +47,66 @@ const SignInForm = () => {
     });
 
     if (signInData?.error) {
-      toast({
+      toastWarning({
         title: "Error",
         description: "Usuário ou senha inválidos",
         variant: "destructive",
       });
     } else {
-      router.refresh();
-      router.push("/dashboard");
+      toast.success("Aguarde enquanto te redirecionamos...");
+      setTimeout(() => {
+        router.refresh();
+        router.push("/dashboard");
+      }, 700);
     }
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="">
-        <div className="space-y-2">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold">E-mail</FormLabel>
-                <FormControl>
-                  <Input placeholder="joao@coopervaco.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold">Senha</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Insira a senha"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button
-          className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
-          type="submit"
-        >
-          Entrar
-        </Button>
-      </form>
-    </Form>
+    <div>
+      <Toaster position="top-left" richColors />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+          <div className="space-y-2">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">E-mail</FormLabel>
+                  <FormControl>
+                    <Input placeholder="joao@coopervaco.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Senha</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Insira a senha"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button
+            className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+            type="submit"
+          >
+            Entrar
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
 

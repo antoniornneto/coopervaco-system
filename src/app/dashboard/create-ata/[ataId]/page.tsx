@@ -1,19 +1,20 @@
-import AdminPage from "@/components/pages/AdminPage";
-import UserPage from "@/components/pages/UserPage";
+import NewAtaForm from "@/components/form/NewAtaForm";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const page = async () => {
+export default async function CriarAta({
+  params,
+}: {
+  params: { ataId: string };
+}) {
   const session = await getServerSession(authOptions);
-
   if (!session) {
     redirect("/sign-in");
   }
-
   return (
-    <div>{session?.user.role == "admin" ? <AdminPage /> : <UserPage />}</div>
+    <main className="pb-10">
+      <NewAtaForm id={params.ataId} />
+    </main>
   );
-};
-
-export default page;
+}

@@ -10,7 +10,7 @@ const page = () => {
     <main className="w-full">
       <title>Coopervaço - Cadastro de usuário</title>
       <Header />
-      <div className="flex h-screen md:flex-col sm:h-[700px]">
+      <div className="flex h-screen md:flex-col md:h-fit md:py-4 sm:h-[700px]">
         <div className="flex-1 md:hidden relative">
           <Image
             src={backgroundImage}
@@ -35,7 +35,7 @@ const page = () => {
             alt="logo da cooperativa"
             className="hidden md:w-72 md:block"
           />
-          <div className="w-96">
+          <div className="w-96 py-4">
             <Suspense>
               <SignUpForm />
             </Suspense>

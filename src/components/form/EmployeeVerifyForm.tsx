@@ -13,8 +13,8 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { toast } from "@/hooks/use-toast";
+import { toast as toastWarning } from "@/hooks/use-toast";
+import { Toaster, toast } from "sonner";
 import Link from "next/link";
 
 const FormSchema = z.object({
@@ -44,18 +44,23 @@ const EmployeeVerify = () => {
     if (getEmployee.ok) {
       const getUser = await fetch(`/api/user?cpf=${cpf}`);
       if (getUser.ok) {
-        router.push(
-          `/sign-up?cpf=${cpf}&inscription=${inscription}&name=${name}`
+        toast.success(
+          "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
         );
+        setTimeout(() => {
+          router.push(
+            `/sign-up?cpf=${cpf}&inscription=${inscription}&name=${name}`
+          );
+        }, 1000);
       } else {
-        toast({
+        toastWarning({
           title: "ATENÇÃO",
           description: "Funcionário já possui um cadastro",
           style: { backgroundColor: "#f5dd42" },
         });
       }
     } else {
-      toast({
+      toastWarning({
         title: "ERRO",
         description: "Funcionário não encontrado",
         variant: "destructive",
@@ -64,11 +69,14 @@ const EmployeeVerify = () => {
   };
 
   return (
-    <div>
-      <h1 className="mb-5">
-        Preencha os campos abaixo para verificarmos se você faz parte da
-        cooperativa Coopervaço.
-      </h1>
+    <div className="space-y-4">
+      <Toaster position="top-left" richColors />
+      <div>
+        <p>
+          Preencha os campos abaixo para verificarmos se você faz parte da
+          cooperativa Coopervaço.
+        </p>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-2">

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { dayjs } from "@/lib/utils";
-import { Divide, Download, Eye, Pencil, Trash2 } from "lucide-react";
+import { Download, Eye, Pencil, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
