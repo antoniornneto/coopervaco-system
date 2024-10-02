@@ -11,8 +11,7 @@ const page = async () => {
     redirect("/sign-in");
   }
 
-  const users = await db.employee.findMany();
-  return <UsersList users={users} />;
+  return <UsersList />;
 };
 
 export default page;

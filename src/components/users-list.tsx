@@ -1,29 +1,41 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { User } from "@prisma/client";
 
-interface UsersProps {
-  id: string;
-  cpf: string;
-  name: string;
+interface UserProp {
   inscription: string;
-  birthday: Date;
-  function: string;
-  createdAt: Date;
-  updatedAt: Date;
+  name: string;
 }
 
-const UsersList = ({ users }: { users: Array<UsersProps> }) => {
-  const [participants, setParticipants] = useState<any>([]);
+const UsersList = () => {
+  const [users, setUsers] = useState<Array<User>>([]);
+  const [participants, setParticipants] = useState<Array<UserProp>>([]);
 
-  function createArrayParticipants(element: any) {
-    const elementChecked: HTMLInputElement = element.target.checked;
-    let participant: HTMLInputElement = element.target.value;
-    const index = participants.indexOf(participant);
+  async function getAllUsers() {
+    const res = await fetch("/api/get-all-users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data.users));
+  }
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  function createArrayParticipants(element: HTMLInputElement) {
+    const elementChecked = element.checked;
+    let arrayEmployee = element.value.split(" ");
+    let inscription = arrayEmployee[0];
+    let name = `${arrayEmployee[1]}  ${arrayEmployee[2]}`;
+    let user = {
+      inscription: inscription,
+      name: name,
+    };
+    const index = participants.indexOf(user);
 
     if (elementChecked) {
-      participants.push(participant);
+      participants.push(user);
     } else {
       if (index > -1) {
         participants.splice(index, 1);
@@ -33,7 +45,7 @@ const UsersList = ({ users }: { users: Array<UsersProps> }) => {
   }
 
   const router = useRouter();
-  async function createAta(participants: string[]) {
+  async function createAta(participants: Array<UserProp>) {
     const req = await fetch("/api/ata", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,22 +57,30 @@ const UsersList = ({ users }: { users: Array<UsersProps> }) => {
   }
 
   return (
-    <div>
-      {users.map((user) => (
-        <div key={user.id}>
-          <span>{user.inscription}</span>
-          <label htmlFor={user.name}>{user.name}</label>
-          <input
-            onChange={createArrayParticipants}
-            type="checkbox"
-            name="Employee"
-            id={user.name}
-            value={user.name}
-          />
-        </div>
-      ))}
+    <main>
+      <div>
+        <h1>Participantes da reunião</h1>
+        <p>Selecione as pessoas que irão participar da reunião</p>
+      </div>
+      <div>
+        {users.map((user) => (
+          <div key={user.id} className="flex border-[1px] w-[500px] px-5">
+            <label htmlFor={`${user.name}`} className="flex flex-1 gap-10">
+              <p>Mat.: {user.inscription}</p>
+              <p>{user.name}</p>
+            </label>
+            <input
+              type="checkbox"
+              onChange={(e) => createArrayParticipants(e.target)}
+              name=""
+              id={`${user.name}`}
+              value={`${user.inscription} ${user.name}`}
+            />
+          </div>
+        ))}
+      </div>
       <Button onClick={(e) => createAta(participants)}>Próximo</Button>
-    </div>
+    </main>
   );
 };
 
