@@ -2,6 +2,12 @@ import { db } from "@/lib/db";
 import { Ata } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(req: NextRequest) {
+  const atas = await db.ata.findMany();
+
+  return NextResponse.json({ atas }, { status: 200 });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const participants = await req.json();

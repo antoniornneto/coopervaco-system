@@ -26,8 +26,16 @@ const UsersList = () => {
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;
     let arrayEmployee = element.value.split(" ");
-    let inscription = arrayEmployee[0];
-    let name = `${arrayEmployee[1]}  ${arrayEmployee[2]}`;
+    let inscription = arrayEmployee.shift() as string;
+    let name: string = "";
+    for (let i = 0; i < arrayEmployee.length; i++) {
+      if (name === "") {
+        name = arrayEmployee[i];
+      } else {
+        name += ` ${arrayEmployee[i]}`;
+      }
+    }
+
     let user = {
       inscription: inscription,
       name: name,

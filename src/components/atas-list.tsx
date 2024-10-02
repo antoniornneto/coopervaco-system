@@ -1,13 +1,31 @@
-import { db } from "@/lib/db";
+"use client";
 import { dayjs } from "@/lib/utils";
 import { Download, Eye, Pencil, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Ata } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
-const AtasList = async () => {
-  const session = await getServerSession(authOptions);
-  const atas = await db.ata.findMany();
+const AtasList = () => {
+  const router = useRouter();
+  const [atas, setAtas] = useState<Ata[]>([]);
+
+  useEffect(() => {
+    const getAtas = fetch("/api/ata")
+      .then((res) => res.json())
+      .then((data) => setAtas(data.atas));
+  }, []);
+
+  const deleteAta = async (id: string) => {
+    const excluding = await fetch(`/api/ata/${id}`, {
+      method: "DELETE",
+    });
+
+    setTimeout(() => {
+      location.reload();
+    }, 700);
+  };
 
   return (
     <div className="py-10">
@@ -23,27 +41,31 @@ const AtasList = async () => {
               </p>
               <h3 className="text-lg">{ata.title}</h3>
             </div>
-            <div className="flex items-center gap-4">
-              {session?.user.role === "admin" ? (
-                <>
-                  <span>80%</span>
-                  <Pencil size={20} />
-                  <Trash2 size={20} />
-                  <Download size={20} />
+            <div className="flex items-center">
+              <>
+                <span>80%</span>
+                <Button className="bg-transparent w-fit hover:bg-transparent p-3">
+                  <Pencil color="black" size={20} />
+                </Button>
+                <Button
+                  className="bg-transparent w-fit hover:bg-transparent p-3"
+                  onClick={(e) => deleteAta(ata.id)}
+                >
+                  <Trash2 color="black" size={20} />
+                </Button>
+                <Button className="bg-transparent w-fit hover:bg-transparent p-3">
+                  <Download color="black" size={20} />
+                </Button>
+                <Link
+                  className="bg-transparent w-fit hover:bg-transparent p-3"
+                  href={`/dashboard/view-ata/${ata.id}`}
+                >
                   <Eye size={20} />
-                  <Button className="w-36 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
-                    Assinar ata
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <span>80%</span>
-                  <Eye size={20} />
-                  <Button className="w-36 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
-                    Assinar ata
-                  </Button>
-                </>
-              )}
+                </Link>
+                <Button className="w-36 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
+                  Assinar ata
+                </Button>
+              </>
             </div>
           </div>
         ))}

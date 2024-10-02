@@ -65,6 +65,16 @@ const NewAtaForm = () => {
     }
   };
 
+  const cancel = async () => {
+    const req = await fetch(`/api/ata/${ataId}`, {
+      method: "DELETE",
+    });
+
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 2000);
+  };
+
   return (
     <div className="w-[90%] my-10">
       <Toaster position="top-left" richColors />
@@ -134,6 +144,13 @@ const NewAtaForm = () => {
               type="submit"
             >
               Salvar
+            </Button>
+            <Button
+              className="bg-[#5DA770] w-40 h-12 mt-6 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
+              type="button"
+              onClick={cancel}
+            >
+              Cancelar
             </Button>
           </div>
         </form>

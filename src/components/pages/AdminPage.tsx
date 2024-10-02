@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AtasList from "../atas-list";
 import HeaderSystem from "../ui/system-header";
 import Link from "next/link";
@@ -31,7 +32,11 @@ const AdminPage = async () => {
       {/* lista de atas */}
       <div className="w-full flex justify-center">
         <div className="w-[90%]">
-          <AtasList />
+          <Suspense
+            fallback={<div className="text-xl">Carregando atas...</div>}
+          >
+            <AtasList />
+          </Suspense>
         </div>
       </div>
     </div>

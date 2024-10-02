@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { X } from "lucide-react";
 
-interface ParticipantProp {
+export interface ParticipantProp {
   name: string;
   inscription: string;
 }
