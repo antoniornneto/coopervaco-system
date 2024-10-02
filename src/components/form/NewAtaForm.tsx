@@ -12,6 +12,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
+import { toast as toastWarning } from "@/hooks/use-toast";
+import { Toaster, toast } from "sonner";
 
 const FormSchema = z.object({
   id: z.string(),
@@ -36,7 +38,7 @@ const NewAtaForm = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     const { title, topics, approved_topics } = values;
-    const updateAta = fetch("/api/ata", {
+    const updateAta = await fetch("/api/ata", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -47,11 +49,25 @@ const NewAtaForm = () => {
       }),
     });
 
-    router.push("/dashboard");
+    const responseJSON = await updateAta.json().then((res) => res);
+
+    if (!updateAta.ok) {
+      toastWarning({
+        title: "Error",
+        description: `${JSON.stringify(responseJSON.message)}`,
+        variant: "destructive",
+      });
+    } else {
+      toast.success(`${JSON.stringify(responseJSON.message)}`);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1500);
+    }
   };
 
   return (
     <div className="w-[90%] my-10">
+      <Toaster position="top-left" richColors />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-10">
@@ -114,10 +130,10 @@ const NewAtaForm = () => {
           </div>
           <div>
             <Button
-              className="flex-1 mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+              className="bg-[#5DA770] w-40 h-12 mt-6 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
               type="submit"
             >
-              Criar ata
+              Salvar
             </Button>
           </div>
         </form>
