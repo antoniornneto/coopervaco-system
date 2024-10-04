@@ -90,7 +90,7 @@ const NewAtaForm = () => {
                   <FormControl>
                     <input
                       type="text"
-                      className="bg-[#F4F4F7] rounded-xl p-4"
+                      className="bg-[#F4F4F7] rounded-xl p-4 text-black"
                       placeholder="Insira o título da ata"
                       {...field}
                     />
@@ -108,7 +108,7 @@ const NewAtaForm = () => {
                   <FormControl>
                     <textarea
                       rows={10}
-                      className="bg-[#F4F4F7] rounded-xl p-4"
+                      className="bg-[#F4F4F7] rounded-xl p-4 text-black"
                       placeholder="Insira a(s) pauta(s)"
                       {...field}
                     />
@@ -128,7 +128,7 @@ const NewAtaForm = () => {
                   <FormControl>
                     <textarea
                       rows={10}
-                      className="bg-[#F4F4F7] rounded-xl p-4"
+                      className="bg-[#F4F4F7] rounded-xl p-4 text-black"
                       placeholder="Acrescente as discussões que foram realizadas e aprovadas"
                       {...field}
                     />

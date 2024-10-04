@@ -4,15 +4,23 @@ import { useEffect, useState } from "react";
 import { UserProp } from "../users-list";
 import { ParticipantProp } from "@/app/dashboard/create-ata/[ataId]/page";
 
-const Participants = ({ id }: { id: string }) => {
+const Participants = ({ id }: { id?: string }) => {
   const [participants, setParticipants] = useState<Array<UserProp>>([]);
 
   useEffect(() => {
-    const getAta = fetch(`/api/ata/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setParticipants(data.ata.participants);
-      });
+    if (!id) {
+      const getAll = fetch("/api/get-all-users")
+        .then((res) => res.json())
+        .then((data) => {
+          setParticipants(data.users);
+        });
+    } else {
+      const getAta = fetch(`/api/ata/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setParticipants(data.ata.participants);
+        });
+    }
   }, []);
 
   const participantsJSON = participants;
@@ -25,7 +33,7 @@ const Participants = ({ id }: { id: string }) => {
         {ataParticipants.map((participant) => (
           <div
             key={participant.inscription}
-            className="flex border-[1px] p-4 text-xl gap-"
+            className="flex border-[1px] p-4 text-xl"
           >
             <label
               htmlFor={`${participant.name}`}

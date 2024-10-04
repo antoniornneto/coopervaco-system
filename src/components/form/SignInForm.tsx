@@ -17,6 +17,8 @@ import { toast as toastWarning } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "sonner";
+import { useState } from "react";
+import LoadingButton from "../ui/loadingButton";
 
 const FormSchema = z.object({
   email: z
@@ -30,6 +32,7 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const [action, setAction] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -40,6 +43,7 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    setAction(true);
     const signInData = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -47,15 +51,15 @@ const SignInForm = () => {
     });
 
     if (signInData?.error) {
+      setAction(false);
       toastWarning({
-        title: "Error",
+        title: "Falha na autenticação",
         description: "Usuário ou senha inválidos",
         variant: "destructive",
       });
     } else {
       toast.success("Aguarde enquanto te redirecionamos...");
       setTimeout(() => {
-        router.refresh();
         router.push("/dashboard");
       }, 700);
     }
@@ -65,7 +69,7 @@ const SignInForm = () => {
     <div>
       <Toaster position="top-left" richColors />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">
             <FormField
               control={form.control}
@@ -98,12 +102,18 @@ const SignInForm = () => {
               )}
             />
           </div>
-          <Button
-            className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
-            type="submit"
-          >
-            Entrar
-          </Button>
+          <div>
+            {action ? (
+              <LoadingButton width="w-full" />
+            ) : (
+              <Button
+                className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                type="submit"
+              >
+                Entrar
+              </Button>
+            )}
+          </div>
         </form>
       </Form>
     </div>
