@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { User } from "@prisma/client";
+import Link from "next/link";
 
-interface UserProp {
+export interface UserProp {
   inscription: string;
   name: string;
 }
@@ -40,16 +41,28 @@ const UsersList = () => {
       inscription: inscription,
       name: name,
     };
-    const index = participants.indexOf(user);
 
     if (elementChecked) {
+      const index = participants
+        .map((participant) => participant.name)
+        .indexOf(user.name);
       participants.push(user);
-    } else {
-      if (index > -1) {
-        participants.splice(index, 1);
-      }
     }
+
+    if (!elementChecked) {
+      const index = participants
+        .map((participant) => participant.name)
+        .indexOf(user.name);
+      participants.splice(index, 1);
+    }
+
     setParticipants(participants);
+  }
+
+  function clearArray() {
+    setParticipants([]);
+
+    router.push("/dashboard");
   }
 
   const router = useRouter();
@@ -65,30 +78,40 @@ const UsersList = () => {
   }
 
   return (
-    <main>
-      <div>
-        <h1>Participantes da reunião</h1>
-        <p>Selecione as pessoas que irão participar da reunião</p>
-      </div>
-      <div>
+    <div>
+      <div className="overflow-y-auto h-[400px]">
         {users.map((user) => (
-          <div key={user.id} className="flex border-[1px] w-[500px] px-5">
+          <div key={user.id} className="flex border-[1px] p-4 text-xl">
             <label htmlFor={`${user.name}`} className="flex flex-1 gap-10">
               <p>Mat.: {user.inscription}</p>
               <p>{user.name}</p>
             </label>
             <input
               type="checkbox"
+              className="w-4"
               onChange={(e) => createArrayParticipants(e.target)}
-              name=""
+              name={`${user.name}`}
               id={`${user.name}`}
               value={`${user.inscription} ${user.name}`}
             />
           </div>
         ))}
       </div>
-      <Button onClick={(e) => createAta(participants)}>Próximo</Button>
-    </main>
+      <div className="space-x-5">
+        <Button
+          className="flex-1 text-lg mt-6 bg-[#5DA770] rounded-full hover:bg-[#5DA770]/80"
+          onClick={() => createAta(participants)}
+        >
+          Próximo
+        </Button>
+        <Button
+          onClick={clearArray}
+          className="flex-1 text-lg mt-6 bg-[#E6EEE8] border-[1px] border-[#5DA770] text-[#5DA770] rounded-full hover:bg-[#E6EEE8]/60"
+        >
+          Cancelar
+        </Button>
+      </div>
+    </div>
   );
 };
 

@@ -11,9 +11,14 @@ import {
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast as toastWarning } from "@/hooks/use-toast";
 import { Toaster, toast } from "sonner";
+import { useEffect, useState } from "react";
+import { Ata } from "@prisma/client";
+import { ParticipantProp } from "@/app/dashboard/create-ata/[ataId]/page";
+import { UserProp } from "../users-list";
+import Participants from "../ui/participants";
 
 const FormSchema = z.object({
   id: z.string(),
@@ -22,36 +27,47 @@ const FormSchema = z.object({
   approved_topics: z.string().min(1),
 });
 
-const NewAtaForm = () => {
-  const { ataId } = useParams();
+const EditAtaForm = ({ id }: { id: string }) => {
   const router = useRouter();
+  const [ata, setAta] = useState<Ata>();
+
+  useEffect(() => {
+    const getAta = fetch(`/api/ata/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAta(data.ata);
+      });
+  }, []);
+
+  const defautlValueTitle = ata?.title as string;
+  const defautlValueTopics = ata?.topics as string;
+  const defautlValueApprovedTopics = ata?.approved_topics as string;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      id: ataId as string,
-      title: "",
-      topics: "",
-      approved_topics: "",
+      id: id as string,
+      title: ata?.title as string,
+      topics: ata?.topics as string,
+      approved_topics: ata?.approved_topics as string,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     const { title, topics, approved_topics } = values;
-    const updateAta = await fetch("/api/ata", {
+    const reqUpdate = await fetch(`/api/ata/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: ataId,
         title,
         topics,
         approved_topics,
       }),
     });
 
-    const responseJSON = await updateAta.json().then((res) => res);
+    const responseJSON = await reqUpdate.json().then((res) => res);
 
-    if (!updateAta.ok) {
+    if (!reqUpdate.ok) {
       toastWarning({
         title: "Error",
         description: `${JSON.stringify(responseJSON.message)}`,
@@ -66,13 +82,9 @@ const NewAtaForm = () => {
   };
 
   const cancel = async () => {
-    const req = await fetch(`/api/ata/${ataId}`, {
-      method: "DELETE",
-    });
-
     setTimeout(() => {
       router.push("/dashboard");
-    }, 2000);
+    }, 1500);
   };
 
   return (
@@ -92,6 +104,7 @@ const NewAtaForm = () => {
                       type="text"
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Insira o título da ata"
+                      defaultValue={defautlValueTitle}
                       {...field}
                     />
                   </FormControl>
@@ -110,6 +123,7 @@ const NewAtaForm = () => {
                       rows={10}
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Insira a(s) pauta(s)"
+                      defaultValue={defautlValueTopics}
                       {...field}
                     />
                   </FormControl>
@@ -130,6 +144,7 @@ const NewAtaForm = () => {
                       rows={10}
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Acrescente as discussões que foram realizadas e aprovadas"
+                      defaultValue={defautlValueApprovedTopics}
                       {...field}
                     />
                   </FormControl>
@@ -137,6 +152,7 @@ const NewAtaForm = () => {
                 </FormItem>
               )}
             />
+            <Participants id={id} />
           </div>
           <div className="space-x-5">
             <Button
@@ -159,4 +175,4 @@ const NewAtaForm = () => {
   );
 };
 
-export default NewAtaForm;
+export default EditAtaForm;

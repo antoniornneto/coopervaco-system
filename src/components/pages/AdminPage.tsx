@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import AtasList from "../atas-list";
 import HeaderSystem from "../ui/system-header";
 import Link from "next/link";
+import Loading from "../ui/loading";
 
 const linkButtonStyle = `bg-[#5DA770] px-4 py-2 rounded-lg text-white hover:bg-[#5DA770]/80`;
 
@@ -32,9 +33,7 @@ const AdminPage = async () => {
       {/* lista de atas */}
       <div className="w-full flex justify-center">
         <div className="w-[90%]">
-          <Suspense
-            fallback={<div className="text-xl">Carregando atas...</div>}
-          >
+          <Suspense fallback={<Loading />}>
             <AtasList />
           </Suspense>
         </div>

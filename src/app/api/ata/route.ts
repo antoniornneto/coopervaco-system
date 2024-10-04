@@ -39,7 +39,7 @@ export async function PUT(req: NextRequest) {
         approved_topics,
       },
     });
-    return NextResponse.json({ message: "Ata criada" }, { status: 200 });
+    return NextResponse.json({ message: "Ata criada" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 400 });
   }

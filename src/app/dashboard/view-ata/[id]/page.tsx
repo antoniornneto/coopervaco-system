@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { dayjs } from "@/lib/utils";
 import { ParticipantProp } from "../../create-ata/[ataId]/page";
 import Link from "next/link";
+import Participants from "@/components/ui/participants";
 
 const ata = async ({ params }: { params: { id: string } }) => {
   const ata = await db.ata.findUnique({
@@ -64,16 +65,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* Footer */}
-        <div className="w-[90%]">
-          <h1 className="text-2xl">Participantes da reunião</h1>
-          <div>
-            {participants.map((participant) => (
-              <div key={participant.inscription}>
-                <p>{participant.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Participants id={params.id} />
       </div>
     </main>
   );

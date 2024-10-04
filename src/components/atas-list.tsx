@@ -41,31 +41,30 @@ const AtasList = () => {
               </p>
               <h3 className="text-lg">{ata.title}</h3>
             </div>
-            <div className="flex items-center">
-              <>
-                <span>80%</span>
-                <Button className="bg-transparent w-fit hover:bg-transparent p-3">
+            <div className="flex items-center gap-2">
+              <span>80%</span>
+              <Button className="bg-transparent w-fit hover:bg-transparent p-2">
+                <Link href={`/dashboard/edit-ata/${ata.id}`}>
                   <Pencil color="black" size={20} />
-                </Button>
-                <Button
-                  className="bg-transparent w-fit hover:bg-transparent p-3"
-                  onClick={(e) => deleteAta(ata.id)}
-                >
-                  <Trash2 color="black" size={20} />
-                </Button>
-                <Button className="bg-transparent w-fit hover:bg-transparent p-3">
-                  <Download color="black" size={20} />
-                </Button>
-                <Link
-                  className="bg-transparent w-fit hover:bg-transparent p-3"
-                  href={`/dashboard/view-ata/${ata.id}`}
-                >
-                  <Eye size={20} />
                 </Link>
-                <Button className="w-36 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
-                  Assinar ata
-                </Button>
-              </>
+              </Button>
+              <Button
+                className="bg-transparent w-fit hover:bg-transparent p-2"
+                onClick={(e) => deleteAta(ata.id)}
+              >
+                <Trash2 color="black" size={20} />
+              </Button>
+              <Button className="bg-transparent w-fit hover:bg-transparent p-2">
+                <Download color="black" size={20} />
+              </Button>
+              <Button className="bg-transparent w-fit hover:bg-transparent p-2">
+                <Link href={`/dashboard/view-ata/${ata.id}`}>
+                  <Eye color="black" size={20} />
+                </Link>
+              </Button>
+              <Button className="w-28 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
+                Assinar ata
+              </Button>
             </div>
           </div>
         ))}
