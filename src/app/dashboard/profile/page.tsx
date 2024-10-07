@@ -1,3 +1,4 @@
+import ProfileForm from "@/components/form/ProfileForm";
 import HeaderSystem from "@/components/ui/system-header";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ const page = () => {
             color="#5DA770"
           />
         </Link>
-        <div>{/* FORM PARA ATUALIZAR DADOS DO PERFIL */}</div>
+        <ProfileForm />
       </div>
     </main>
   );

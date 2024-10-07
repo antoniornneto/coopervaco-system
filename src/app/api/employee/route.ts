@@ -87,6 +87,7 @@ export async function POST(req: Request) {
           cpf: body.cpf,
           name: body.name,
           inscription: body.inscription,
+          image: "",
         },
       },
     },

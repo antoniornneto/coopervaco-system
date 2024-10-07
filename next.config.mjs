@@ -6,7 +6,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "cdn.simpleicons.org",
+        protocol: "https",
+        hostname: "izalkffitpywrrlhomsn.supabase.co",
+        port: "",
       },
     ],
   },

@@ -20,23 +20,29 @@ export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const cpf = params.get("cpf") as string;
 
-  const existingUser = await db.user.findUnique({
-    where: {
-      cpf,
-    },
-  });
+  if (!cpf) {
+    const allUsers = await db.user.findMany();
 
-  if (existingUser?.email) {
-    return NextResponse.json(
-      { message: "Usuário já possui um cadastro" },
-      { status: 404 }
-    );
+    return NextResponse.json(allUsers);
+  } else {
+    const existingUser = await db.user.findUnique({
+      where: {
+        cpf,
+      },
+    });
+
+    if (existingUser?.email) {
+      return NextResponse.json(
+        { message: "Usuário já possui um cadastro" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: existingUser }, { status: 201 });
   }
-
-  return NextResponse.json({ message: existingUser }, { status: 201 });
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { cpf, name, email, password, inscription } = userSchema.parse(body);
@@ -83,4 +89,19 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+}
+
+export async function PATCH(req: NextRequest) {
+  const { email, path } = await req.json();
+
+  const userAvatar = await db.user.update({
+    where: {
+      email,
+    },
+    data: {
+      image: path,
+    },
+  });
+
+  return NextResponse.json({ message: "Avatar atualizado" });
 }
