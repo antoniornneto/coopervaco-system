@@ -14,8 +14,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast as toastWarning } from "@/hooks/use-toast";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import Link from "next/link";
+import { useState } from "react";
+import LoadingButton from "../ui/loadingButton";
 
 const FormSchema = z.object({
   cpf: z.string(),
@@ -24,6 +26,7 @@ const FormSchema = z.object({
 });
 
 const EmployeeVerify = () => {
+  const [action, setAction] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -36,6 +39,7 @@ const EmployeeVerify = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    setAction(true);
     const { cpf, inscription, name } = values;
     const getEmployee = await fetch(
       `/api/employee?cpf=${cpf}&inscription=${inscription}&name=${name}`
@@ -70,7 +74,6 @@ const EmployeeVerify = () => {
 
   return (
     <div className="space-y-4">
-      <Toaster position="top-left" richColors />
       <div>
         <p>
           Preencha os campos abaixo para verificarmos se você faz parte da
@@ -78,7 +81,10 @@ const EmployeeVerify = () => {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-5"
+        >
           <div className="space-y-2">
             <FormField
               control={form.control}
@@ -125,14 +131,20 @@ const EmployeeVerify = () => {
             />
           </div>
           <div className="flex gap-4">
-            <Button
-              className="flex-1 w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
-              type="submit"
-            >
-              Enviar Dados
-            </Button>
+            <div className="flex-1">
+              {action ? (
+                <LoadingButton width="w-full" />
+              ) : (
+                <Button
+                  className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                  type="submit"
+                >
+                  Enviar dados
+                </Button>
+              )}
+            </div>
             <Link
-              className="flex-1 text-white flex justify-center items-center rounded-md w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+              className="flex-1 text-white flex justify-center items-center rounded-md w-full p-2 bg-[#5DA770] hover:bg-[#5DA770]/80"
               href={"/sign-in"}
             >
               Voltar

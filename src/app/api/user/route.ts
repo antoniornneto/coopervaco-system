@@ -19,6 +19,17 @@ const userSchema = z.object({
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const cpf = params.get("cpf") as string;
+  const email = params.get("email") as string;
+
+  if (email) {
+    const existingUser = await db.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return NextResponse.json({ existingUser });
+  }
 
   if (!cpf) {
     const allUsers = await db.user.findMany();

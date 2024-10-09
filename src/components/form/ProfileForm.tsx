@@ -1,137 +1,195 @@
 "use client";
-import { deleteImage, uploadImage } from "@/supabase/storage/client";
-import { convertBlobUrlToFile } from "@/lib/utils";
-import { ChangeEvent, useEffect, useRef, useState, useTransition } from "react";
-import { useSession } from "next-auth/react";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { User } from "@prisma/client";
-import { Loader2, Plus, Trash } from "lucide-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Input } from "../ui/input";
+import LoadingButton from "../ui/loadingButton";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { SessionUserProps, EmployeeDataProps } from "@/types/types";
+import dayjs from "dayjs";
 
-const ProfileForm = () => {
-  const [imageUrls, SetImageUrls] = useState<string[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const session = useSession();
-  const nameOwnerSession = session.data?.user.name;
+const FormSchema = z.object({
+  cpf: z.string(),
+  name: z.string(),
+  inscription: z.string(),
+  birthday: z.string(),
+  position: z.string(),
+  email: z.string().email(),
+});
 
-  useEffect(() => {
-    const req = fetch("/api/user")
-      .then((res) => res.json())
-      .then((data) => setUsers(data));
-  }, []);
+const ProfileForm = ({
+  userSession,
+  employeeData,
+}: {
+  userSession: SessionUserProps;
+  employeeData: EmployeeDataProps;
+}) => {
+  const [action, setAction] = useState(false);
 
-  const idUser = users.map((user) =>
-    user.name === nameOwnerSession ? user.id : "/"
-  );
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      cpf: employeeData?.cpf,
+      name: employeeData?.name,
+      inscription: employeeData?.inscription,
+      position: employeeData?.position,
+      email: userSession?.email,
+      birthday: dayjs(employeeData?.birthday).format("DD/MM/YYYY"),
+    },
+  });
 
-  const filePathUser = users.map((user) =>
-    user.name === nameOwnerSession ? user.image : "/"
-  );
-
-  const ImageInputRef = useRef<HTMLInputElement>(null);
-
-  function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      const newImageUrls = filesArray.map((file) => URL.createObjectURL(file));
-
-      SetImageUrls([...imageUrls, ...newImageUrls]);
-    }
-  }
-
-  const [isPending, startTransition] = useTransition();
-
-  const handleClickUploadImagesButton = () => {
-    startTransition(async () => {
-      let urls = [];
-      for (const url of imageUrls) {
-        const imageFile = await convertBlobUrlToFile(url);
-
-        const { imageUrl, error } = await uploadImage({
-          file: imageFile,
-          bucket: "avatars",
-          userId: idUser[0],
-        });
-
-        const changeImageAvatar = await fetch("/api/user", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: session.data?.user.email,
-            path: imageUrl,
-          }),
-        });
-
-        if (error) {
-          console.log(error);
-          return;
-        }
-
-        urls.push(imageUrls);
-        SetImageUrls([]);
-      }
-      location.reload();
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    fetch(`/api/employee`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cpf: values.cpf,
+        name: values.name,
+        inscription: values.inscription,
+        birthday: values.birthday,
+        position: values.position,
+        email: values.email,
+      }),
     });
   };
 
-  const handleClickDeleteImage = () => {
-    const deletePathAvatar = fetch("/api/user", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: session.data?.user.email,
-        path: "",
-      }),
-    }).then((res) => res.json());
-    deleteImage(filePathUser[0]);
-  };
-
   return (
-    <div className="w-screen h-[70vh] flex justify-center items-center">
-      <div className="flex flex-col justify-center items-center gap-2">
-        <input
-          type="file"
-          ref={ImageInputRef}
-          onChange={(e) => handleImageChange(e)}
-          hidden
-        />
-        <button
-          onClick={() => ImageInputRef.current?.click()}
-          className="border-[3px] border-slate-200 rounded-full flex"
-        >
-          {imageUrls.length > 0 ? (
-            <div>
-              {imageUrls.map((image, index) => (
-                <Avatar key={index} className="w-72 h-72">
-                  <AvatarImage src={image} />
-                </Avatar>
-              ))}
-            </div>
-          ) : (
-            <div className="border-[3px] border-slate-200 rounded-full w-72 h-72 flex justify-center items-center">
-              <Plus color="#e2e8f0" size={80} />
-            </div>
-          )}
-        </button>
-        <div className="flex gap-4">
-          <button
-            className="bg-slate-600 py-2 w-40 rounded-lg text-white flex justify-center"
-            onClick={handleClickUploadImagesButton}
-          >
-            {isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              "Salvar nova foto"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-[450px] space-y-5"
+      >
+        <div className="space-y-2">
+          <FormField
+            control={form.control}
+            name="cpf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">CPF</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    defaultValue={employeeData?.cpf}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </button>
-          <button
-            onClick={handleClickDeleteImage}
-            className="bg-slate-600 p-2 rounded-lg flex justify-center"
-          >
-            <Trash color="#fff" />
-          </button>
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    defaultValue={userSession?.email}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Nome Completo</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    defaultValue={employeeData?.name}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="inscription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Matrícula</FormLabel>
+                <FormControl>
+                  <Input
+                    defaultValue={employeeData?.inscription}
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="position"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Função</FormLabel>
+                <FormControl>
+                  <Input
+                    defaultValue={employeeData?.position}
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="birthday"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Data de Nascimento</FormLabel>
+                <FormControl>
+                  <Input
+                    defaultValue={dayjs(employeeData?.birthday).format(
+                      "DD/MM/YYYY"
+                    )}
+                    type="text"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-      </div>
-    </div>
+        <div className="flex justify-center w-full">
+          <div className="">
+            {action ? (
+              <LoadingButton width="w-full" />
+            ) : (
+              <Button
+                className="bg-[#5DA770] hover:bg-[#5DA770]/80"
+                type="submit"
+              >
+                Enviar dados
+              </Button>
+            )}
+          </div>
+        </div>
+      </form>
+    </Form>
   );
 };
 

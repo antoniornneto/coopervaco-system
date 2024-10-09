@@ -10,25 +10,34 @@ export async function GET(req: NextRequest) {
   const name = params.get("name") as string;
 
   // checando se o funcionário existe
-  const existingEmployee = await db.employee.findUnique({
-    where: {
-      cpf,
-      inscription,
-      name,
-    },
-  });
+  if (name) {
+    const existingEmployee = await db.employee.findUnique({
+      where: {
+        name,
+      },
+    });
+    return NextResponse.json({ existingEmployee });
+  } else {
+    const existingEmployee = await db.employee.findUnique({
+      where: {
+        name,
+        cpf,
+        inscription,
+      },
+    });
 
-  if (!existingEmployee) {
+    if (!existingEmployee) {
+      return NextResponse.json(
+        { message: "Funcionário não encontrado no banco de dados." },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Funcionário não encontrado no banco de dados." },
-      { status: 409 }
+      { message: "Funcionário encontrado.", existingEmployee },
+      { status: 201 }
     );
   }
-
-  return NextResponse.json(
-    { message: "Funcionário encontrado.", existingEmployee },
-    { status: 201 }
-  );
 }
 
 export async function POST(req: Request) {
@@ -97,4 +106,37 @@ export async function POST(req: Request) {
     { newEmployee, message: "Funcionário cadastrado com sucesso" },
     { status: 201 }
   );
+}
+
+export async function PUT(req: Request) {
+  try {
+    const { cpf, name, inscription, birthday, position, email } =
+      await req.json();
+    const birthdayDate = dayjs(birthday).toISOString();
+
+    const updateEmployee = await db.employee.update({
+      where: {
+        cpf,
+      },
+      data: {
+        name,
+        inscription,
+        position,
+        birthday: birthdayDate,
+      },
+    });
+
+    const updateUser = await db.user.update({
+      where: {
+        cpf,
+      },
+      data: {
+        email,
+      },
+    });
+    return NextResponse.json({ message: updateEmployee }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: "Erro maluco" }, { status: 400 });
+  }
 }

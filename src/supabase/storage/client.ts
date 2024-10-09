@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import imageCompression from "browser-image-compression";
 import { createSupabaseClient } from "../client";
 
@@ -9,23 +8,14 @@ function getStorage() {
 
 type UploadProps = {
   file: File;
-  bucket: string;
-  folder?: string;
+  fileName: string;
   userId?: string;
 };
 
-export async function uploadImage({
-  file,
-  bucket,
-  folder,
-  userId,
-}: UploadProps) {
-  const fileName = file.name;
-  console.log(fileName);
-  const fileExtension = fileName.slice(fileName.lastIndexOf(".") + 1);
-  console.log(fileExtension);
-  const path = `${folder ? folder + "/" : ""}${userId}.${fileExtension}`;
-  console.log(path);
+export async function uploadImage({ file, userId, fileName }: UploadProps) {
+  const name = file.name;
+  const fileExtension = name.slice(name.lastIndexOf(".") + 1);
+  const path = `${userId}/${fileName}.${fileExtension}`;
 
   try {
     file = await imageCompression(file, {
@@ -37,49 +27,36 @@ export async function uploadImage({
   }
 
   const storage = getStorage();
-  const existingAvatar = await storage.from(bucket).exists(path);
-  console.log(existingAvatar.data);
+  const existingAvatar = await storage.from("users_media").exists(path);
 
   if (existingAvatar.data) {
-    console.log("atualizando avatar");
-    const { data, error } = await storage.from(bucket).update(path, file);
+    const { data, error } = await storage
+      .from("users_media")
+      .update(path, file);
 
     if (error) {
       return { imageUrl: "", error: "Image upload failed" };
     }
 
     const imageUrl = `${process.env
-      .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/${bucket}/${
+      .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/users_media/${
       data?.path
     }`;
     return { imageUrl, error: "" };
   } else {
-    console.log("criando novo avatar");
-    const { data, error } = await storage.from(bucket).upload(path, file);
+    const { data, error } = await storage
+      .from("users_media")
+      .upload(path, file);
 
     if (error) {
       return { imageUrl: "", error: "Image upload failed" };
     }
 
     const imageUrl = `${process.env
-      .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/${bucket}/${
+      .NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/users_media/${
       data?.path
     }`;
+
     return { imageUrl, error: "" };
   }
 }
-
-export const deleteImage = async (imageUrl: string) => {
-  const bucketAndPathString = imageUrl.split("/storage/v1/object/public/")[1];
-
-  const firstSlashIndex = bucketAndPathString.indexOf("/");
-
-  const bucket = bucketAndPathString.slice(0, firstSlashIndex);
-  const path = bucketAndPathString.slice(firstSlashIndex + 1);
-
-  const storage = getStorage();
-
-  const { data, error } = await storage.from(bucket).remove([path]);
-
-  return { data, error };
-};

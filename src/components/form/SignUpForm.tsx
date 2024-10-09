@@ -17,7 +17,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast as toastWarning } from "@/hooks/use-toast";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
+import LoadingButton from "../ui/loadingButton";
 
 interface EmployeeProps {
   cpf: string | undefined;
@@ -44,6 +45,7 @@ const SignUpForm = () => {
   const cpfParams = useSearchParams().get("cpf") as string;
   const inscriptionParams = useSearchParams().get("inscription");
   const nameParams = useSearchParams().get("name");
+  const [action, setAction] = useState(false);
   const [employee, setEmployee] = useState<EmployeeProps>({
     cpf: undefined,
     name: undefined,
@@ -69,6 +71,7 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    setAction(true);
     const response = await fetch("/api/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -97,7 +100,6 @@ const SignUpForm = () => {
 
   return (
     <div className="space-y-4">
-      <Toaster position="top-left" richColors />
       <div>
         <p>
           Verifique os seus dados abaixo e insira um e-mail e senha para criar o
@@ -105,7 +107,10 @@ const SignUpForm = () => {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-5"
+        >
           <div className="space-y-2">
             <FormItem>
               <FormLabel>CPF</FormLabel>
@@ -171,15 +176,21 @@ const SignUpForm = () => {
               )}
             />
           </div>
-          <div className="flex gap-4">
-            <Button
-              className="flex-1 w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
-              type="submit"
-            >
-              Cadastrar
-            </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              {action ? (
+                <LoadingButton width="w-full" />
+              ) : (
+                <Button
+                  className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                  type="submit"
+                >
+                  Cadastrar
+                </Button>
+              )}
+            </div>
             <Link
-              className="flex-1 text-white flex justify-center items-center rounded-md w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
+              className="flex-1 text-white flex justify-center items-center rounded-md w-full p-2 bg-[#5DA770] hover:bg-[#5DA770]/80"
               href={"/sign-in"}
             >
               Voltar

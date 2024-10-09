@@ -14,7 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast as toastWarning } from "@/hooks/use-toast";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
+import { useState } from "react";
+import LoadingButton from "../ui/loadingButton";
 
 const FormSchema = z.object({
   cpf: z.string().min(11, "Preencha o campo corretamente"),
@@ -28,6 +30,7 @@ const FormSchema = z.object({
 });
 
 const NewEmployeeForm = () => {
+  const [action, setAction] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -40,6 +43,7 @@ const NewEmployeeForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    setAction(true);
     const createEmployee = await fetch("/api/employee", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -70,8 +74,7 @@ const NewEmployeeForm = () => {
 
   return (
     <Form {...form}>
-      <Toaster position="top-left" richColors />
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <div className="space-y-2">
           <FormField
             control={form.control}
@@ -139,12 +142,18 @@ const NewEmployeeForm = () => {
             )}
           />
         </div>
-        <Button
-          className="w-full mt-6 bg-[#5DA770] hover:bg-[#5DA770]/80"
-          type="submit"
-        >
-          Cadastrar funcionário
-        </Button>
+        <div>
+          {action ? (
+            <LoadingButton width="w-full" />
+          ) : (
+            <Button
+              className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+              type="submit"
+            >
+              Cadastrar funcionário
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

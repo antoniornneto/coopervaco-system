@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import { toast as toastWarning } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 
@@ -67,7 +67,6 @@ const SignInForm = () => {
 
   return (
     <div>
-      <Toaster position="top-left" richColors />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">

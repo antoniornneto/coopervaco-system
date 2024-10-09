@@ -12,8 +12,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
-import { toast as toastWarning } from "@/hooks/use-toast";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   id: z.string(),
@@ -52,11 +51,7 @@ const NewAtaForm = () => {
     const responseJSON = await updateAta.json().then((res) => res);
 
     if (!updateAta.ok) {
-      toastWarning({
-        title: "Error",
-        description: `${JSON.stringify(responseJSON.message)}`,
-        variant: "destructive",
-      });
+      toast.error(`${JSON.stringify(responseJSON.message)}`);
     } else {
       toast.success(`${JSON.stringify(responseJSON.message)}`);
       setTimeout(() => {
@@ -77,7 +72,6 @@ const NewAtaForm = () => {
 
   return (
     <div className="w-[90%] my-10">
-      <Toaster position="top-left" richColors />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-10">

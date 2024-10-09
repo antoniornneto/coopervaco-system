@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/ui/Provider";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 const open = Open_Sans({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={open.className}>
         <Provider>
           {children}
-          <Toaster />
+          <Toaster position="top-left" richColors />
         </Provider>
       </body>
     </html>

@@ -5,26 +5,11 @@ import { Button } from "./ui/button";
 import { User } from "@prisma/client";
 import { Toaster, toast } from "sonner";
 import LoadingButton from "./ui/loadingButton";
+import { UserDataProps, UserProp } from "@/types/types";
 
-export interface UserProp {
-  inscription: string;
-  name: string;
-}
-
-const UsersList = () => {
+const UsersList = ({ users }: { users: UserDataProps }) => {
   const [action, setAction] = useState(false);
-  const [users, setUsers] = useState<Array<User>>([]);
   const [participants, setParticipants] = useState<Array<UserProp>>([]);
-
-  async function getAllUsers() {
-    const res = await fetch("/api/get-all-users")
-      .then((response) => response.json())
-      .then((data) => setUsers(data.users));
-  }
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
 
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;
@@ -85,7 +70,6 @@ const UsersList = () => {
 
   return (
     <div className="h-[400px] space-y-5">
-      <Toaster position="top-left" richColors />
       <div className="overflow-y-auto h-[400px]">
         {users.map((user) => (
           <div key={user.id} className="flex border-[1px] p-4 text-xl ">
