@@ -6,11 +6,7 @@ import { db } from "@/lib/db";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { X } from "lucide-react";
-
-export interface ParticipantProp {
-  name: string;
-  inscription: string;
-}
+import { ParticipantProp } from "@/types/types";
 
 export default async function CriarAta({
   params,

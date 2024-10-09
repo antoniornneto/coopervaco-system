@@ -132,6 +132,8 @@ export async function PUT(req: Request) {
       },
       data: {
         email,
+        name,
+        inscription,
       },
     });
     return NextResponse.json({ message: updateEmployee }, { status: 200 });

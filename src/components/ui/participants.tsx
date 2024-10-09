@@ -1,36 +1,12 @@
 "use client";
+import { UserProp } from "@/types/types";
 
-import { useEffect, useState } from "react";
-import { UserProp } from "../users-list";
-import { ParticipantProp } from "@/app/dashboard/create-ata/[ataId]/page";
-
-const Participants = ({ id }: { id?: string }) => {
-  const [participants, setParticipants] = useState<Array<UserProp>>([]);
-
-  useEffect(() => {
-    if (!id) {
-      const getAll = fetch("/api/get-all-users")
-        .then((res) => res.json())
-        .then((data) => {
-          setParticipants(data.users);
-        });
-    } else {
-      const getAta = fetch(`/api/ata/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setParticipants(data.ata.participants);
-        });
-    }
-  }, []);
-
-  const participantsJSON = participants;
-  const convertJSONToString = JSON.stringify(participantsJSON);
-  const ataParticipants: ParticipantProp[] = JSON.parse(convertJSONToString);
+const Participants = ({ participants }: { participants: UserProp }) => {
   return (
-    <div className="w-[90%]">
+    <div className="w-[90%] space-y-5">
       <h1 className="text-2xl">Participantes da reunião</h1>
       <div>
-        {ataParticipants.map((participant) => (
+        {participants.map((participant) => (
           <div
             key={participant.inscription}
             className="flex border-[1px] p-4 text-xl"

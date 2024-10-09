@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { X } from "lucide-react";
 import { dayjs } from "@/lib/utils";
-import { ParticipantProp } from "../../create-ata/[ataId]/page";
 import Link from "next/link";
 import EditAtaForm from "@/components/form/EditAtaForm";
 
@@ -38,7 +37,7 @@ const editAta = async ({ params }: { params: { id: string } }) => {
       </div>
       {/* Body */}
       <div className="flex justify-center">
-        <EditAtaForm id={params.id} />
+        <EditAtaForm ata={ata} />
       </div>
     </main>
   );

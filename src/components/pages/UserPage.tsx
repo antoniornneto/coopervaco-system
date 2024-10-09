@@ -1,9 +1,7 @@
-import { db } from "@/lib/db";
 import AtasList from "../atas-list";
 import HeaderSystem from "../ui/system-header";
 
 const UserPage = async () => {
-  const ataData = await db.ata.findMany();
   return (
     <div>
       <HeaderSystem />

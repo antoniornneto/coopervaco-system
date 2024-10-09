@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { X } from "lucide-react";
 import { dayjs } from "@/lib/utils";
-import { ParticipantProp } from "../../create-ata/[ataId]/page";
 import Link from "next/link";
 import Participants from "@/components/ui/participants";
 
@@ -12,9 +11,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  const participantsJSON = ata?.participants;
-  const convertJSONToString = JSON.stringify(participantsJSON);
-  const participants: ParticipantProp[] = JSON.parse(convertJSONToString);
+  const ataParticipants = ata?.participants as any;
 
   return (
     <main>
@@ -65,7 +62,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* Footer */}
-        <Participants id={params.id} />
+        <Participants participants={ataParticipants} />
       </div>
     </main>
   );

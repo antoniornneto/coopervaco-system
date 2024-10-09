@@ -1,15 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
-import { User } from "@prisma/client";
-import { Toaster, toast } from "sonner";
+
+import { toast } from "sonner";
 import LoadingButton from "./ui/loadingButton";
 import { UserDataProps, UserProp } from "@/types/types";
 
 const UsersList = ({ users }: { users: UserDataProps }) => {
   const [action, setAction] = useState(false);
-  const [participants, setParticipants] = useState<Array<UserProp>>([]);
+  const [participants, setParticipants] = useState<UserProp>([]);
 
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;
@@ -50,7 +50,7 @@ const UsersList = ({ users }: { users: UserDataProps }) => {
   }
 
   const router = useRouter();
-  async function createAta(participants: Array<UserProp>) {
+  async function createAta(participants: UserProp) {
     setAction(true);
     if (participants.length > 0) {
       const req = await fetch("/api/ata", {

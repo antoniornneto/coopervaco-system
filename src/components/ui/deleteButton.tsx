@@ -6,7 +6,7 @@ import { toast } from "sonner";
 const DeleteButton = ({ ataId }: { ataId: string }) => {
   const deleteAta = async (id: string) => {
     toast.success("Ata deletada");
-    const excluding = await fetch(`/api/ata/${id}`, {
+    await fetch(`/api/ata/${id}`, {
       method: "DELETE",
     });
 

@@ -2,6 +2,11 @@ export type SessionUserProps =
   | { name: string; email: string; role: string }
   | undefined;
 
+export interface ParticipantProp {
+  name: string;
+  inscription: string;
+}
+
 export type EmployeeDataProps = {
   id: string;
   cpf: string;
@@ -39,7 +44,18 @@ export type UserDataProps = {
   employeeId: string;
 }[];
 
-export interface UserProp {
+export type AtaDataProps = {
+  id: string;
+  title: string | null;
+  topics: string | null;
+  approved_topics: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  signatures: string | null;
+  participants: any;
+} | null;
+
+export type UserProp = {
   inscription: string;
   name: string;
-}
+}[];
