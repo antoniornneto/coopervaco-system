@@ -13,7 +13,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { toast as toastWarning } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -44,25 +43,21 @@ const SignInForm = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const signInData = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
-
-    if (signInData?.error) {
-      setAction(false);
-      toastWarning({
-        title: "Falha na autenticação",
-        description: "Usuário ou senha inválidos",
-        variant: "destructive",
+    setTimeout(() => {
+      const signInData = signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
       });
-    } else {
-      toast.success("Aguarde enquanto te redirecionamos...");
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 700);
-    }
+      toast.promise(signInData, {
+        loading: "Checando credenciais...",
+        success: (data) => {
+          router.push("/dashboard");
+          return `Login realizado`;
+        },
+        error: `${signInData.then((error) => error)}`,
+      });
+    }, 2000);
   };
 
   return (

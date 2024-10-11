@@ -1,5 +1,4 @@
 import { dayjs } from "@/lib/utils";
-import { Button } from "./ui/button";
 import DeleteButton from "./ui/deleteButton";
 import { db } from "@/lib/db";
 import ViewButton from "./ui/viewButton";
@@ -7,10 +6,23 @@ import EditButton from "./ui/editButton";
 import DownloadButton from "./ui/downloadButton";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import SignAta from "./ui/signAta";
+import { AtasDataProps, ParticipantProp } from "@/types/types";
+import PercentSignatures from "./ui/ataSignaturesPercent";
 
 const AtasList = async () => {
   const session = await getServerSession(authOptions);
-  const ataData = await db.ata.findMany();
+  const ataData: AtasDataProps = await db.ata.findMany();
+
+  let ataWithUser: string[] = [];
+  ataData.some((ata) => {
+    const exists = ata.participants.some(
+      (participant: ParticipantProp) => participant.name === session?.user.name
+    );
+    if (exists) {
+      ataWithUser.push(ata.id);
+    }
+  });
 
   return (
     <div className="py-10">
@@ -28,23 +40,21 @@ const AtasList = async () => {
             </div>
             {session?.user.role === "admin" ? (
               <div className="flex items-center gap-2">
-                <span>80%</span>
+                <PercentSignatures ataId={ata.id} />
                 <EditButton ataId={ata.id} />
                 <DeleteButton ataId={ata.id} />
-                <DownloadButton />
                 <ViewButton ataId={ata.id} />
-                <Button className="w-28 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
-                  Assinar ata
-                </Button>
+                {/* Função de download desabilitada temporariamente */}
+                {/* <DownloadButton /> */}
+                <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <span>80%</span>
-                <DownloadButton />
+                <PercentSignatures ataId={ata.id} />
+                {/* Função de download desabilitada temporariamente */}
+                {/* <DownloadButton /> */}
                 <ViewButton ataId={ata.id} />
-                <Button className="w-28 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80">
-                  Assinar ata
-                </Button>
+                <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>
             )}
           </div>

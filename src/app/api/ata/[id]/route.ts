@@ -40,15 +40,40 @@ export async function PUT(
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  const { participants, id } = await req.json();
+
+  const ata = await db.ata.update({
+    where: {
+      id,
+    },
+    data: {
+      participants,
+    },
+  });
+
+  return NextResponse.json({ message: "Ata assinada" });
+}
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const deleteAta = await db.ata.delete({
-    where: {
-      id: params.id,
-    },
-  });
+  try {
+    const deleteAta = await db.ata.delete({
+      where: {
+        id: params.id,
+      },
+    });
 
-  return NextResponse.json({ status: 200 });
+    return NextResponse.json(
+      { message: "Ata deletada", deleteAta },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Algo deu errado", error },
+      { status: 400 }
+    );
+  }
 }

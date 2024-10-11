@@ -103,16 +103,30 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { email, path } = await req.json();
+  const { id, signature } = await req.json();
 
-  const userAvatar = await db.user.update({
-    where: {
-      email,
-    },
-    data: {
-      image: path,
-    },
-  });
+  if (!id) {
+    return NextResponse.json(
+      { message: "Aconteceu um erro inesperado" },
+      { status: 400 }
+    );
+  }
 
-  return NextResponse.json({ message: "Avatar atualizado" });
+  if (signature) {
+    const updateSignature = await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        signature,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Assinatura atualizada" },
+      { status: 200 }
+    );
+  }
+
+  return NextResponse.json({ status: 200 });
 }

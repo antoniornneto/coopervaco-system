@@ -5,14 +5,20 @@ import { toast } from "sonner";
 
 const DeleteButton = ({ ataId }: { ataId: string }) => {
   const deleteAta = async (id: string) => {
-    toast.success("Ata deletada");
-    await fetch(`/api/ata/${id}`, {
-      method: "DELETE",
-    });
-
     setTimeout(() => {
-      location.reload();
-    }, 700);
+      const reqDelete = fetch(`/api/ata/${id}`, {
+        method: "DELETE",
+      });
+
+      toast.promise(reqDelete, {
+        loading: "Só um momento...",
+        success: (data) => {
+          location.reload();
+          return "Ata deletada";
+        },
+        error: "Desculpe, algo deu errado.",
+      });
+    }, 2000);
   };
   return (
     <Button

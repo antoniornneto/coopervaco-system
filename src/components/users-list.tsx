@@ -5,28 +5,24 @@ import { Button } from "./ui/button";
 
 import { toast } from "sonner";
 import LoadingButton from "./ui/loadingButton";
-import { UserDataProps, UserProp } from "@/types/types";
+import { UsersDataProps, UserProp } from "@/types/types";
 
-const UsersList = ({ users }: { users: UserDataProps }) => {
+const UsersList = ({ users }: { users: UsersDataProps }) => {
   const [action, setAction] = useState(false);
   const [participants, setParticipants] = useState<UserProp>([]);
 
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;
-    let arrayEmployee = element.value.split(" ");
-    let inscription = arrayEmployee.shift() as string;
-    let name: string = "";
-    for (let i = 0; i < arrayEmployee.length; i++) {
-      if (name === "") {
-        name = arrayEmployee[i];
-      } else {
-        name += ` ${arrayEmployee[i]}`;
-      }
-    }
+    let arrayEmployee = element.value.split("/");
+    let id = arrayEmployee[0] as string;
+    let inscription = arrayEmployee[1] as string;
+    let name = arrayEmployee[2] as string;
 
     let user = {
-      inscription: inscription,
+      id: id,
       name: name,
+      inscription: inscription,
+      sign: false,
     };
 
     if (elementChecked) {
@@ -35,11 +31,10 @@ const UsersList = ({ users }: { users: UserDataProps }) => {
 
     if (!elementChecked) {
       const index = participants
-        .map((participant) => participant.name)
-        .indexOf(user.name);
+        .map((participant) => participant.id)
+        .indexOf(user.id);
       participants.splice(index, 1);
     }
-
     setParticipants(participants);
   }
 
@@ -86,7 +81,7 @@ const UsersList = ({ users }: { users: UserDataProps }) => {
               onChange={(e) => createArrayParticipants(e.target)}
               name={`${user.name}`}
               id={`${user.name}`}
-              value={`${user.inscription} ${user.name}`}
+              value={`${user.id}/${user.inscription}/${user.name}`}
             />
           </div>
         ))}

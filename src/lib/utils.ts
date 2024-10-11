@@ -33,3 +33,9 @@ export async function convertBlobUrlToFile(blobUrl: string) {
   });
   return file;
 }
+
+export default function formatToIso(date: string) {
+  const [day, month, year] = date.split("/");
+
+  return dayjs(`${year}-${month}-${day}`).toISOString();
+}

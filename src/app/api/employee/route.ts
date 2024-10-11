@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { dayjs } from "@/lib/utils";
+import formatToIso, { dayjs } from "@/lib/utils";
 import { Employee } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
@@ -109,11 +109,12 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  try {
-    const { cpf, name, inscription, birthday, position, email } =
-      await req.json();
-    const birthdayDate = dayjs(birthday).toISOString();
+  const { cpf, name, inscription, birthday, position, email } =
+    await req.json();
+  const date: string = birthday;
+  const newDate = formatToIso(date);
 
+  try {
     const updateEmployee = await db.employee.update({
       where: {
         cpf,
@@ -122,7 +123,7 @@ export async function PUT(req: Request) {
         name,
         inscription,
         position,
-        birthday: birthdayDate,
+        birthday: newDate,
       },
     });
 
@@ -136,9 +137,9 @@ export async function PUT(req: Request) {
         inscription,
       },
     });
-    return NextResponse.json({ message: updateEmployee }, { status: 200 });
+    return NextResponse.json({ message: "Dados atualizados" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: "Erro maluco" }, { status: 400 });
+    console.error(error);
+    return NextResponse.json({ message: error }, { status: 400 });
   }
 }

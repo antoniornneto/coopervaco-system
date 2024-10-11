@@ -1,17 +1,39 @@
 import { db } from "@/lib/db";
-import { X } from "lucide-react";
+import { CircleOff, X } from "lucide-react";
 import { dayjs } from "@/lib/utils";
 import Link from "next/link";
-import Participants from "@/components/ui/participants";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import Signature from "@/components/ui/signature";
+import { ParticipantProp, UserDataProps, UsersDataProps } from "@/types/types";
 
 const ata = async ({ params }: { params: { id: string } }) => {
+  const session = await getServerSession(authOptions);
+  const user = await db.user.findUnique({
+    where: {
+      id: session?.user.userId,
+    },
+  });
+
+  const id = user?.id as string;
   const ata = await db.ata.findUnique({
     where: {
       id: params.id,
     },
   });
 
-  const ataParticipants = ata?.participants as any;
+  const idArrays = ata?.participants;
+  const convertString = JSON.stringify(idArrays);
+  const participants: ParticipantProp[] = JSON.parse(convertString);
+  let newArrayParticipants = [];
+  for (let i = 0; i < participants.length; i++) {
+    const user = (await db.user.findUnique({
+      where: {
+        id: participants[i].id,
+      },
+    })) as UserDataProps;
+    newArrayParticipants.push(user);
+  }
 
   return (
     <main>
@@ -62,7 +84,32 @@ const ata = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* Footer */}
-        <Participants participants={ataParticipants} />
+        <div className="flex flex-col w-[90%] space-y-5">
+          <h2 className="text-2xl font-semibold ">
+            Assinatura dos Participantes
+          </h2>
+          <div className="flex flex-wrap gap-10">
+            {participants.map((participant, index) =>
+              participant.sign === false ? (
+                <div
+                  key={index}
+                  className="flex flex-col items-center w-72 h-40"
+                >
+                  <div className="flex-1 text-[#989898] flex flex-col justify-center items-center gap-1">
+                    <CircleOff />
+                    <span>Assinatura Pendente</span>
+                  </div>
+                  <span className="font-semibold">{participant.name}</span>
+                  <span className="text-sm text-[#989898]">
+                    Mat.: {participant.inscription}
+                  </span>
+                </div>
+              ) : (
+                <Signature key={index} id={`${participant.id}`} />
+              )
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );

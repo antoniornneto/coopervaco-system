@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { X } from "lucide-react";
-import { ParticipantProp } from "@/types/types";
+import { ParticipantProp, UsersDataProps, UserDataProps } from "@/types/types";
 
 export default async function CriarAta({
   params,
@@ -24,9 +24,19 @@ export default async function CriarAta({
     },
   });
 
-  const participantsJSON = ata?.participants;
-  const convertString = JSON.stringify(participantsJSON);
+  const idArrays = ata?.participants;
+  const convertString = JSON.stringify(idArrays);
   const participants: ParticipantProp[] = JSON.parse(convertString);
+
+  let newArrayParticipants: UsersDataProps = [];
+  for (let i = 0; i < participants.length; i++) {
+    const user = (await db.user.findUnique({
+      where: {
+        id: participants[i].id,
+      },
+    })) as UserDataProps;
+    newArrayParticipants.push(user);
+  }
 
   return (
     <main className="pb-10">
@@ -61,9 +71,9 @@ export default async function CriarAta({
           <div className="w-[90%] space-y-4">
             <h2 className="text-2xl">Participantes da reunião</h2>
             <div className="text-black">
-              {participants.map((user) => (
+              {newArrayParticipants.map((user) => (
                 <div
-                  key={user.inscription}
+                  key={user.id}
                   className="flex border-[1px] w-full p-4 text-xl"
                 >
                   <label

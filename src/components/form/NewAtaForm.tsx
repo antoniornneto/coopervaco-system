@@ -36,28 +36,28 @@ const NewAtaForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const { title, topics, approved_topics } = values;
-    const updateAta = await fetch("/api/ata", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: ataId,
-        title,
-        topics,
-        approved_topics,
-      }),
-    });
+    setTimeout(() => {
+      const { title, topics, approved_topics } = values;
+      const updateAta = fetch("/api/ata", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: ataId,
+          title,
+          topics,
+          approved_topics,
+        }),
+      });
 
-    const responseJSON = await updateAta.json().then((res) => res);
-
-    if (!updateAta.ok) {
-      toast.error(`${JSON.stringify(responseJSON.message)}`);
-    } else {
-      toast.success(`${JSON.stringify(responseJSON.message)}`);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1500);
-    }
+      toast.promise(updateAta, {
+        loading: "Criando ata...",
+        success: (data) => {
+          router.push("/dashboard");
+          return "Ata criada";
+        },
+        error: "Desculpe, algo deu errado.",
+      });
+    }, 2000);
   };
 
   const cancel = async () => {
@@ -132,15 +132,17 @@ const NewAtaForm = () => {
               )}
             />
           </div>
-          <div className="space-x-5">
+          <div className="flex items-center space-x-5 mt-6">
+            <div className="flex items-center">
+              <Button
+                className="bg-[#5DA770] w-40 h-12 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
+                type="submit"
+              >
+                Salvar
+              </Button>
+            </div>
             <Button
-              className="bg-[#5DA770] w-40 h-12 mt-6 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
-              type="submit"
-            >
-              Salvar
-            </Button>
-            <Button
-              className="bg-[#5DA770] w-40 h-12 mt-6 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
+              className="bg-[#5DA770] w-40 h-12 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
               type="button"
               onClick={cancel}
             >
