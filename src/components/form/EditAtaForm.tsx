@@ -148,7 +148,7 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                 </FormItem>
               )}
             />
-            <Participants participants={ataParticipants} />
+            <Participants participantList={ataParticipants} />
           </div>
           <div className="flex items-center gap-5">
             <div className="flex items-center">

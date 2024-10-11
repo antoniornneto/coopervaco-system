@@ -1,7 +1,14 @@
 "use client";
-import { UserProp } from "@/types/types";
+import { ParticipantProp } from "@/types/types";
 
-const Participants = ({ participants }: { participants: UserProp }) => {
+const Participants = ({
+  participantList,
+}: {
+  participantList: ParticipantProp;
+}) => {
+  const idArrays = participantList;
+  const convertString = JSON.stringify(idArrays);
+  const participants: ParticipantProp[] = JSON.parse(convertString);
   return (
     <div className="w-[90%] space-y-5">
       <h1 className="text-2xl">Participantes da reunião</h1>
