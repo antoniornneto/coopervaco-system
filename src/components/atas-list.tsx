@@ -30,16 +30,16 @@ const AtasList = async () => {
         {ataData.map((ata) => (
           <div
             key={ata.id}
-            className="flex border-y-[1px] items-center px-4 py-3 hover:bg-[#F0FFF4]"
+            className="flex border-y-[1px] justify-center flex-wrap items-center px-4 py-3 hover:bg-[#F0FFF4] md:gap-2"
           >
             <div className="flex flex-1 gap-10">
               <p className="text-lg">
                 {dayjs(ata.createdAt).format("DD/MM/YYYY")}
               </p>
-              <h3 className="text-lg">{ata.title}</h3>
+              <h3 className="flex-1 text-lg">{ata.title}</h3>
             </div>
             {session?.user.role === "admin" ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 md:flex-1 md:justify-evenly">
                 <PercentSignatures ataId={ata.id} />
                 <EditButton ataId={ata.id} />
                 <DeleteButton ataId={ata.id} />

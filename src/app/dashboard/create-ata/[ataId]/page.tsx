@@ -44,16 +44,18 @@ export default async function CriarAta({
         {/* Header */}
         <div className="bg-[#F0F0F0] flex justify-center items-center h-44">
           <div className="w-[90%] flex items-center">
-            <div className="flex-1 flex items-end gap-20">
-              <h1 className="text-5xl">Ata de Reunião</h1>
-              <p>
-                Data:{" "}
-                <strong>{dayjs(ata?.updatedAt).format("DD/MM/YYYY")}</strong>
-              </p>
-              <p>
-                Horário:{" "}
-                <strong>{dayjs(ata?.updatedAt).format("HH:MM")}</strong>
-              </p>
+            <div className="flex-1 flex items-end flex-wrap gap-10 md:gap-5 md:justify-center md:items-center">
+              <h1 className="text-5xl md:flex-1 md:text-4xl">Ata de Reunião</h1>
+              <div className="flex gap-10 md:flex-1 md:justify-between md:gap-0">
+                <span>
+                  Data:{" "}
+                  <strong>{dayjs(ata?.updatedAt).format("DD/MM/YYYY")}</strong>
+                </span>
+                <span>
+                  Horário:{" "}
+                  <strong>{dayjs(ata?.updatedAt).format("HH:MM")}</strong>
+                </span>
+              </div>
             </div>
             <Link href={"/dashboard"}>
               <X
@@ -78,10 +80,10 @@ export default async function CriarAta({
                 >
                   <label
                     htmlFor={`${user.name}`}
-                    className="flex flex-1 gap-10"
+                    className="flex flex-1 gap-5 items-center"
                   >
-                    <p>Mat.: {user.inscription}</p>
-                    <p>{user.name}</p>
+                    <p className="w-28">Mat.: {user.inscription}</p>
+                    <p className="flex-1">{user.name}</p>
                   </label>
                 </div>
               ))}

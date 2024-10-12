@@ -64,16 +64,16 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
   }
 
   return (
-    <div className="h-[400px] space-y-5">
+    <div className="h-[400px] space-y-5 w-full">
       <div className="overflow-y-auto h-[400px]">
         {users.map((user) => (
-          <div key={user.id} className="flex border-[1px] p-4 text-xl ">
+          <div key={user.id} className="flex border-[1px] p-4 text-xl">
             <label
               htmlFor={`${user.name}`}
-              className="flex flex-1 gap-10 cursor-pointer"
+              className="flex flex-1 gap-4 cursor-pointer"
             >
               <p>Mat.: {user.inscription}</p>
-              <p>{user.name}</p>
+              <p className="flex-1 px-2">{user.name}</p>
             </label>
             <input
               type="checkbox"

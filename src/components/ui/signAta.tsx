@@ -5,6 +5,7 @@ import { ParticipantProp } from "@/types/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SignInButton from "./signInButton";
+import { Prisma } from "@prisma/client";
 
 const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
   const session = await getServerSession(authOptions);

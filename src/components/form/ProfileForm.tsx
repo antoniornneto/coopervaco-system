@@ -38,11 +38,9 @@ const ProfileForm = ({
 }) => {
   const [action, setAction] = useState(false);
   const [modal, setModal] = useState(false);
-  const [file, setFile] = useState<any>();
+  // const [file, setFile] = useState<any>();
   const [sign, setSign] = useState<SignatureCanvas | null>();
   const [url, setUrl] = useState<any>("/");
-
-  console.log(userSession?.userId);
 
   const handleGenerateSignature = () => {
     setModal(true);
@@ -118,9 +116,9 @@ const ProfileForm = ({
   };
 
   return (
-    <div>
+    <div className="w-[450px] md:w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[450px]">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-2">
             <FormField
               control={form.control}
@@ -237,11 +235,11 @@ const ProfileForm = ({
                     canvasProps={{
                       width: 500,
                       height: 200,
-                      className: "sigCanvas",
+                      className: "sigCanvas md:w-full",
                     }}
                   />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-5">
                   <Button type="button" onClick={handleGenerateSignature}>
                     Gerar
                   </Button>

@@ -19,7 +19,7 @@ const page = async () => {
     <main>
       <HeaderSystem />
       <div className="flex justify-center items-center py-10">
-        <div className="w-[90%] flex gap-10">
+        <div className="w-[90%] flex gap-10 md:flex-col">
           <Link href={"/dashboard"}>
             <ArrowLeft
               className="bg-[#F0F0F0] rounded-lg"

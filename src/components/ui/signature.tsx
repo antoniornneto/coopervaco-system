@@ -14,13 +14,15 @@ const Signature = async ({ id }: { id: string }) => {
       {user?.signature === null ? (
         <FileSignature className="flex-1" />
       ) : (
-        <Image
-          src={`${user?.signature}`}
-          alt="/"
-          width={200}
-          height={200}
-          className="flex-1"
-        />
+        <div className="w-40 h-32 relative">
+          <Image
+            src={`${user?.signature}`}
+            alt={`Assinatura de ${user?.name}`}
+            fill
+            sizes="100vw"
+            style={{ objectFit: "contain" }}
+          />
+        </div>
       )}
 
       <p className="font-semibold">{`${user?.name}`}</p>

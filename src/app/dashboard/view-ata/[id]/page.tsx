@@ -40,15 +40,18 @@ const ata = async ({ params }: { params: { id: string } }) => {
       {/* Header */}
       <div className="bg-[#F0F0F0] flex justify-center items-center h-44">
         <div className="w-[90%] flex items-center">
-          <div className="flex-1 flex items-end gap-20">
-            <h1 className="text-5xl">Ata de Reunião</h1>
-            <p>
-              Data:{" "}
-              <strong>{dayjs(ata?.updatedAt).format("DD/MM/YYYY")}</strong>
-            </p>
-            <p>
-              Horário: <strong>{dayjs(ata?.updatedAt).format("HH:MM")}</strong>
-            </p>
+          <div className="flex-1 flex items-end flex-wrap gap-10 md:gap-5 md:justify-center md:items-center">
+            <h1 className="text-5xl md:flex-1 md:text-4xl">Ata de Reunião</h1>
+            <div className="flex gap-10 md:flex-1 md:justify-between md:gap-0">
+              <span>
+                Data:{" "}
+                <strong>{dayjs(ata?.updatedAt).format("DD/MM/YYYY")}</strong>
+              </span>
+              <span>
+                Horário:{" "}
+                <strong>{dayjs(ata?.updatedAt).format("HH:MM")}</strong>
+              </span>
+            </div>
           </div>
           <Link href={"/dashboard"}>
             <X
@@ -88,7 +91,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
           <h2 className="text-2xl font-semibold ">
             Assinatura dos Participantes
           </h2>
-          <div className="flex flex-wrap gap-10">
+          <div className="flex flex-wrap gap-10 md:justify-center">
             {participants.map((participant, index) =>
               participant.sign === false ? (
                 <div
