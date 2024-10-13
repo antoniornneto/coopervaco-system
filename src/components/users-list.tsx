@@ -67,13 +67,16 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
     <div className="h-[400px] space-y-5 w-full">
       <div className="overflow-y-auto h-[400px]">
         {users.map((user) => (
-          <div key={user.id} className="flex border-[1px] p-4 text-xl">
+          <div
+            key={user.id}
+            className="flex border-[1px] p-4 text-xl md:text-base"
+          >
             <label
               htmlFor={`${user.name}`}
-              className="flex flex-1 gap-4 cursor-pointer"
+              className="flex flex-1 gap-5 items-center cursor-pointer"
             >
-              <p>Mat.: {user.inscription}</p>
-              <p className="flex-1 px-2">{user.name}</p>
+              <p className="w-28 md:w-20">Mat.: {user.inscription}</p>
+              <p className="flex-1">{user.name}</p>
             </label>
             <input
               type="checkbox"
@@ -86,7 +89,7 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 w-96">
+      <div className="flex items-center gap-2 md:flex-col">
         {action ? (
           <LoadingButton rounded="rounded-full" />
         ) : (
