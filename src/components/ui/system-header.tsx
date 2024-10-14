@@ -1,11 +1,26 @@
 import { logoCooperativaX } from "@/lib/utils";
 import Image from "next/image";
+import LogoutButton from "./LogoutButton";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { db } from "@/lib/db";
 
-export default function HeaderSystem() {
+export default async function HeaderSystem() {
+  const session = await getServerSession(authOptions);
+  const name = session?.user.name as string;
+  const letterName = name.slice(0, 2).toUpperCase();
+  const user = await db.user.findUnique({
+    where: {
+      email: session?.user.email,
+    },
+  });
+  const avatarImage = user?.image as string;
+
   return (
     <header className="flex justify-center w-full">
-      <div className="bg-[#E7E7E7] w-[25%] py-4 pl-[5%] md:w-[50%]">
+      <div className="bg-[#E7E7E7] w-[25%] flex justify-center items-center md:w-[50%]">
         <Image
           src={logoCooperativaX}
           width={0}
@@ -15,11 +30,23 @@ export default function HeaderSystem() {
           priority
         />
       </div>
-      <div className="flex-1 bg-[#3D6C6D]">
-        {/* AVATAR E MENU DE LOGIN */}
-        <Link className="text-white p-4" href="coopervaco-system/api/logout">
-          Sair
-        </Link>
+
+      <div className="flex-1 bg-[#3D6C6D] flex justify-end py-2 px-4">
+        <div className="flex flex-col items-center w-fit">
+          <Avatar>
+            <AvatarImage src={avatarImage} />
+            <AvatarFallback>{letterName}</AvatarFallback>
+          </Avatar>
+          <div className="flex items-center gap-4">
+            <Link
+              className="text-white hover:underline"
+              href={"/dashboard/profile"}
+            >
+              Perfil
+            </Link>
+            <LogoutButton />
+          </div>
+        </div>
       </div>
     </header>
   );

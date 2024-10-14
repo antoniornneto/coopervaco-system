@@ -1,5 +1,5 @@
 import { logoCooperativaX } from "@/lib/utils";
-import { PanelsTopLeft } from "lucide-react";
+import { PanelLeft } from "lucide-react";
 import { SiFacebook, SiInstagram } from "@icons-pack/react-simple-icons";
 import facebookLogo from "../../../public/assets/facebook.svg";
 import instagramLogo from "../../../public/assets/instagram.svg";
@@ -43,7 +43,7 @@ export default function Footer() {
               href={"https://painel.curia.coop/login"}
               target="_blank"
             >
-              <PanelsTopLeft />
+              <PanelLeft />
               <span>Cúria</span>
             </Link>
           </div>
