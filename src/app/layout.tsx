@@ -3,7 +3,6 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/ui/Provider";
 import { Toaster } from "sonner";
-import Head from "next/head";
 
 const open = Open_Sans({ subsets: ["latin"] });
 
