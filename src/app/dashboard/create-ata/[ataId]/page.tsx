@@ -3,9 +3,6 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import dayjs from "dayjs";
-import Link from "next/link";
-import { X } from "lucide-react";
 import { ParticipantProp, UsersDataProps, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 

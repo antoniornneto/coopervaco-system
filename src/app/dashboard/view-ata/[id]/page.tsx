@@ -1,11 +1,9 @@
 import { db } from "@/lib/db";
-import { CircleOff, X } from "lucide-react";
-import { dayjs } from "@/lib/utils";
-import Link from "next/link";
+import { CircleOff } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Signature from "@/components/ui/signature";
-import { ParticipantProp, UserDataProps, UsersDataProps } from "@/types/types";
+import { ParticipantProp, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 
 const ata = async ({ params }: { params: { id: string } }) => {
