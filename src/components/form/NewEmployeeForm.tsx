@@ -26,7 +26,7 @@ const FormSchema = z.object({
     .min(4, "Preencha com no mínimo 4 caracteres")
     .max(4, "Preencha com no máximo 4 caracteres"),
   birthday: z.string(),
-  position: z.string().min(6, "Preencha o campo corretamente"),
+  position: z.string(),
 });
 
 const NewEmployeeForm = () => {
