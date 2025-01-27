@@ -114,7 +114,9 @@ export default function Home() {
                 />
                 <Link
                   className="bg-[#002c3a] px-8 py-2 rounded-lg hover:bg-[#002c3a]/60"
-                  href={"/orientacoes"}
+                  href={
+                    "https://www.diariodoaco.com.br/noticia/0055656-profissional-alerta-para-necessidade--do-planejamento-financeiro-em-2018entacoes"
+                  }
                 >
                   Ler mais
                 </Link>
@@ -142,7 +144,9 @@ export default function Home() {
                 />
                 <Link
                   className="bg-[#002c3a] px-8 py-2 rounded-lg hover:bg-[#002c3a]/60"
-                  href={"/orientacoes"}
+                  href={
+                    "https://www.diariodoaco.com.br/noticia/0048093-caixa-ampliara-horario-para-atender-saques-do-fgts"
+                  }
                 >
                   Ler mais
                 </Link>
