@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import Signature from "@/components/ui/signature";
 import { ParticipantProp, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
+import DownloadButton from "@/components/ui/downloadButton";
 
 const ata = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
@@ -14,7 +15,6 @@ const ata = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  const id = user?.id as string;
   const ata = await db.ata.findUnique({
     where: {
       id: params.id,
@@ -39,7 +39,9 @@ const ata = async ({ params }: { params: { id: string } }) => {
   return (
     <main>
       {/* Header */}
-      <HeaderAta date={date} />
+      <HeaderAta date={date}>
+        <DownloadButton />
+      </HeaderAta>
       {/* Body */}
       <div className="flex flex-col items-center my-10 space-y-10">
         <div className="w-[90%] space-y-5">

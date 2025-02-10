@@ -1,11 +1,21 @@
+"use client";
 import { Download } from "lucide-react";
-import { Button } from "./button";
 
 const DownloadButton = () => {
+  const printPage = () => {
+    window.print();
+  };
   return (
-    <Button className="bg-transparent w-fit hover:bg-transparent p-2">
-      <Download color="black" size={20} />
-    </Button>
+    <button
+      onClick={printPage}
+      className="bg-transparent w-fit hover:bg-transparent p-2"
+    >
+      <Download
+        className="bg-[#D8FFE2] rounded-lg p-2"
+        size={50}
+        color="#5DA770"
+      />
+    </button>
   );
 };
 

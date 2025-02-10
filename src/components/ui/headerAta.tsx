@@ -2,7 +2,12 @@ import { dayjs } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
 
-const HeaderAta = ({ date }: { date: Date }) => {
+interface HeaderAtaProps {
+  date: Date;
+  children?: React.ReactNode;
+}
+
+const HeaderAta = ({ date, children }: HeaderAtaProps) => {
   return (
     <div className="bg-[#F0F0F0] flex justify-center items-center h-44">
       <div className="w-[90%] flex items-center">
@@ -17,6 +22,7 @@ const HeaderAta = ({ date }: { date: Date }) => {
             </span>
           </div>
         </div>
+        {children}
         <Link href={"/dashboard"}>
           <X
             className="bg-[#D8FFE2] rounded-lg m-10"

@@ -44,15 +44,11 @@ const AtasList = async () => {
                 <EditButton ataId={ata.id} />
                 <DeleteButton ataId={ata.id} />
                 <ViewButton ataId={ata.id} />
-                {/* Função de download desabilitada temporariamente */}
-                {/* <DownloadButton /> */}
                 <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <PercentSignatures ataId={ata.id} />
-                {/* Função de download desabilitada temporariamente */}
-                {/* <DownloadButton /> */}
                 <ViewButton ataId={ata.id} />
                 <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>
