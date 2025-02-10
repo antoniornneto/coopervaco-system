@@ -49,13 +49,17 @@ const SignInForm = () => {
         password: values.password,
         redirect: false,
       });
+
       toast.promise(signInData, {
         loading: "Checando credenciais...",
         success: (data) => {
           router.push("/dashboard");
           return `Login realizado`;
         },
-        error: `${signInData.then((error) => error)}`,
+        error(data) {
+          setAction(false);
+          return "E-mail ou senha incorretos.";
+        },
       });
     }, 2000);
   };
