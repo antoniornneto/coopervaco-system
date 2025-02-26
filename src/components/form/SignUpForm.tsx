@@ -43,7 +43,7 @@ const FormSchema = z
 
 const SignUpForm = () => {
   const cpfParams = useSearchParams().get("cpf") as string;
-  const inscriptionParams = useSearchParams().get("inscription");
+  // const inscriptionParams = useSearchParams().get("inscription");
   const nameParams = useSearchParams().get("name");
   const [action, setAction] = useState(false);
   const [employee, setEmployee] = useState<EmployeeProps>({
@@ -54,11 +54,16 @@ const SignUpForm = () => {
   });
   useEffect(() => {
     const response = fetch(
-      `/api/employee?cpf=${cpfParams}&inscription=${inscriptionParams}&name=${nameParams}`
+      // `/api/employee?cpf=${cpfParams}`
+      `/api/employee?cpf=${cpfParams}&name=${nameParams}`
+      // `/api/employee?cpf=${cpfParams}&inscription=${inscriptionParams}&name=${nameParams}`
     )
       .then((res) => res.json())
       .then((data) => setEmployee(data.existingEmployee));
-  }, [cpfParams, inscriptionParams, nameParams]);
+  },
+   []
+  //  [cpfParams, inscriptionParams, nameParams]
+);
 
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({

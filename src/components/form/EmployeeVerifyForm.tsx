@@ -18,12 +18,25 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
+import InputMask from "react-input-mask";
 
 const FormSchema = z.object({
-  cpf: z.string(),
-  name: z.string(),
-  inscription: z.string(),
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+  name: z.string().toUpperCase(),
+  // inscription: z.coerce.number()
 });
+
+function getNumberWithLeadingZero(number: number) {
+  let numberToString = number.toString();
+  if (numberToString <= "9999") {
+    numberToString = ("0000" + numberToString).slice(-4);
+  }
+  return numberToString;
+}
 
 const EmployeeVerify = () => {
   const [action, setAction] = useState(false);
@@ -34,41 +47,42 @@ const EmployeeVerify = () => {
     defaultValues: {
       cpf: "",
       name: "",
-      inscription: "",
+      // inscription: undefined,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const { cpf, inscription, name } = values;
+    const { 
+      // inscription, 
+      name 
+    } = values;
+    const cpfSemFormatacao = values.cpf.replace(/\D/g, "");
+    // const inscriptionFormated = getNumberWithLeadingZero(inscription)
+
     const getEmployee = await fetch(
-      `/api/employee?cpf=${cpf}&inscription=${inscription}&name=${name}`
+      `/api/employee?cpf=${cpfSemFormatacao}&name=${name}`
     );
 
     if (getEmployee.ok) {
-      const getUser = await fetch(`/api/user?cpf=${cpf}`);
+      const getUser = await fetch(`/api/user?cpf=${cpfSemFormatacao}`);
       if (getUser.ok) {
+        setAction(false)
         toast.success(
           "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
         );
         setTimeout(() => {
           router.push(
-            `/sign-up?cpf=${cpf}&inscription=${inscription}&name=${name}`
+            `/sign-up?cpf=${cpfSemFormatacao}&name=${name}`
           );
         }, 1000);
       } else {
-        toastWarning({
-          title: "ATENÇÃO",
-          description: "Funcionário já possui um cadastro",
-          style: { backgroundColor: "#f5dd42" },
-        });
+        setAction(false)
+        toast.error("Funcionário já possui um cadastro.")
       }
     } else {
-      toastWarning({
-        title: "ERRO",
-        description: "Funcionário não encontrado",
-        variant: "destructive",
-      });
+      setAction(false)
+      toast.error("Funcionário não encontrado. Verifique as informações inseridas ou entre em contato com um administrador.")
     }
   };
 
@@ -93,7 +107,15 @@ const EmployeeVerify = () => {
                 <FormItem>
                   <FormLabel className="font-bold">CPF</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="99999999999" {...field} />
+                    <InputMask
+                      mask="999.999.999-99"
+                      placeholder="000.000.000-00"
+                      value={field.value}
+                      onChange={field.onChange}
+                    >
+                      {(inputProps) => <Input {...inputProps} />}
+                    </InputMask>
+                    {/* <Input type="text" placeholder="99999999999" {...field}/> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,6 +131,7 @@ const EmployeeVerify = () => {
                     <Input
                       type="text"
                       placeholder="João Silveira Campos"
+                      className="uppercase"
                       {...field}
                     />
                   </FormControl>
@@ -116,19 +139,19 @@ const EmployeeVerify = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="inscription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">Matrícula</FormLabel>
                   <FormControl>
-                    <Input placeholder="0043" type="number" {...field} />
+                    <Input placeholder="43" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
           <div className="flex gap-4">
             <div className="flex-1">

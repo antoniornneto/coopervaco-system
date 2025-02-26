@@ -6,7 +6,7 @@ import { Employee } from "@prisma/client";
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const cpf = params.get("cpf") as string;
-  const inscription = params.get("inscription") as string;
+  // const inscription = params.get("inscription") as string;
   const name = params.get("name") as string;
 
   // checando se o funcionário existe
@@ -22,7 +22,6 @@ export async function GET(req: NextRequest) {
       where: {
         name,
         cpf,
-        inscription,
       },
     });
 
