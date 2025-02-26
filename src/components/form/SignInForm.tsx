@@ -51,13 +51,17 @@ const SignInForm = () => {
       });
       toast.promise(signInData, {
         loading: "Checando credenciais...",
-        success: (data) => {
+        success: () => {
+          setAction(false)
           router.push("/dashboard");
           return `Login realizado`;
         },
-        error: `${signInData.then((error) => error)}`,
+        error: () => {
+          setAction(false)
+          return 'E-mail ou senha incorretos.'
+        },
       });
-    }, 2000);
+    }, 1000);
   };
 
   return (
