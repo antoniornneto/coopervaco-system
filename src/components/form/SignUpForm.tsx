@@ -42,9 +42,7 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
-  const cpfParams = useSearchParams().get("cpf") as string;
-  const inscriptionParams = useSearchParams().get("inscription");
-  const nameParams = useSearchParams().get("name");
+  const cpfParams = useSearchParams().get("cpf")?.toString();
   const [action, setAction] = useState(false);
   const [employee, setEmployee] = useState<EmployeeProps>({
     cpf: undefined,
@@ -52,13 +50,22 @@ const SignUpForm = () => {
     position: undefined,
     inscription: undefined,
   });
-  useEffect(() => {
-    const response = fetch(
-      `/api/employee?cpf=${cpfParams}&inscription=${inscriptionParams}&name=${nameParams}`
+
+  async function getEmployee() {
+    const res = await fetch(
+      `/api/employee?cpf=${cpfParams}`
     )
-      .then((res) => res.json())
-      .then((data) => setEmployee(data.existingEmployee));
-  }, [cpfParams, inscriptionParams, nameParams]);
+    const req = await res.json()
+
+    setEmployee(req.data)
+  }
+
+  useEffect(()=> {
+    getEmployee()
+  },[cpfParams]);
+
+  console.log(employee)
+
 
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -114,19 +121,19 @@ const SignUpForm = () => {
           <div className="space-y-2">
             <FormItem>
               <FormLabel>CPF</FormLabel>
-              <Input defaultValue={employee.cpf} />
+              <Input type="text" defaultValue={cpfParams} />
             </FormItem>
             <FormItem>
               <FormLabel>Nome Completo</FormLabel>
-              <Input defaultValue={employee.name} />
+              <Input type="text" defaultValue={employee.name} />
             </FormItem>
             <FormItem>
               <FormLabel>Função</FormLabel>
-              <Input defaultValue={employee.position} />
+              <Input type="text" defaultValue={employee.position} />
             </FormItem>
             <FormItem>
               <FormLabel>Matrícula</FormLabel>
-              <Input defaultValue={employee.inscription} />
+              <Input type="text" defaultValue={employee.inscription} />
             </FormItem>
             <FormField
               control={form.control}

@@ -13,16 +13,18 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast as toastWarning } from "@/hooks/use-toast";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
+import InputMask from "react-input-mask";
 
 const FormSchema = z.object({
-  cpf: z.string(),
-  name: z.string(),
-  inscription: z.string(),
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
 });
 
 const EmployeeVerify = () => {
@@ -33,42 +35,34 @@ const EmployeeVerify = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       cpf: "",
-      name: "",
-      inscription: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const { cpf, inscription, name } = values;
-    const getEmployee = await fetch(
-      `/api/employee?cpf=${cpf}&inscription=${inscription}&name=${name}`
-    );
+    const { cpf } = values;
+    const reqEmployee = await fetch(`/api/employee?cpf=${cpf}`);
 
-    if (getEmployee.ok) {
-      const getUser = await fetch(`/api/user?cpf=${cpf}`);
-      if (getUser.ok) {
-        toast.success(
-          "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
-        );
-        setTimeout(() => {
-          router.push(
-            `/sign-up?cpf=${cpf}&inscription=${inscription}&name=${name}`
-          );
-        }, 1000);
-      } else {
-        toastWarning({
-          title: "ATENÇÃO",
-          description: "Funcionário já possui um cadastro",
-          style: { backgroundColor: "#f5dd42" },
-        });
-      }
-    } else {
-      toastWarning({
-        title: "ERRO",
-        description: "Funcionário não encontrado",
-        variant: "destructive",
-      });
+    const resEmployee = await reqEmployee.json();
+
+    if (reqEmployee.status === 500) {
+      setAction(false);
+      toast.warning(resEmployee.error);
+    }
+
+    if (reqEmployee.status === 409) {
+      setAction(false);
+      toast.warning(resEmployee.error);
+    }
+
+    if (reqEmployee.status === 200) {
+      setAction(false);
+      toast.success(
+        "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
+      );
+      setTimeout(() => {
+        router.push(`/sign-up?cpf=${cpf}`);
+      }, 1000);
     }
   };
 
@@ -86,20 +80,27 @@ const EmployeeVerify = () => {
           className="w-full space-y-5"
         >
           <div className="space-y-2">
-            <FormField
+          <FormField
               control={form.control}
               name="cpf"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">CPF</FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="99999999999" {...field} />
+                    <InputMask
+                      mask="999.999.999-99"
+                      placeholder="000.000.000-00"
+                      value={field.value}
+                      onChange={field.onChange}
+                    >
+                      {(inputProps) => <Input {...inputProps} />}
+                    </InputMask>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -115,8 +116,8 @@ const EmployeeVerify = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
+            /> */}
+            {/* <FormField
               control={form.control}
               name="inscription"
               render={({ field }) => (
@@ -128,7 +129,7 @@ const EmployeeVerify = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
           <div className="flex gap-4">
             <div className="flex-1">

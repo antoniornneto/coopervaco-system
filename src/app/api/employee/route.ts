@@ -4,38 +4,64 @@ import formatToIso, { dayjs } from "@/lib/utils";
 import { Employee } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
-  const params = req.nextUrl.searchParams;
-  const cpf = params.get("cpf") as string;
-  const inscription = params.get("inscription") as string;
-  const name = params.get("name") as string;
+  try {
+    const params = req.nextUrl.searchParams;
+    const cpfParams = params.get("cpf") || undefined;
 
-  // checando se o funcionário existe
-  if (name) {
-    const existingEmployee = await db.employee.findUnique({
-      where: {
-        name,
-      },
-    });
-    return NextResponse.json({ existingEmployee });
-  } else {
-    const existingEmployee = await db.employee.findUnique({
-      where: {
-        name,
-        cpf,
-        inscription,
-      },
-    });
-
-    if (!existingEmployee) {
+    if (!cpfParams) {
       return NextResponse.json(
-        { message: "Funcionário não encontrado no banco de dados." },
+        { error: "CPF não foi informado." },
+        { status: 400 }
+      );
+    }
+
+    const cpfSemFormatacao = cpfParams.replace(/\D/g, "");
+
+    console.log(cpfSemFormatacao);
+
+    const employeeIsUser = await db.user.findUnique({
+      where: {
+        cpf: cpfSemFormatacao,
+      },
+    });
+
+    if (employeeIsUser?.email !== null && employeeIsUser?.password !== null) {
+      return NextResponse.json(
+        { error: "Usuário já possui cadastro" },
         { status: 409 }
       );
     }
 
+    const existingEmployee = await db.employee.findUnique({
+      where: {
+        cpf: cpfSemFormatacao,
+      },
+    });
+
+    console.log(existingEmployee);
+
+    if (!existingEmployee) {
+      return NextResponse.json(
+        { error: "Funcionário não encontrado." },
+        { status: 404 }
+      );
+    }
+
+    const data = {
+      cpf: existingEmployee.cpf,
+      name: existingEmployee.name,
+      inscription: existingEmployee.inscription,
+      position: existingEmployee.position,
+    };
+
     return NextResponse.json(
-      { message: "Funcionário encontrado.", existingEmployee },
-      { status: 201 }
+      { message: "Funcionário encontrado.", data },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erro interno no servidor." },
+      { status: 500 }
     );
   }
 }
