@@ -25,8 +25,8 @@ const Signature = async ({ id }: { id: string }) => {
         </div>
       )}
 
-      <p className="font-semibold">{`${user?.name}`}</p>
-      <p className="text-sm text-[#989898]">Mat.: {`${user?.inscription}`}</p>
+      <p className="font-semibold text-sm">{`${user?.name}`}</p>
+      <p className="text-xs text-[#989898]">Mat.: {`${user?.inscription}`}</p>
     </div>
   );
 };

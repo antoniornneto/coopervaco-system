@@ -35,6 +35,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
     })) as UserDataProps;
     newArrayParticipants.push(user);
   }
+  
 
   return (
     <main>
@@ -45,26 +46,26 @@ const ata = async ({ params }: { params: { id: string } }) => {
       {/* Body */}
       <div className="flex flex-col items-center my-10 space-y-10">
         <div className="w-[90%] space-y-5">
-          <div className="flex flex-col gap-5">
-            <span className="text-4xl text-[#606060]">Título da Ata</span>
-            <h1 className="bg-[#F4F4F7] rounded-xl p-4 text-xl">
-              {ata?.title}
-            </h1>
-          </div>
-          <div className="flex flex-col gap-5">
-            <span className="text-4xl text-[#606060]">Pauta</span>
-            <h1 className="bg-[#F4F4F7] rounded-xl p-4 text-xl h-96">
+          <section className="flex flex-col gap-5">
+            <h2 className="text-4xl text-[#606060]">Título da Ata</h2>
+            <div className="bg-[#F4F4F7] rounded-xl p-4">
+              {`${ata?.title}`}
+            </div>
+          </section>
+          <section className="flex flex-col gap-5">
+            <h2 className="text-4xl text-[#606060]">Pauta</h2>
+            <div className="bg-[#F4F4F7] rounded-xl p-4 whitespace-pre-line min-h-80">
               {ata?.topics}
-            </h1>
-          </div>
-          <div className="flex flex-col gap-5">
-            <span className="text-4xl text-[#606060]">
+            </div>
+          </section>
+          <section className="flex flex-col gap-5">
+            <h2 className="text-4xl text-[#606060]">
               Discussões aprovadas
-            </span>
-            <h1 className="bg-[#F4F4F7] rounded-xl p-4 text-xl h-96">
+            </h2>
+            <div className="bg-[#F4F4F7] rounded-xl p-4 whitespace-pre-line min-h-80">
               {ata?.approved_topics}
-            </h1>
-          </div>
+            </div>
+          </section>
         </div>
         {/* Footer */}
         <div className="flex flex-col w-[90%] space-y-5">
@@ -82,8 +83,8 @@ const ata = async ({ params }: { params: { id: string } }) => {
                     <CircleOff />
                     <span>Assinatura Pendente</span>
                   </div>
-                  <span className="font-semibold">{participant.name}</span>
-                  <span className="text-sm text-[#989898]">
+                  <span className="font-semibold text-sm">{participant.name}</span>
+                  <span className="text-xs text-[#989898]">
                     Mat.: {participant.inscription}
                   </span>
                 </div>
