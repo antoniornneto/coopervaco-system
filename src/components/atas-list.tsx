@@ -2,8 +2,7 @@ import { dayjs } from "@/lib/utils";
 import DeleteButton from "./ui/deleteButton";
 import { db } from "@/lib/db";
 import ViewButton from "./ui/viewButton";
-import EditButton from "./ui/editButton";
-import DownloadButton from "./ui/downloadButton";
+import EditButton from "./ui/editButton"
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import SignAta from "./ui/signAta";
@@ -44,15 +43,11 @@ const AtasList = async () => {
                 <EditButton ataId={ata.id} />
                 <DeleteButton ataId={ata.id} />
                 <ViewButton ataId={ata.id} />
-                {/* Função de download desabilitada temporariamente */}
-                {/* <DownloadButton /> */}
                 <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>
             ) : (
               <div className="flex items-center gap-2">
                 <PercentSignatures ataId={ata.id} />
-                {/* Função de download desabilitada temporariamente */}
-                {/* <DownloadButton /> */}
                 <ViewButton ataId={ata.id} />
                 <SignAta atas={ataWithUser} ataId={ata.id} />
               </div>

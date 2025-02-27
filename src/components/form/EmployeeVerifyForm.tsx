@@ -13,7 +13,6 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast as toastWarning } from "@/hooks/use-toast";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
@@ -26,17 +25,7 @@ const FormSchema = z.object({
     .min(14, "CPF inválido")
     .max(14, "CPF inválido")
     .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
-  name: z.string().toUpperCase(),
-  // inscription: z.coerce.number()
 });
-
-function getNumberWithLeadingZero(number: number) {
-  let numberToString = number.toString();
-  if (numberToString <= "9999") {
-    numberToString = ("0000" + numberToString).slice(-4);
-  }
-  return numberToString;
-}
 
 const EmployeeVerify = () => {
   const [action, setAction] = useState(false);
@@ -46,43 +35,34 @@ const EmployeeVerify = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       cpf: "",
-      name: "",
-      // inscription: undefined,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const { 
-      // inscription, 
-      name 
-    } = values;
-    const cpfSemFormatacao = values.cpf.replace(/\D/g, "");
-    // const inscriptionFormated = getNumberWithLeadingZero(inscription)
+    const { cpf } = values;
+    const reqEmployee = await fetch(`/api/employee?cpf=${cpf}`);
 
-    const getEmployee = await fetch(
-      `/api/employee?cpf=${cpfSemFormatacao}&name=${name}`
-    );
+    const resEmployee = await reqEmployee.json();
 
-    if (getEmployee.ok) {
-      const getUser = await fetch(`/api/user?cpf=${cpfSemFormatacao}`);
-      if (getUser.ok) {
-        setAction(false)
-        toast.success(
-          "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
-        );
-        setTimeout(() => {
-          router.push(
-            `/sign-up?cpf=${cpfSemFormatacao}&name=${name}`
-          );
-        }, 1000);
-      } else {
-        setAction(false)
-        toast.error("Funcionário já possui um cadastro.")
-      }
-    } else {
-      setAction(false)
-      toast.error("Funcionário não encontrado. Verifique as informações inseridas ou entre em contato com um administrador.")
+    if (reqEmployee.status === 500) {
+      setAction(false);
+      toast.warning(resEmployee.error);
+    }
+
+    if (reqEmployee.status === 409) {
+      setAction(false);
+      toast.warning(resEmployee.error);
+    }
+
+    if (reqEmployee.status === 200) {
+      setAction(false);
+      toast.success(
+        "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
+      );
+      setTimeout(() => {
+        router.push(`/sign-up?cpf=${cpf}`);
+      }, 1000);
     }
   };
 
@@ -100,7 +80,7 @@ const EmployeeVerify = () => {
           className="w-full space-y-5"
         >
           <div className="space-y-2">
-            <FormField
+          <FormField
               control={form.control}
               name="cpf"
               render={({ field }) => (
@@ -115,13 +95,12 @@ const EmployeeVerify = () => {
                     >
                       {(inputProps) => <Input {...inputProps} />}
                     </InputMask>
-                    {/* <Input type="text" placeholder="99999999999" {...field}/> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -131,14 +110,13 @@ const EmployeeVerify = () => {
                     <Input
                       type="text"
                       placeholder="João Silveira Campos"
-                      className="uppercase"
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             {/* <FormField
               control={form.control}
               name="inscription"
@@ -146,7 +124,7 @@ const EmployeeVerify = () => {
                 <FormItem>
                   <FormLabel className="font-bold">Matrícula</FormLabel>
                   <FormControl>
-                    <Input placeholder="43" type="number" {...field} />
+                    <Input placeholder="0043" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

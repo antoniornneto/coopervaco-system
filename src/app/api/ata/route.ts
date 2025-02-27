@@ -1,11 +1,17 @@
 import { db } from "@/lib/db";
-import { Ata } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const atas = await db.ata.findMany();
+  try {
+    const atas = await db.ata.findMany();
 
-  return NextResponse.json({ atas }, { status: 200 });
+    if (!atas)
+      return NextResponse.json({ message: "Not found" }, { status: 400 });
+
+    return NextResponse.json({ atas }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(error);
+  }
 }
 
 export async function POST(req: NextRequest) {

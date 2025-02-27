@@ -1,10 +1,18 @@
-import { Download } from "lucide-react";
+"use client";
+import { PrinterIcon } from "lucide-react";
 import { Button } from "./button";
 
 const DownloadButton = () => {
+  const printPage = () => {
+    window.print();
+  };
   return (
-    <Button className="bg-transparent w-fit hover:bg-transparent p-2">
-      <Download color="black" size={20} />
+    <Button
+      onClick={printPage}
+      className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit flex gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]"
+    >
+      <PrinterIcon size={20} />
+      Imprimir
     </Button>
   );
 };
