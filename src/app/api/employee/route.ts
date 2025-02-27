@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const params = req.nextUrl.searchParams;
     const cpfParams = params.get("cpf") || undefined;
 
+
     if (!cpfParams) {
       return NextResponse.json(
         { error: "CPF não foi informado." },
@@ -34,6 +35,7 @@ export async function GET(req: NextRequest) {
 
     const existingEmployee = await db.employee.findUnique({
       where: {
+
         cpf: cpfSemFormatacao,
       },
     });
