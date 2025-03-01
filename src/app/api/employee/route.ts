@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    if (employeeIsUser?.email !== null && employeeIsUser?.password !== null) {
+    // Checando se existe password para decidir se o usário pode criar o cadastro
+    if (employeeIsUser?.password !== null) {
       return NextResponse.json(
         { error: "Usuário já possui cadastro." },
         { status: 409 }
