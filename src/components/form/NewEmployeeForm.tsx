@@ -13,20 +13,21 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { toast as toastWarning } from "@/hooks/use-toast";
-import { toast } from "sonner";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
+import InputMask from "react-input-mask";
+import { FetchAPI, formatedData, HandleError } from "@/lib/utils";
 
 const FormSchema = z.object({
-  cpf: z.string().min(11, "Preencha o campo corretamente"),
-  name: z.string().min(10, "Preencha com o nome completo"),
-  inscription: z
+  cpf: z
     .string()
-    .min(4, "Preencha com no mínimo 4 caracteres")
-    .max(4, "Preencha com no máximo 4 caracteres"),
-  birthday: z.string(),
-  position: z.string(),
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+  name: z.coerce.string().min(10, "Preencha com o nome completo"),
+  inscription: z.coerce.string().min(1),
+  email: z.coerce.string(),
+  position: z.coerce.string(),
 });
 
 const NewEmployeeForm = () => {
@@ -37,38 +38,37 @@ const NewEmployeeForm = () => {
       cpf: "",
       name: "",
       inscription: "",
-      birthday: "",
+      email: "",
       position: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const createEmployee = await fetch("/api/employee", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cpf: values.cpf,
-        name: values.name,
-        inscription: values.inscription,
-        birhtday: values.birthday,
-        position: values.position,
-      }),
+    
+    const { cpf, name, inscription, email, position } = values;
+
+    const data = await formatedData({
+      name,
+      cpf,
+      email,
+      inscription,
+      position,
     });
 
-    const responseJSON = await createEmployee.json().then((res) => res);
+    const callAPIRequest = await FetchAPI({
+      path: "/api/employee",
+      method: "POST",
+      data,
+    });
 
-    if (!createEmployee.ok) {
-      toastWarning({
-        title: "Error",
-        description: `${JSON.stringify(responseJSON.message)}`,
-        variant: "destructive",
-      });
-    } else {
-      toast.success(`${JSON.stringify(responseJSON.message)}`);
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
+    if(callAPIRequest.ok) {
+      location.reload()
+    }
+    
+
+    if(!callAPIRequest.ok) {
+      setAction(false);
     }
   };
 
@@ -81,9 +81,16 @@ const NewEmployeeForm = () => {
             name="cpf"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>CPF:</FormLabel>
+                <FormLabel className="font-bold">CPF</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: 99999999999" {...field} />
+                  <InputMask
+                    mask="999.999.999-99"
+                    placeholder="000.000.000-00"
+                    value={field.value}
+                    onChange={field.onChange}
+                  >
+                    {(inputProps) => <Input {...inputProps} />}
+                  </InputMask>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,7 +103,11 @@ const NewEmployeeForm = () => {
               <FormItem>
                 <FormLabel>Nome Completo:</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: José Pinheiro da Silva" {...field} />
+                  <Input
+                    placeholder="José Pinheiro da Silva"
+                    {...field}
+                    className="uppercase"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,7 +120,7 @@ const NewEmployeeForm = () => {
               <FormItem>
                 <FormLabel>Matrícula:</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: 0094" {...field} />
+                  <Input placeholder="94" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -117,12 +128,17 @@ const NewEmployeeForm = () => {
           />
           <FormField
             control={form.control}
-            name="birthday"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Data de nascimento:</FormLabel>
+                <FormLabel>E-mail:</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="email@mail.com"
+                    {...field}
+                    className="lowercase"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,7 +151,11 @@ const NewEmployeeForm = () => {
               <FormItem>
                 <FormLabel>Função:</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: Presidente Diretor" {...field} />
+                  <Input
+                    placeholder="Presidente Diretor"
+                    {...field}
+                    className="uppercase"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

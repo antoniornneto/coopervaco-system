@@ -12,7 +12,9 @@ const Signature = async ({ id }: { id: string }) => {
   return (
     <div className="flex flex-col items-center w-72 h-40">
       {user?.signature === null ? (
+        <>
         <FileSignature className="flex-1" />
+        </>
       ) : (
         <div className="w-40 h-32 relative">
           <Image
