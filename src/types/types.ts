@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type SessionUserProps =
   | {
       userId: string;
@@ -7,6 +9,30 @@ export type SessionUserProps =
       role: string;
     }
   | undefined;
+
+export interface HandleErrorParams {
+  response: Response;
+  responseBody: { message: string; status?: number };
+}
+
+export interface EmailTemplateProps {
+  titleAta: string;
+  date: string;
+}
+
+export interface FetchAPIParams {
+  path: string;
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  data?: Record<string, unknown>;
+}
+
+export type FormatedDataParams = {
+  cpf: string | null;
+  name: string | null;
+  position: string | null;
+  email: string | null;
+  inscription: string | null;
+};
 
 export type EmployeeDataProps = {
   id: string;

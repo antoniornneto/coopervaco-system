@@ -15,18 +15,22 @@ import LoadingButton from "../ui/loadingButton";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { SessionUserProps, EmployeeDataProps } from "@/types/types";
-import dayjs from "dayjs";
 import { toast } from "sonner";
 import SignatureCanvas from "react-signature-canvas";
 import Image from "next/image";
+import { FetchAPI, formatedData } from "@/lib/utils";
+import InputMask from "react-input-mask";
 
 const FormSchema = z.object({
-  cpf: z.string(),
-  name: z.string(),
-  inscription: z.string(),
-  birthday: z.string(),
-  position: z.string(),
-  email: z.string().email(),
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+  name: z.coerce.string(),
+  inscription: z.coerce.string().min(1),
+  position: z.coerce.string(),
+  email: z.coerce.string().email(),
 });
 
 const ProfileForm = ({
@@ -84,34 +88,30 @@ const ProfileForm = ({
       inscription: employeeData?.inscription,
       position: employeeData?.position,
       email: userSession?.email,
-      birthday: dayjs(employeeData?.birthday).format("DD/MM/YYYY"),
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    const req = await fetch(`/api/employee`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cpf: values.cpf,
-        name: values.name,
-        inscription: values.inscription,
-        birthday: values.birthday,
-        position: values.position,
-        email: values.email,
-      }),
+
+    const { name, cpf, email, inscription, position } = values;
+
+    const data = await formatedData({
+      name,
+      cpf,
+      email,
+      inscription,
+      position,
     });
-    const resJSON = await req.json().then((res) => res);
 
-    if (req.ok) {
-      toast.success(`${resJSON.message}`);
+    const callAPIRequest = await FetchAPI({
+      path: "/api/employee",
+      method: "PUT",
+      data,
+    });
 
-      setTimeout(() => {
-        location.reload();
-      }, 700);
-    } else {
-      toast.error(`${resJSON.message}`);
+    if (!callAPIRequest.ok) {
+      setAction(false);
     }
   };
 
@@ -127,11 +127,14 @@ const ProfileForm = ({
                 <FormItem>
                   <FormLabel className="font-bold">CPF</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      defaultValue={employeeData?.cpf}
-                      {...field}
-                    />
+                    <InputMask
+                      mask="999.999.999-99"
+                      placeholder="000.000.000-00"
+                      value={field.value}
+                      onChange={field.onChange}
+                    >
+                      {(inputProps) => <Input {...inputProps} />}
+                    </InputMask>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,6 +150,7 @@ const ProfileForm = ({
                     <Input
                       type="email"
                       defaultValue={userSession?.email}
+                      className="lowercase"
                       {...field}
                     />
                   </FormControl>
@@ -164,6 +168,7 @@ const ProfileForm = ({
                     <Input
                       type="text"
                       defaultValue={employeeData?.name}
+                      className="uppercase"
                       {...field}
                     />
                   </FormControl>
@@ -205,7 +210,7 @@ const ProfileForm = ({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="birthday"
               render={({ field }) => (
@@ -225,9 +230,9 @@ const ProfileForm = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="font-bold text-sm flex flex-col gap-2">
-              Assinatura:
+              <p>Assinatura:</p>
               <div className="space-y-4">
                 <div className="border-[1px] border-slate-200 rounded-lg">
                   <SignatureCanvas

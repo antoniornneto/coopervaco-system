@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import formatToIso, { dayjs } from "@/lib/utils";
 
 const FormSchema = z.object({
   id: z.string(),
@@ -24,6 +25,12 @@ const FormSchema = z.object({
 const NewAtaForm = () => {
   const { ataId } = useParams();
   const router = useRouter();
+
+  const getParticipantsData = async () => {
+    const req = await fetch(`/api/ata/${ataId}`);
+    const res = await req.json();
+    return res;
+  };
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,6 +56,26 @@ const NewAtaForm = () => {
         }),
       });
 
+      updateAta.finally(async () => {
+        const data = await getParticipantsData();
+        const date = dayjs(data?.ata.createdAt).format("DD/MM/YYYY");
+        const emails = data.ata.participants.map(
+          (participant: { email: string }) => participant.email
+        );
+
+        const newEmailBody = {
+          date: date,
+          title: data.ata.title,
+          mails: emails
+        }
+
+        fetch("/api/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newEmailBody)
+        })
+      });
+
       toast.promise(updateAta, {
         loading: "Criando ata...",
         success: (data) => {
@@ -61,7 +88,7 @@ const NewAtaForm = () => {
   };
 
   const cancel = async () => {
-    const req = await fetch(`/api/ata/${ataId}`, {
+    await fetch(`/api/ata/${ataId}`, {
       method: "DELETE",
     });
 

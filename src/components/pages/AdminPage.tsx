@@ -23,7 +23,7 @@ const AdminPage = async ({ id }: { id: string | undefined }) => {
       <HeaderSystem />
       {/* topo da página */}
       <div>
-        <div className="bg-[#F0F0F0] w-full flex justify-center">
+        <div className="bg-[#F0F0F0] w-full flex flex-col justify-center p-5">
           <SignatureAlert id={id} />
           <div className="w-[90%] h-32 flex items-center gap-2 md:flex-col md:h-fit md:py-2">
             <h1 className="text-4xl md:text-3xl">Atas de Reuniões</h1>

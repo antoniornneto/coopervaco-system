@@ -15,26 +15,22 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const cpfSemFormatacao = cpfParams.replace(/\D/g, "");
-
-    console.log(cpfSemFormatacao);
-
     const employeeIsUser = await db.user.findUnique({
       where: {
-        cpf: cpfSemFormatacao,
+        cpf: cpfParams,
       },
     });
 
     if (employeeIsUser?.email !== null && employeeIsUser?.password !== null) {
       return NextResponse.json(
-        { error: "Usuário já possui cadastro" },
+        { error: "Usuário já possui cadastro." },
         { status: 409 }
       );
     }
 
     const existingEmployee = await db.employee.findUnique({
       where: {
-        cpf: cpfSemFormatacao,
+        cpf: cpfParams,
       },
     });
 
@@ -68,80 +64,94 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: Request) {
   const body: Employee = await req.json();
-  const birthdayDate = dayjs(body.birthday).toISOString();
 
-  // checando se o CPF já existe para outro usuário
-  const existingEmployeeByCpf = await db.employee.findUnique({
-    where: {
-      cpf: body.cpf,
-    },
-  });
-  if (existingEmployeeByCpf) {
-    return NextResponse.json(
-      { message: "Já existe um funcionário cadastrado com esse CPF" },
-      { status: 409 }
-    );
-  }
+  try {
+    // checando se o CPF já existe para outro usuário
+    const existingEmployeeByCpf = await db.employee.findUnique({
+      where: {
+        cpf: body.cpf,
+      },
+    });
+    if (existingEmployeeByCpf) {
+      return NextResponse.json(
+        { message: "CPF cadastrado em outro(a) usuário(a)." },
+        { status: 409 }
+      );
+    }
 
-  // checando se o nome já existe para outro usuário
-  const existingEmployeeByName = await db.employee.findUnique({
-    where: {
-      name: body.name,
-    },
-  });
-  if (existingEmployeeByName) {
-    return NextResponse.json(
-      { message: "Já existe um funcionário cadastrado com esse nome" },
-      { status: 409 }
-    );
-  }
+    // checando se o nome já existe para outro usuário
+    const existingEmployeeByName = await db.employee.findUnique({
+      where: {
+        name: body.name,
+      },
+    });
+    if (existingEmployeeByName) {
+      return NextResponse.json(
+        { message: "NOME cadastrado em outro(a) usuário(a)." },
+        { status: 409 }
+      );
+    }
 
-  // checando se a matricula já existe para outro usuário
-  const existingEmployeeByInscription = await db.employee.findUnique({
-    where: {
-      inscription: body.inscription,
-    },
-  });
+    // checando se a matricula já existe para outro usuário
+    const existingEmployeeByInscription = await db.employee.findUnique({
+      where: {
+        inscription: body.inscription,
+      },
+    });
 
-  if (existingEmployeeByInscription) {
-    return NextResponse.json(
-      { message: "Já existe um funcionário cadastrado com essa matrícula" },
-      { status: 409 }
-    );
-  }
+    if (existingEmployeeByInscription) {
+      return NextResponse.json(
+        { message: "MATRÍCULA cadastrada em outro(a) usuário(a)." },
+        { status: 409 }
+      );
+    }
 
-  const newEmployee = await db.employee.create({
-    data: {
-      cpf: body.cpf,
-      name: body.name,
-      inscription: body.inscription,
-      birthday: birthdayDate,
-      position: body.position,
-      user: {
-        create: {
-          cpf: body.cpf,
-          name: body.name,
-          inscription: body.inscription,
-          image: "",
+    const existingEmployeeByEmail = await db.employee.findUnique({
+      where: {
+        email: body.email,
+      },
+    });
+
+    if (existingEmployeeByEmail) {
+      return NextResponse.json(
+        { message: "EMAIL cadastrado em outro(a) usuário(a)." },
+        { status: 409 }
+      );
+    }
+
+    const newEmployee = await db.employee.create({
+      data: {
+        cpf: body.cpf,
+        name: body.name,
+        inscription: body.inscription,
+        position: body.position,
+        email: body.email,
+        user: {
+          create: {
+            cpf: body.cpf,
+            name: body.name,
+            inscription: body.inscription,
+            image: "",
+            email: body.email,
+          },
         },
       },
-    },
-  });
+    });
 
-  return NextResponse.json(
-    { newEmployee, message: "Funcionário cadastrado com sucesso" },
-    { status: 201 }
-  );
+    return NextResponse.json(
+      { newEmployee, message: "Funcionário cadastrado com sucesso" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
+  }
 }
 
 export async function PUT(req: Request) {
-  const { cpf, name, inscription, birthday, position, email } =
-    await req.json();
-  const date: string = birthday;
-  const newDate = formatToIso(date);
+  const { cpf, name, inscription, position, email } = await req.json();
 
   try {
-    const updateEmployee = await db.employee.update({
+    await db.employee.update({
       where: {
         cpf,
       },
@@ -149,11 +159,11 @@ export async function PUT(req: Request) {
         name,
         inscription,
         position,
-        birthday: newDate,
+        email,
       },
     });
 
-    const updateUser = await db.user.update({
+    const teste = await db.user.update({
       where: {
         cpf,
       },
@@ -163,9 +173,12 @@ export async function PUT(req: Request) {
         inscription,
       },
     });
-    return NextResponse.json({ message: "Dados atualizados" }, { status: 200 });
+
+    return NextResponse.json(
+      { message: "Cadastro atualizado!" },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: error }, { status: 400 });
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }

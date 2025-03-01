@@ -1,7 +1,7 @@
 import { dayjs } from "@/lib/utils";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { X } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./button";
 
@@ -17,7 +17,8 @@ const HeaderAta = ({ date, children }: HeaderAtaProps) => {
   const dataUtc = date
   const brazilDate = dayjs(dataUtc).tz("America/Sao_Paulo").locale("pt-br")
   const formatedDate = brazilDate.format("D [de] MMMM, YYYY")
-  const formatedHour = brazilDate.format("HH:MM")
+  const formatedHour = brazilDate.format("HH:mm")
+
   return (
     <div className="bg-[#F0F0F0] flex justify-center items-center h-44">
       <div className="w-[90%] flex items-center">
@@ -30,10 +31,11 @@ const HeaderAta = ({ date, children }: HeaderAtaProps) => {
           </div>
         </div>
         {children}
-        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit ml-3 hover:text-[#D8FFE2] hover:bg-[#5DA770]">
+        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit ml-3 hover:text-[#D8FFE2] hover:bg-[#5DA770] fill-[#D8FFE2] hover:fill-[#5DA770]">
           <Link href={"/dashboard"} className="flex gap-2">
-            <X size={20} className="fill-[#5DA770] hover:fill-[#D8FFE2]" />
-            Fechar
+          <ArrowLeft size={20} />
+            {/* <X  size={20} className="fill-[#5DA770] hover:fill-[#D8FFE2]"/> */}
+            Voltar
           </Link>
         </Button>
       </div>
