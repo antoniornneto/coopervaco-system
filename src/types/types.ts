@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export type SessionUserProps =
   | {
       userId: string;
@@ -39,11 +37,10 @@ export type EmployeeDataProps = {
   cpf: string;
   name: string;
   inscription: string;
-  birthday: Date;
   position: string;
   createdAt: Date;
   updatedAt: Date;
-} | null;
+};
 
 export type AtasDataProps = {
   id: string;
