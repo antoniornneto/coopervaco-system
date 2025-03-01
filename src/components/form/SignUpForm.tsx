@@ -25,6 +25,7 @@ interface EmployeeProps {
   name: string | undefined;
   inscription: string | undefined;
   position: string | undefined;
+  email: string | undefined
 }
 
 const FormSchema = z
@@ -49,6 +50,7 @@ const SignUpForm = () => {
     name: undefined,
     position: undefined,
     inscription: undefined,
+    email: undefined
   });
 
   async function getEmployee() {
@@ -141,7 +143,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="mail@coopervaco.com" {...field} />
+                    <Input placeholder="mail@coopervaco.com" {...field} defaultValue={employee.email} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
