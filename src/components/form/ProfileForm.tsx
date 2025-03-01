@@ -32,13 +32,23 @@ const FormSchema = z.object({
   position: z.coerce.string(),
   email: z.coerce.string().email(),
 });
+type employeeData = {
+  id: string;
+  cpf: string;
+  name: string;
+  inscription: string;
+  position: string | null;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+} | null
 
 const ProfileForm = ({
   userSession,
   employeeData,
 }: {
   userSession: SessionUserProps;
-  employeeData: EmployeeDataProps;
+  employeeData:employeeData;
 }) => {
   const [action, setAction] = useState(false);
   const [modal, setModal] = useState(false);
@@ -86,7 +96,7 @@ const ProfileForm = ({
       cpf: employeeData?.cpf,
       name: employeeData?.name,
       inscription: employeeData?.inscription,
-      position: employeeData?.position,
+      position: employeeData?.position!,
       email: userSession?.email,
     },
   });
@@ -201,7 +211,7 @@ const ProfileForm = ({
                   <FormLabel className="font-bold">Função</FormLabel>
                   <FormControl>
                     <Input
-                      defaultValue={employeeData?.position}
+                      defaultValue={employeeData?.position!}
                       type="text"
                       {...field}
                     />
