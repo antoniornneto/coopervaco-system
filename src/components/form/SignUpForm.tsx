@@ -30,6 +30,11 @@ interface EmployeeProps {
 
 const FormSchema = z
   .object({
+    cpf: z
+        .string()
+        .min(14, "CPF inválido")
+        .max(14, "CPF inválido")
+        .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
     name: z.string().min(1, "O nome é obrigatório"),
     position: z.string().min(1, "A função é obrigatória"),
     inscription: z.string().min(1, "A matrícula é obrigatória"),
@@ -100,7 +105,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[450px]">
       <p>
         Verifique os seus dados abaixo e cadastre uma senha para criar o
         seu usuário de login na plataforma:
@@ -109,37 +114,27 @@ const SignUpForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-5"
+          className="w-full space-y-5 mt-0"
         >
-          <FormItem>
-            <FormLabel>CPF</FormLabel>
-            <Input type="text" defaultValue={cpfParams} disabled />
-          </FormItem>
-
-          {["name", "position", "inscription", "email"].map((field) => (
+          {["cpf", "name", "position", "inscription", "email"].map((field) => (
             <FormField
               key={field}
               control={form.control}
-              name={field as "name" | "position" | "inscription" | "email"}
+              name={field as "cpf" | "name" | "position" | "inscription" | "email"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    {field.name === "name"
-                      ? "Nome Completo"
-                      : field.name === "position"
-                      ? "Função"
-                      : field.name === "inscription"
-                      ? "Matrícula"
-                      : "Email"}
+                  <FormLabel className="font-bold">
+                    {field.name === "name"? "Nome Completo" : field.name === "position" ? "Função" : field.name === "inscription" ? "Matrícula" : field.name === "cpf" ? "CPF" : "Email"}
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       className={
-                        field.name === "name" || field.name === "position"
+                        `${field.name === "name" || field.name === "position"
                           ? `uppercase`
-                          : `lowercase`
+                          : `lowercase`}`
                       }
+                      disabled={field.name=== "cpf"? true : false}
                     />
                   </FormControl>
                   <FormMessage />
@@ -167,13 +162,13 @@ const SignUpForm = () => {
             />
           ))}
 
-          <div className="flex items-center gap-4">
-            <div className="flex-1">
+          <div className="flex items-center gap-4 md:flex-col">
+            <div className="flex-1 md:w-full">
               {action ? (
                 <LoadingButton width="w-full" />
               ) : (
                 <Button
-                  className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                  className="bg-[#5DA770] w-full hover:bg-[#5DA770]/80"
                   type="submit"
                 >
                   Cadastrar

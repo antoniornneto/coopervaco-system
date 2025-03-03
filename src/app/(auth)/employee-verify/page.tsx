@@ -34,7 +34,7 @@ const page = () => {
             alt="logo da cooperativa"
             className="hidden md:w-72 md:block"
           />
-          <div className="w-96 h-fit">
+          <div className="max-w-96 px-4 h-fit">
             <EmployeeVerify />
           </div>
         </div>
