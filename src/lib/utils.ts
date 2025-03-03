@@ -23,7 +23,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Midia
+// Media
 export const logoCooperativaX = logoH;
 export const logoCooperativaY = logoV;
 export const backgroundImage = bgImage;
@@ -87,13 +87,27 @@ export const formatedData = async ({
   position,
   email,
   inscription,
+  password,
 }: FormatedDataParams) => {
   const nameToUpper = await name?.toUpperCase();
   const positionToUpper = await position?.toUpperCase();
   const emailToLower = await email?.toLowerCase();
   const formatedInscription = await inscription?.toString().padStart(4, "0");
 
-  const data = {
+  let data = {};
+
+  if (password) {
+    return (data = {
+      cpf: cpf,
+      name: nameToUpper,
+      position: positionToUpper,
+      email: emailToLower,
+      inscription: formatedInscription,
+      password,
+    });
+  }
+
+  data = {
     cpf: cpf,
     name: nameToUpper,
     position: positionToUpper,
@@ -119,6 +133,10 @@ export const HandleError = async ({
   if (response.status === 201) {
     toast.success(responseBody.message);
     return;
+  }
+
+  if (response.status === 404) {
+    return toast.error(responseBody.message);
   }
 
   if (response.status === 409) {

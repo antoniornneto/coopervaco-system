@@ -25,11 +25,12 @@ export interface FetchAPIParams {
 }
 
 export type FormatedDataParams = {
-  cpf: string | null;
-  name: string | null;
-  position: string | null;
-  email: string | null;
-  inscription: string | null;
+  cpf?: string;
+  name?: string;
+  position?: string;
+  email?: string;
+  inscription?: string;
+  password?: string;
 };
 
 export type EmployeeDataProps = {

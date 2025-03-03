@@ -1,6 +1,5 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import formatToIso, { dayjs } from "@/lib/utils";
 import { Employee } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
@@ -10,7 +9,7 @@ export async function GET(req: NextRequest) {
 
     if (!cpfParams) {
       return NextResponse.json(
-        { error: "CPF não foi informado." },
+        { message: "CPF não foi informado." },
         { status: 400 }
       );
     }
@@ -21,9 +20,20 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    if (employeeIsUser?.email !== null && employeeIsUser?.password !== null) {
+    if (!employeeIsUser) {
       return NextResponse.json(
-        { error: "Usuário já possui cadastro." },
+        {
+          message:
+            "Usuário não encontrado, entre em contato com os administradores.",
+        },
+        { status: 404 }
+      );
+    }
+
+    // Checando se existe password para decidir se o usário pode criar o cadastro
+    if (employeeIsUser?.password !== null) {
+      return NextResponse.json(
+        { message: "Usuário já possui cadastro." },
         { status: 409 }
       );
     }
@@ -34,11 +44,9 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(existingEmployee);
-
     if (!existingEmployee) {
       return NextResponse.json(
-        { error: "Funcionário não encontrado." },
+        { message: "Funcionário não encontrado." },
         { status: 404 }
       );
     }
@@ -48,6 +56,7 @@ export async function GET(req: NextRequest) {
       name: existingEmployee.name,
       inscription: existingEmployee.inscription,
       position: existingEmployee.position,
+      email: existingEmployee.email,
     };
 
     return NextResponse.json(
@@ -55,10 +64,7 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erro interno no servidor." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -143,7 +149,7 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -179,6 +185,6 @@ export async function PUT(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
