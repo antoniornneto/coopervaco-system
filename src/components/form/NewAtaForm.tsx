@@ -69,11 +69,12 @@ const NewAtaForm = () => {
           mails: emails
         }
 
-        fetch("/api/send", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newEmailBody)
-        })
+        // ENVIANDO NOTIFICAÇÃO VIA E-MAIL
+        // fetch("/api/send", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify(newEmailBody)
+        // })
       });
 
       toast.promise(updateAta, {
