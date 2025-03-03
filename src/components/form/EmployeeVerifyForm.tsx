@@ -13,11 +13,11 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 import InputMask from "react-input-mask";
+import { FetchAPI } from "@/lib/utils";
 
 const FormSchema = z.object({
   cpf: z
@@ -41,28 +41,18 @@ const EmployeeVerify = () => {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
     const { cpf } = values;
-    const reqEmployee = await fetch(`/api/employee?cpf=${cpf}`);
 
-    const resEmployee = await reqEmployee.json();
+    const callAPIRequest = await FetchAPI({
+      method: "GET",
+      path: `/api/employee?cpf=${cpf}`
+    });
 
-    if (reqEmployee.status === 500) {
-      setAction(false);
-      toast.warning(resEmployee.error);
+    if(callAPIRequest.ok) {
+      router.push(`/sign-up?cpf=${cpf}`)
     }
-
-    if (reqEmployee.status === 409) {
+    
+    if(!callAPIRequest.ok) {
       setAction(false);
-      toast.warning(resEmployee.error);
-    }
-
-    if (reqEmployee.status === 200) {
-      setAction(false);
-      toast.success(
-        "Funcionário encontrado. Aguarde enquanto te redirecionamos..."
-      );
-      setTimeout(() => {
-        router.push(`/sign-up?cpf=${cpf}`);
-      }, 1000);
     }
   };
 
@@ -80,7 +70,7 @@ const EmployeeVerify = () => {
           className="w-full space-y-5"
         >
           <div className="space-y-2">
-          <FormField
+            <FormField
               control={form.control}
               name="cpf"
               render={({ field }) => (

@@ -6,10 +6,15 @@ import * as z from "zod";
 
 // Schema de validação
 const userSchema = z.object({
-  cpf: z.string(),
-  name: z.string(),
-  email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
-  inscription: z.string(),
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+  name: z.coerce.string().min(10, "Preencha com o nome completo"),
+  inscription: z.coerce.string().min(1),
+  email: z.coerce.string(),
+  position: z.coerce.string(),
   password: z
     .string()
     .min(1, "Senha é obrigatório")
@@ -56,10 +61,11 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { cpf, name, email, password, inscription } = userSchema.parse(body);
+    const { cpf, name, email, password, position, inscription } =
+      userSchema.parse(body);
     const hashPassword = await hash(password, 10);
 
-    const newUser = await db.employee.update({
+    await db.employee.update({
       where: {
         cpf,
       },
@@ -73,28 +79,24 @@ export async function POST(req: NextRequest) {
             password: hashPassword,
           },
         },
-      },
-    });
-
-    const user = await db.user.findUnique({
-      where: {
+        name,
+        position,
+        inscription,
         email,
       },
     });
 
-    const { password: newUserPassword, ...userWithOutPassword } = user as User;
-
     return NextResponse.json(
       {
-        user: userWithOutPassword,
-        message: "Conta de usuário criada com sucesso",
+        message: "Conta criada com sucesso.",
       },
       { status: 201 }
     );
   } catch (error) {
     return NextResponse.json(
       {
-        message: "Algo deu errado",
+        message:
+          "Desculpe, tivemos um problema no servidor. Contate o administrador.",
         error,
       },
       { status: 500 }

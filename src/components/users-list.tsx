@@ -8,12 +8,8 @@ import LoadingButton from "./ui/loadingButton";
 import { UsersDataProps, UserProp } from "@/types/types";
 
 const UsersList = ({ users }: { users: UsersDataProps }) => {
-  console.log(users)
   const [action, setAction] = useState(false);
   const [participants, setParticipants] = useState<UserProp>([]);
-  console.log(participants);
-  
-  
 
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;

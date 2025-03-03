@@ -5,7 +5,6 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  console.log(params.id);
   const getAta = await db.ata.findUnique({
     where: {
       id: params.id,
