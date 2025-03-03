@@ -143,12 +143,12 @@ export default function Header() {
 
       <div
         className={clsx(
-          "fixed h-full w-screen bg-black/50 backdrop-blur-sm left-0 top-0 hidden md:flex -translate-x-full transition-all",
+          "fixed h-full w-screen bg-black/50 backdrop-blur-sm left-0 top-0 hidden md:flex -translate-x-full transition-all z-50",
           burguerMenuState && "translate-x-0"
         )}
       >
         <aside
-          className={`absolute left-0 top-0 h-screen flex-col py-8 gap-4 bg-dark_green w-1/2 text-2xl hidden md:flex sm:w-screen`}
+          className={`absolute right-0 top-0 h-screen flex-col py-8 gap-4 bg-dark_green w-1/2 text-2xl hidden md:flex sm:w-screen`}
         >
           <X
             onClick={() => menuBurguerOpenAndClose(burguerMenuState)}

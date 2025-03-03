@@ -44,7 +44,7 @@ export default async function LoginPage() {
             alt="logo da cooperativa"
             className="hidden md:w-72 md:block"
           />
-          <div className="w-96">
+          <div className="px-4 max-w-96">
             <h1>
               Se for o seu primeiro acesso, por motivos de segurança precisamos
               verificar se você é um funcionário da Coopervaço. Clique{" "}

@@ -90,38 +90,9 @@ const EmployeeVerify = () => {
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">Nome Completo</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="João Silveira Campos"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            {/* <FormField
-              control={form.control}
-              name="inscription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">Matrícula</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0043" type="number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 md:flex-col">
             <div className="flex-1">
               {action ? (
                 <LoadingButton width="w-full" />
