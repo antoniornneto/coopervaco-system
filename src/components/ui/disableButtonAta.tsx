@@ -1,8 +1,8 @@
-const DisableButtonAta = async ({ text }: { text: string }) => {
+const DisableButtonAta = async ({ text, tooltip }: { text: string, tooltip?: string }) => {
   return (
-    <span className="w-28 rounded-full py-[8px] flex justify-center bg-gray-300 text-white text-sm cursor-not-allowed">
+    <button disabled title={tooltip} className="w-28 rounded-full py-[8px] flex justify-center bg-gray-300 text-white text-sm cursor-not-allowed">
       {text}
-    </span>
+    </button>
   );
 };
 

@@ -1,17 +1,32 @@
 import { db } from "@/lib/db";
-import { Button } from "./button";
 import DisableButtonAta from "./disableButtonAta";
 import { ParticipantProp } from "@/types/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SignInButton from "./signInButton";
-import { Prisma } from "@prisma/client";
+
+interface SessionProps {
+  user: {
+    name: string;
+    email: string;
+    image: string;
+    userId: string;
+    employeeId: string;
+    role: string;
+  };
+}
 
 const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions) as SessionProps;
   const ata = await db.ata.findUnique({
     where: {
       id: ataId,
+    },
+  });
+
+  const user = await db.user.findUnique({
+    where: {
+      id: session.user.userId,
     },
   });
 
@@ -24,8 +39,14 @@ const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
       participant.sign === true && participant.name === session?.user.name
   );
 
+  if(user?.signature === null)
+     {
+      return <DisableButtonAta tooltip="Você não possui uma assinatura" text="Indisponível" />
+     }
+
   return (
     <div>
+      
       {atas.includes(ataId) ? (
         isSigned ? (
           <DisableButtonAta text="Assinado" />
@@ -36,7 +57,7 @@ const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
           />
         )
       ) : (
-        <DisableButtonAta text="Assinar ata" />
+        <DisableButtonAta tooltip="Você não pode assinar essa ATA" text="Assinar ata" />
       )}
     </div>
   );

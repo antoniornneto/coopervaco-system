@@ -47,6 +47,7 @@ const SignInButton = ({
   return (
     <Button
       onClick={(e) => handleSign(ataId)}
+      title="Clique para assinar"
       className="w-28 rounded-full px-8 bg-[#5DA770] hover:bg-[#5DA770]/80"
     >
       Assinar ata

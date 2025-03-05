@@ -11,6 +11,8 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
   const [action, setAction] = useState(false);
   const [participants, setParticipants] = useState<UserProp>([]);
 
+  console.log(users);
+
   function createArrayParticipants(element: HTMLInputElement) {
     const elementChecked = element.checked;
     let arrayEmployee = element.value.split("/");
@@ -23,7 +25,7 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
       name: name,
       inscription: inscription,
       sign: false,
-      email: users.find(user => user.id === id)?.email || ''
+      email: users.find((user) => user.id === id)?.email || "",
     };
 
     if (elementChecked) {
@@ -67,46 +69,49 @@ const UsersList = ({ users }: { users: UsersDataProps }) => {
   return (
     <div className="h-[400px] space-y-5 w-full">
       <div className="overflow-y-auto h-[400px]">
-        {users.map((user) => (
-          <div
-            key={user.id}
-            className="flex border-[1px] p-4 text-xl md:text-base"
-          >
-            <label
-              htmlFor={`${user.name}`}
-              className="flex flex-1 gap-5 items-center cursor-pointer"
+        {users
+          .slice()
+          .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+          .map((user) => (
+            <div
+              key={user.id}
+              className="flex border-[1px] p-4 text-xl md:text-base"
             >
-              <p className="w-28 md:w-20">Mat.: {user.inscription}</p>
-              <p className="flex-1">{user.name}</p>
-            </label>
-            <input
-              type="checkbox"
-              className="w-4 cursor-pointer"
-              onChange={(e) => createArrayParticipants(e.target)}
-              name={`${user.name}`}
-              id={`${user.name}`}
-              value={`${user.id}/${user.inscription}/${user.name}`}
-            />
-          </div>
-        ))}
+              <label
+                htmlFor={`${user.name}`}
+                className="flex flex-1 gap-5 items-center cursor-pointer"
+              >
+                <p className="w-28 md:w-20">Mat.: {user.inscription}</p>
+                <p className="flex-1">{user.name}</p>
+              </label>
+              <input
+                type="checkbox"
+                className="w-4 cursor-pointer"
+                onChange={(e) => createArrayParticipants(e.target)}
+                name={`${user.name}`}
+                id={`${user.name}`}
+                value={`${user.id}/${user.inscription}/${user.name}`}
+              />
+            </div>
+          ))}
       </div>
-      <div className="flex items-center gap-2 md:flex-col">
-        {action ? (
-          <LoadingButton rounded="rounded-full" />
-        ) : (
-          <Button
-            className="flex-1 text-lg bg-[#5DA770] rounded-full hover:bg-[#5DA770]/80"
-            onClick={() => createAta(participants)}
-          >
-            Próximo
-          </Button>
-        )}
+      <div className="flex gap-4 md:flex-col">
         <Button
           onClick={clearArray}
           className="flex-1 text-lg bg-[#E6EEE8] border-[1px] border-[#5DA770] text-[#5DA770] rounded-full hover:bg-[#E6EEE8]/60"
         >
           Cancelar
         </Button>
+      {action ? (
+        <LoadingButton rounded="rounded-full flex-1" />
+      ) : (
+        <Button
+          className="flex-1 text-lg bg-[#5DA770] rounded-full hover:bg-[#5DA770]/80"
+          onClick={() => createAta(participants)}
+        >
+          Próximo
+        </Button>
+      )}
       </div>
     </div>
   );
