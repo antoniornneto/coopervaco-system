@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const SignatureAlert = async ({ id }: { id: string | undefined }) => {
@@ -18,12 +18,9 @@ const SignatureAlert = async ({ id }: { id: string | undefined }) => {
           <AlertCircle />
           <p>
             Para ter acesso completo as funcionalidades do sistema, lembre-se de
-            criar sua assinatura{" "}
-            <Link className="hover:underline" href={"/dashboard/profile"}>
-              clicando aqui
-            </Link>
-            .
+            criar sua assinatura <Link className="underline" href={"/dashboard/profile"}>clicando aqui</Link>.
           </p>
+            <ExternalLink size={15} />
         </div>
       )}
     </div>
