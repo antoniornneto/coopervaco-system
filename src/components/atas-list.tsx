@@ -16,12 +16,13 @@ const AtasList = async () => {
   let ataWithUser: string[] = [];
   ataData.some((ata) => {
     const exists = ata.participants.some(
-      (participant: ParticipantProp) => participant.name === session?.user.name
+      (participant: ParticipantProp) => participant.id === session?.user.userId
     );
     if (exists) {
       ataWithUser.push(ata.id);
     }
   });
+  
 
   return (
     <div className="py-10">

@@ -17,7 +17,7 @@ interface SessionProps {
 }
 
 const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
-  const session = await getServerSession(authOptions) as SessionProps;
+  const session = (await getServerSession(authOptions)) as SessionProps;
   const ata = await db.ata.findUnique({
     where: {
       id: ataId,
@@ -36,20 +36,26 @@ const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
 
   const isSigned = participants.some(
     (participant) =>
-      participant.sign === true && participant.name === session?.user.name
+      participant.sign === true && participant.id === session?.user.userId
   );
 
-  if(user?.signature === null)
-     {
-      return <DisableButtonAta tooltip="Você não possui uma assinatura" text="Indisponível" />
-     }
+  if (user?.signature === null) {
+    return (
+      <DisableButtonAta
+        tooltip="Você não possui uma assinatura"
+        text="Indisponível"
+      />
+    );
+  }
 
   return (
     <div>
-      
       {atas.includes(ataId) ? (
         isSigned ? (
-          <DisableButtonAta text="Assinado" />
+          <DisableButtonAta
+            tooltip="Você já assinou esta ATA"
+            text="Assinado"
+          />
         ) : (
           <SignInButton
             ataId={ataId}
@@ -57,7 +63,10 @@ const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
           />
         )
       ) : (
-        <DisableButtonAta tooltip="Você não pode assinar essa ATA" text="Assinar ata" />
+        <DisableButtonAta
+          tooltip="Você não pode assinar essa ATA"
+          text="Assinar ata"
+        />
       )}
     </div>
   );
