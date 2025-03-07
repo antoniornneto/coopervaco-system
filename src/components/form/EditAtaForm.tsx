@@ -12,73 +12,63 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { toast as toastWarning } from "@/hooks/use-toast";
-import { toast } from "sonner";
 import Participants from "../ui/participants";
 import { AtaDataProps } from "@/types/types";
 import LoadingButton from "../ui/loadingButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FetchAPI } from "@/lib/utils";
 
 const FormSchema = z.object({
-  id: z.string(),
-  title: z.string().min(1),
-  topics: z.string().min(1),
-  approved_topics: z.string().min(1),
+  id: z.coerce.string(),
+  title: z.coerce.string().min(1, "Campo obrigatório"),
+  topics: z.coerce.string().min(1, "Campo obrigatório"),
+  approved_topics: z.coerce.string().min(1, "Campo obrigatório"),
 });
 
 const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
-  const [action, setAction] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  router.refresh();
-  const ataId = ata?.id as string;
-  const ataTitle = ata?.title as string;
-  const ataTopics = ata?.topics as string;
-  const ataApprovedTopics = ata?.approved_topics as string;
-  const ataParticipants = ata?.participants;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      id: ataId,
-      title: ataTitle,
-      topics: ataTopics,
-      approved_topics: ataApprovedTopics,
+      id: ata?.id || "",
+      title: ata?.title || "",
+      topics: ata?.topics || "",
+      approved_topics: ata?.approved_topics || "",
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      id: ata?.id || "",
+      title: ata?.title || "",
+      topics: ata?.topics || "",
+      approved_topics: ata?.approved_topics || "",
+    });
+  }, [ata, form]);
+
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    setAction(true);
-    const { title, topics, approved_topics } = values;
-    const reqUpdate = await fetch(`/api/ata/${ata?.id}`, {
+    setIsSubmitting(true);
+
+    const data = {
+      title: values.title,
+      topics: values.topics,
+      approved_topics: values.approved_topics,
+    };
+
+    const callAPIRequest = await FetchAPI({
+      data,
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        topics,
-        approved_topics,
-      }),
+      path: `/api/ata/${ata?.id}`,
     });
 
-    const responseJSON = await reqUpdate.json().then((res) => res);
-
-    if (!reqUpdate.ok) {
-      toastWarning({
-        title: "Error",
-        description: `${JSON.stringify(responseJSON.message)}`,
-        variant: "destructive",
-      });
+    if (!callAPIRequest.ok) {
+      setIsSubmitting(false);
     } else {
-      toast.success(`${JSON.stringify(responseJSON.message)}`);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 700);
+      setIsSubmitting(false);
+      router.replace("/dashboard");
     }
-  };
-
-  const cancel = () => {
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 1500);
   };
 
   return (
@@ -100,7 +90,6 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                       type="text"
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Insira o título da ata"
-                      defaultValue={ataTitle}
                       {...field}
                     />
                   </FormControl>
@@ -119,7 +108,6 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                       rows={10}
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Insira a(s) pauta(s)"
-                      defaultValue={ataTopics}
                       {...field}
                     />
                   </FormControl>
@@ -140,7 +128,6 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                       rows={10}
                       className="bg-[#F4F4F7] rounded-xl p-4"
                       placeholder="Acrescente as discussões que foram realizadas e aprovadas"
-                      defaultValue={ataApprovedTopics}
                       {...field}
                     />
                   </FormControl>
@@ -148,11 +135,11 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                 </FormItem>
               )}
             />
-            <Participants participantList={ataParticipants} />
+            <Participants participantList={ata?.participants} />
           </div>
           <div className="flex items-center gap-5 md:flex-col">
             <div className="flex items-center">
-              {action ? (
+              {isSubmitting ? (
                 <LoadingButton
                   text="text-2xl"
                   rounded="rounded-full"
@@ -163,6 +150,7 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                 <Button
                   className="bg-[#5DA770] w-60 h-12 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
                   type="submit"
+                  disabled={isSubmitting}
                 >
                   Salvar alterações
                 </Button>
@@ -171,7 +159,7 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
             <Button
               className="bg-[#5DA770] w-40 h-12 text-2xl rounded-3xl hover:bg-[#5DA770]/80"
               type="button"
-              onClick={cancel}
+              onClick={() => router.push("/dashboard")}
             >
               Cancelar
             </Button>

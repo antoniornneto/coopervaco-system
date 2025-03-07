@@ -1,17 +1,26 @@
 "use client";
 import { ParticipantProp } from "@/types/types";
+import { UserCog } from "lucide-react";
+import { useState } from "react";
+import { Button } from "./button";
 
 const Participants = ({
   participantList,
 }: {
   participantList: ParticipantProp;
 }) => {
+  const [openModal, setOpenModal] = useState(false);
   const idArrays = participantList;
   const convertString = JSON.stringify(idArrays);
   const participants: ParticipantProp[] = JSON.parse(convertString);
   return (
     <div className=" space-y-5">
-      <h1 className="text-2xl">Participantes da reunião</h1>
+      <div className="flex gap-2 justify-between">
+        <h1 className="text-2xl">Participantes da reunião</h1>
+        <Button onClick={() => setOpenModal(true)} variant={"outline"}>
+          <UserCog />
+        </Button>
+      </div>
       <div>
         {participants.map((participant) => (
           <div
