@@ -39,22 +39,22 @@ export default function PaginaDeEquipe() {
           <div>
             <p>
               <strong>Diretor Presidente: </strong>
-              Felippe Gurgel Araújo Cota
+              Bárbara Karoline Mafort Gomes
             </p>
             <p>
               <strong>Vice Presidente: </strong>
               Fábio Deodoro de Souza
             </p>
             <p>
-              <strong>Diretor de Certificações Bancárias: </strong>
-              Ana Paula Guabiroba Mourão Furtado
+              <strong>Diretor de Certificações Bancárias e Educação Financeira: </strong>
+              Glauco de Lima Cruz
             </p>
             <p>
               <strong>Diretor Adjunto de Cetificação Bancária: </strong>
-              Werlen Carlos Lopes Silva
+              Natália Cecília Silva Martins Almeida 
             </p>
             <p>
-              <strong>Diretora de Coordenação Cooperativista: </strong>
+              <strong>Diretora de Coordenação Cooperativista e Eventos do Dia C: </strong>
               Edwania Martins Lopes Fonseca
             </p>
             <p>
@@ -63,29 +63,28 @@ export default function PaginaDeEquipe() {
             </p>
             <p>
               <strong>Diretora de Convênios e Benefícios: </strong>
-              Bárbara Karoline Mafort Gomes
+              Sirlene Lopes dos Santos
             </p>
             <p>
               <strong>Diretor Financeiro: </strong>
-              Marlison Drumond de Almeida
+              Lucas Araújo
             </p>
             <p>
               <strong>Diretora Secretária: </strong>
-              Natália Cecília Silva Martins Almeida Nova
+              Caren Cristina Martins Silva
             </p>
           </div>
           <h4>
             Composição do Conselho Fiscal para o Mandato de Janeiro a Dezembro
-            de 2023. Um ano conf.Lei 12.690/2012.
+            de 2024. Um ano conf.Lei 12.690/2012.
           </h4>
           <div>
             <h4 className="font-bold">Diretores do Conselho Fiscal: </h4>
             <p>Edmilson Neves de Souza</p>
             <p>Cláudio Roberto de Oliveira Silva</p>
-            <p>Fabiana Cláudia Antunes Nunes</p>
-            <p>Elaine Gonçalves da Silva Drummond</p>
+            <p>Werlen Carlos Lopes Silva</p>
             <p>José Márcio Pereira Barbosa</p>
-            <p>Eberton Tiago de Brito Mendes</p>
+            <p>Evelyn Eymard Mesquita Vieira</p>
           </div>
           <br />
           <div className="flex justify-between gap-10 md:flex-col">
@@ -99,8 +98,9 @@ export default function PaginaDeEquipe() {
             <div>
               <h4 className="font-bold uppercase">Suplentes</h4>
               <p>José Márcio Pereira Barbosa</p>
-              <p>Eberton Tiago de Brito Mendes</p>
-              <p>Fabiana Cláudia D. Nunes</p>
+              <p>Evelyn Eymard Mesquita Vieira</p>
+              {/* <p>Eberton Tiago de Brito Mendes</p> */}
+              {/* <p>Fabiana Cláudia D. Nunes</p> */}
             </div>
           </div>
         </div>
