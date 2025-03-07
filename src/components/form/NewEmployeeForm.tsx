@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 import InputMask from "react-input-mask";
-import { FetchAPI, formatedData, HandleError } from "@/lib/utils";
+import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 
 const FormSchema = z.object({
   cpf: z
@@ -48,7 +48,7 @@ const NewEmployeeForm = () => {
     
     const { cpf, name, inscription, email, position } = values;
 
-    const data = await formatedData({
+    const data = await formatedFormUserData({
       name,
       cpf,
       email,

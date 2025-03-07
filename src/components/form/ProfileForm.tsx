@@ -18,7 +18,7 @@ import { SessionUserProps, EmployeeDataProps } from "@/types/types";
 import { toast } from "sonner";
 import SignatureCanvas from "react-signature-canvas";
 import Image from "next/image";
-import { FetchAPI, formatedData } from "@/lib/utils";
+import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 import InputMask from "react-input-mask";
 
 const FormSchema = z.object({
@@ -106,7 +106,7 @@ const ProfileForm = ({
 
     const { name, cpf, email, inscription, position } = values;
 
-    const data = await formatedData({
+    const data = await formatedFormUserData({
       name,
       cpf,
       email,

@@ -18,7 +18,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import LoadingButton from "../ui/loadingButton";
-import { FetchAPI, formatedData } from "@/lib/utils";
+import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 
 interface EmployeeProps {
   cpf?: string;
@@ -80,7 +80,7 @@ const SignUpForm = () => {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
 
-    const data = await formatedData({
+    const data = await formatedFormUserData({
       cpf: employee?.cpf,
       name: values.name,
       position: values.position,

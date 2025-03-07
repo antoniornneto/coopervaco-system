@@ -81,7 +81,7 @@ export const templateEmail = ({ titleText, date }: templateEmail) => {
   `;
 };
 
-export const formatedData = async ({
+export const formatedFormUserData = async ({
   cpf,
   name,
   position,
