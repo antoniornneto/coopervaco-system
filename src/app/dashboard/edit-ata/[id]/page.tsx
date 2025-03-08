@@ -9,7 +9,10 @@ const editAta = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  const date = ata?.createdAt as Date;
+  const date = {
+    createdAt: ata?.createdAt as Date,
+    updateAt: ata?.updatedAt as Date
+  };
 
   return (
     <main>

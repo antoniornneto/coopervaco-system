@@ -13,6 +13,7 @@ import {
   FormatedDataParams,
   HandleErrorParams,
 } from "@/types/types";
+import { useRouter } from "next/router";
 
 dayjs.extend(localizeFormat);
 dayjs.locale("pt-br");
@@ -144,12 +145,14 @@ export const HandleError = async ({
   }
 
   if (response.status === 500) {
-    return toast.error(msgError);
+    toast.error(msgError);
+    return location.replace("/dashboard");
   }
 };
 
 export const FetchAPI = async ({ data, method, path }: FetchAPIParams) => {
   const options: RequestInit = {
+    cache: "no-store",
     method,
     headers:
       method !== "GET" && method !== "DELETE"

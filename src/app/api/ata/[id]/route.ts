@@ -19,7 +19,18 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { title, topics, approved_topics } = await req.json();
+    if (!params.id) {
+      return NextResponse.json({ message: `Ata inexistente` }, { status: 404 });
+    }
+
+    const { title, topics, approved_topics, participants } = await req.json();
+    if (!title && !topics && !approved_topics && !participants) {
+      return NextResponse.json(
+        { message: `Dados inválidos ou mal informados para atualizar a ata.` },
+        { status: 400 }
+      );
+    }
+
     const updatedAta = await db.ata.update({
       where: {
         id: params.id,
@@ -28,14 +39,22 @@ export async function PUT(
         title,
         topics,
         approved_topics,
+        participants,
       },
     });
+    
 
-    return NextResponse.json(
-      { message: `Ata atualizada`, updatedAta },
-      { status: 200 }
-    );
+    if (!updatedAta) {
+      return NextResponse.json(
+        { message: `Não foi possível atualizar a ata.` },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json({ message: `Ata atualizada` }, { status: 200 });
   } catch (error) {
+    console.log(error);
+    
     return NextResponse.json({ message: error }, { status: 400 });
   }
 }

@@ -65,7 +65,7 @@ const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
       ) : (
         <DisableButtonAta
           tooltip="Você não pode assinar essa ATA"
-          text="Assinar ata"
+          text="Indisponível"
         />
       )}
     </div>

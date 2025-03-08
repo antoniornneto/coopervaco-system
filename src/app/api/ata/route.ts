@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, title, topics, approved_topics } = await req.json();
+    const { id, title, topics, approved_topics } =
+      await req.json();
+
     const updateAta = await db.ata.update({
       where: {
         id,
@@ -45,7 +47,10 @@ export async function PUT(req: NextRequest) {
         approved_topics,
       },
     });
-    return NextResponse.json({ message: "Ata criada" }, { status: 201 });
+
+    console.log(updateAta);
+
+    return NextResponse.json({ message: "Ata atualizada" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 400 });
   }
