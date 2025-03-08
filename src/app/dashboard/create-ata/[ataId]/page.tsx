@@ -22,13 +22,16 @@ export default async function CriarAta({
     },
   });
 
-  const date = ata?.createdAt as Date;
+  const date = {
+    createdAt: ata?.createdAt as Date,
+    updateAt: ata?.updatedAt as Date
+  };
 
   const idArrays = ata?.participants;
   const convertString = JSON.stringify(idArrays);
   const participants: ParticipantProp[] = JSON.parse(convertString);
 
-  let newArrayParticipants: UsersDataProps = [];
+  let newArrayParticipants: UsersDataProps[] = [];
   for (let i = 0; i < participants.length; i++) {
     const user = (await db.user.findUnique({
       where: {
