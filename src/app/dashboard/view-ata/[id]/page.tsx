@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { CircleOff } from "lucide-react";
+import { CircleOff, Pen } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Signature from "@/components/ui/signature";
@@ -21,7 +21,10 @@ const ata = async ({ params }: { params: { id: string } }) => {
     },
   });
 
-  const date = ata?.createdAt as Date;
+  const date = {
+    createdAt: ata?.createdAt as Date,
+    updateAt: ata?.updatedAt as Date
+  };
 
   const idArrays = ata?.participants;
   const convertString = JSON.stringify(idArrays);
@@ -35,7 +38,6 @@ const ata = async ({ params }: { params: { id: string } }) => {
     })) as UserDataProps;
     newArrayParticipants.push(user);
   }
-  
 
   return (
     <main>
@@ -48,9 +50,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
         <div className="w-[90%] space-y-5">
           <section className="flex flex-col gap-5">
             <h2 className="text-4xl text-[#606060]">Título da Ata</h2>
-            <div className="bg-[#F4F4F7] rounded-xl p-4">
-              {`${ata?.title}`}
-            </div>
+            <div className="bg-[#F4F4F7] rounded-xl p-4">{`${ata?.title}`}</div>
           </section>
           <section className="flex flex-col gap-5">
             <h2 className="text-4xl text-[#606060]">Pauta</h2>
@@ -59,9 +59,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
             </div>
           </section>
           <section className="flex flex-col gap-5">
-            <h2 className="text-4xl text-[#606060]">
-              Discussões aprovadas
-            </h2>
+            <h2 className="text-4xl text-[#606060]">Discussões aprovadas</h2>
             <div className="bg-[#F4F4F7] rounded-xl p-4 whitespace-pre-line min-h-80">
               {ata?.approved_topics}
             </div>
@@ -83,7 +81,9 @@ const ata = async ({ params }: { params: { id: string } }) => {
                     <CircleOff />
                     <span>Assinatura Pendente</span>
                   </div>
-                  <span className="font-semibold text-sm">{participant.name}</span>
+                  <span className="font-semibold text-sm">
+                    {participant.name}
+                  </span>
                   <span className="text-xs text-[#989898]">
                     Mat.: {participant.inscription}
                   </span>

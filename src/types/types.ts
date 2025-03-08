@@ -53,11 +53,11 @@ export type AtasDataProps = {
   participants: any;
 }[];
 
-export type UsersDataProps = {
+export interface UsersDataProps {
   id: string;
   name: string | null;
   role: string | null;
-  image: string;
+  image: string | null;
   inscription: string | null;
   signature: string | null;
   cpf: string | null;
@@ -66,7 +66,7 @@ export type UsersDataProps = {
   createdAt: Date;
   updatedAt: Date;
   employeeId: string;
-}[];
+}
 
 export type UserDataProps = {
   id: string;
@@ -85,17 +85,20 @@ export type UserDataProps = {
 
 export type AtaDataProps = {
   id: string;
-  title: string | null;
-  topics: string | null;
-  approved_topics: string | null;
-  createdAt: Date;
+  title?: string | null;
+  topics?: string | null;
+  approved_topics?: string | null;
+  createdAt?: Date;
   updatedAt: Date;
   participants: any;
 } | null;
 
 export type UserProp = {
-  id: string;
-  sign: boolean;
+  id?: string;
+  sign?: boolean;
+  email?: string;
+  name?: string;
+  inscription?: string;
 }[];
 
 export interface ParticipantProp {
@@ -103,4 +106,5 @@ export interface ParticipantProp {
   name: string;
   inscription: string;
   sign: boolean;
+  email: string;
 }
