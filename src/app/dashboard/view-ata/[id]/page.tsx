@@ -6,6 +6,7 @@ import Signature from "@/components/ui/signature";
 import { ParticipantProp, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 import DownloadButton from "@/components/ui/downloadButton";
+import EditButtonInPage from "@/components/ui/editButtonInPage";
 
 const ata = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
@@ -23,7 +24,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
 
   const date = {
     createdAt: ata?.createdAt as Date,
-    updateAt: ata?.updatedAt as Date
+    updateAt: ata?.updatedAt as Date,
   };
 
   const idArrays = ata?.participants;
@@ -43,6 +44,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
     <main>
       {/* Header */}
       <HeaderAta date={date}>
+        <EditButtonInPage id={params.id} />
         <DownloadButton />
       </HeaderAta>
       {/* Body */}
