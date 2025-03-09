@@ -66,8 +66,8 @@ const NewAtaForm = () => {
         const newEmailBody = {
           date: date,
           title: data.ata.title,
-          mails: emails
-        }
+          mails: emails,
+        };
 
         // ENVIANDO NOTIFICAÇÃO VIA E-MAIL
         // fetch("/api/send", {
@@ -79,8 +79,9 @@ const NewAtaForm = () => {
 
       toast.promise(updateAta, {
         loading: "Criando ata...",
-        success: (data) => {
+        success: () => {
           router.push("/dashboard");
+          router.refresh();
           return "Ata criada";
         },
         error: "Desculpe, algo deu errado.",
@@ -93,9 +94,8 @@ const NewAtaForm = () => {
       method: "DELETE",
     });
 
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 2000);
+    router.push("/dashboard");
+    router.refresh();
   };
 
   return (

@@ -430,7 +430,8 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
       setIsSubmitting(false);
     }
 
-    return router.replace("/dashboard");
+    router.push(`/dashboard/view-ata/${ata?.id}`);
+    router.refresh();
   };
 
   return (
