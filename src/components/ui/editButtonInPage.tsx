@@ -8,7 +8,7 @@ const EditButtonInPage = ({ id }: { id: string }) => {
   return (
     <Link
       href={`/dashboard/edit-ata/${id}`}
-      className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit flex gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]"
+      className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit flex items-center gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]"
     >
       <SquarePen />
       Editar

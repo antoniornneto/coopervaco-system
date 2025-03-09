@@ -12,12 +12,13 @@ const LoadingButton = ({
   text?: string;
 }) => {
   return (
-    <div
-      className={`${width} ${heigth} ${text} bg-[#5DA770] hover:bg-[#5DA770]/80 ${rounded} text-white p-2 flex flex-1 justify-center items-center gap-2`}
+    <button
+      className={`${width} ${heigth} ${text} bg-zinc-300 hover:bg-zinc-200/80 ${rounded} text-white p-2 flex flex-1 justify-center items-center gap-2`}
+      disabled
     >
       <Loader2 className="animate-spin" size={20} />
-      <span className="">Carregando...</span>
-    </div>
+      Carregando...
+    </button>
   );
 };
 

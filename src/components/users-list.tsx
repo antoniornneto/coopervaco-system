@@ -46,8 +46,6 @@ const UsersList = ({ users }: { users: UsersDataProps[] }) => {
     });
   };
 
-  console.log(participants);
-
   const handleCancel = () => {
     setParticipants([]);
     router.push("/dashboard");
@@ -81,8 +79,6 @@ const UsersList = ({ users }: { users: UsersDataProps[] }) => {
     } catch (error) {
       console.error("Error creating ata:", error);
       toast.error("Erro ao criar ata. Tente novamente.");
-    } finally {
-      setIsLoading(false);
     }
   };
 

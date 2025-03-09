@@ -5,13 +5,13 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const getAta = await db.ata.findUnique({
+  const ata = await db.ata.findUnique({
     where: {
       id: params.id,
     },
   });
 
-  return NextResponse.json({ ata: getAta }, { status: 200 });
+  return NextResponse.json(ata, { status: 200 });
 }
 
 export async function PUT(
@@ -42,7 +42,6 @@ export async function PUT(
         participants,
       },
     });
-    
 
     if (!updatedAta) {
       return NextResponse.json(
@@ -54,7 +53,7 @@ export async function PUT(
     return NextResponse.json({ message: `Ata atualizada` }, { status: 200 });
   } catch (error) {
     console.log(error);
-    
+
     return NextResponse.json({ message: error }, { status: 400 });
   }
 }

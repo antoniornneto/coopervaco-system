@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { ParticipantProp, UsersDataProps, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 
+
+
 export default async function CriarAta({
   params,
 }: {
@@ -49,26 +51,6 @@ export default async function CriarAta({
         <div className="flex flex-col items-center">
           {/* Mid content */}
           <NewAtaForm />
-          {/* Footer */}
-          <div className="w-[90%] space-y-4">
-            <h2 className="text-2xl">Participantes da reunião</h2>
-            <div className="text-black">
-              {newArrayParticipants.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex border-[1px] w-full p-4 text-xl"
-                >
-                  <label
-                    htmlFor={`${user.name}`}
-                    className="flex flex-1 gap-5 items-center"
-                  >
-                    <p className="w-28">Mat.: {user.inscription}</p>
-                    <p className="flex-1">{user.name}</p>
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </main>
