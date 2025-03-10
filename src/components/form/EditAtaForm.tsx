@@ -103,10 +103,6 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
     });
   };
 
-  const updateParticipants = async () => {
-    setIsUpdatingParticipants(true);
-  };
-
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -198,8 +194,8 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Selecione o(s) funcionário(s)</DialogTitle>
+                  <DialogHeader className="space-y-4">
+                    <DialogTitle>Selecione o(s) participante(s)</DialogTitle>
                     <DialogDescription>
                       <div className="overflow-y-auto max-h-[400px]">
                         {usersList
@@ -215,11 +211,11 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                             return (
                               <div
                                 key={user.id}
-                                className="flex border-[1px] p-4"
+                                className="flex justify-between border-[1px] p-4"
                               >
                                 <label
                                   htmlFor={`user-${user.id}`}
-                                  className="flex flex-1 gap-5 items-center cursor-pointer"
+                                  className="flex gap-8 cursor-pointer"
                                 >
                                   <p className="w-28 md:w-20">
                                     Mat.: {user.inscription}
@@ -242,15 +238,7 @@ const EditAtaForm = ({ ata }: { ata: AtaDataProps }) => {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose asChild>
-                      <Button
-                        onClick={updateParticipants}
-                        type="button"
-                        disabled={isUpdatingParticipants}
-                      >
-                        {isUpdatingParticipants ? "Salvando..." : "Salvar"}
-                      </Button>
-                    </DialogClose>
+                    <DialogClose asChild></DialogClose>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
