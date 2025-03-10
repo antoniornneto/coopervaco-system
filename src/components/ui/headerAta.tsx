@@ -46,7 +46,7 @@ const HeaderAta = ({ date, children }: HeaderAtaProps) => {
           </div>
         </div>
         {children}
-        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit hover:text-[#D8FFE2] hover:bg-[#5DA770] fill-[#D8FFE2] hover:fill-[#5DA770]">
+        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] w-fit hover:text-[#D8FFE2] hover:bg-[#5DA770] fill-[#D8FFE2] hover:fill-[#5DA770]">
           <Link href={"/dashboard"} className="flex gap-2">
             <ArrowLeft size={20} />
             Voltar
