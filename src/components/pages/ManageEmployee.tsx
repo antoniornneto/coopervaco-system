@@ -346,21 +346,20 @@ export const ManageEmployee = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
 
-  // Create a single source of truth for fetching employees
-  const fetchEmployees = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/get-all-users");
-      const employees: UsersDataProps[] = await response.json();
-      setListEmployees(employees);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
+    const fetchEmployees = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("/api/get-all-users");
+        const employees: UsersDataProps[] = await response.json();
+        setListEmployees(employees);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchEmployees();
-  }, [fetchEmployees]);
+  }, []);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -407,8 +406,7 @@ export const ManageEmployee = () => {
       });
 
       if (callAPIRequest.ok) {
-        // Instead of reloading the page, just fetch employees again
-        await fetchEmployees();
+        router.refresh();
         toast.success("Cooperado adicionado com sucesso!");
         setIsDialogOpen(false); // Close dialog after successful creation
         form.reset(); // Reset form
@@ -451,6 +449,8 @@ export const ManageEmployee = () => {
       setIsLoading(false);
     }
   };
+
+  console.log(listEmployees);
 
   // Memoized sorted employees
   const sortedEmployees = useCallback(() => {
