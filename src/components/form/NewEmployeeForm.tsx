@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -17,69 +17,35 @@ import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 import InputMask from "react-input-mask";
 import { FetchAPI, formatedFormUserData } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
-const FormSchema = z.object({
-  cpf: z
-    .string()
-    .min(14, "CPF inválido")
-    .max(14, "CPF inválido")
-    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
-  name: z.coerce.string().min(10, "Preencha com o nome completo"),
-  inscription: z.coerce
-    .string()
-    .min(1, "Campo obrigatório")
-    .max(4, "Preencha com no máximo 4 digitos"),
-  email: z.coerce.string().min(1, "Campo obrigatório"),
-  position: z.coerce.string(),
-});
-
-const NewEmployeeForm = () => {
-  const [action, setAction] = useState(false);
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      cpf: "",
-      name: "",
-      inscription: "",
-      email: "",
-      position: "",
+type OnSubmitFormProps = {
+  isLoading: boolean;
+  form: UseFormReturn<
+    {
+      name: string;
+      cpf: string;
+      inscription: string;
+      email: string;
+      position: string;
     },
-  });
+    any,
+    undefined
+  >;
+  onSubmitForm: (values: any) => void;
+};
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    setAction(true);
-
-    const { cpf, name, inscription, email, position } = values;
-
-    const data = await formatedFormUserData({
-      name,
-      cpf,
-      email,
-      inscription,
-      position,
-    });
-
-    const callAPIRequest = await FetchAPI({
-      path: "/api/employee",
-      method: "POST",
-      data,
-    });
-
-    if (callAPIRequest.ok) {
-      location.reload();
-    }
-
-    if (!callAPIRequest.ok) {
-      setAction(false);
-    }
-  };
-
+const NewEmployeeForm = ({
+  onSubmitForm,
+  form,
+  isLoading,
+}: OnSubmitFormProps) => {
   return (
     <div className="text-start space-y-4">
       <h1 className="text-lg uppercase font-bold">Adicionar Novo Cooperado:</h1>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmitForm)}
           className="w-full space-y-5"
         >
           <div className="space-y-2">
@@ -170,7 +136,7 @@ const NewEmployeeForm = () => {
             />
           </div>
           <div>
-            {action ? (
+            {isLoading ? (
               <LoadingButton width="w-full" />
             ) : (
               <Button
