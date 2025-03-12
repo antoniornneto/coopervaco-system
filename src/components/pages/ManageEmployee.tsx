@@ -344,7 +344,6 @@ export const ManageEmployee = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [listEmployees, setListEmployees] = useState<UsersDataProps[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -388,42 +387,37 @@ export const ManageEmployee = () => {
   const onSubmitForm = async (values: z.infer<typeof FormSchema>) => {
     setIsLoading(true);
 
-    try {
-      const { cpf, name, inscription, email, position } = values;
+    const { cpf, name, inscription, email, position } = values;
 
-      const data = await formatedFormUserData({
-        name,
-        cpf,
-        email,
-        inscription,
-        position,
-      });
+    const data = await formatedFormUserData({
+      name,
+      cpf,
+      email,
+      inscription,
+      position,
+    });
 
-      const callAPIRequest = await FetchAPI({
-        path: "/api/employee",
-        method: "POST",
-        data,
-      });
+    const callAPIRequest = await FetchAPI({
+      path: "/api/employee",
+      method: "POST",
+      data,
+    });
 
-      if (callAPIRequest.ok) {
-        router.refresh();
-        toast.success("Cooperado adicionado com sucesso!");
-        setIsDialogOpen(false); // Close dialog after successful creation
-        form.reset(); // Reset form
-      }
-    } finally {
+    if (!callAPIRequest.ok) {
       setIsLoading(false);
     }
+
+    setIsLoading(false);
+    setIsDialogOpen(false);
+    location.reload();
   };
 
   const handleDeleteEmployee = async (id: string) => {
     setIsLoading(true);
 
     try {
-      const { data } = await FetchAPI({
-        path: `/api/employee/${id}`,
-        method: "GET",
-      });
+      const response = await fetch(`/api/employee/${id}`);
+      const data = await response.json();
 
       if (data.role === "admin") {
         const confirmDelete = window.confirm(
@@ -442,7 +436,6 @@ export const ManageEmployee = () => {
       });
 
       if (deleteResponse.ok) {
-        // Update state directly for immediate UI feedback
         setListEmployees((prev) => prev.filter((emp) => emp.id !== id));
       }
     } finally {

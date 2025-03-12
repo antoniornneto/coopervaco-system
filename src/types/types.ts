@@ -9,8 +9,9 @@ export type SessionUserProps =
   | undefined;
 
 export interface HandleErrorParams {
-  response: Response;
-  responseBody: { message: string; status?: number };
+  data: any;
+  status: number;
+  ok: boolean;
 }
 
 export interface EmailTemplateProps {

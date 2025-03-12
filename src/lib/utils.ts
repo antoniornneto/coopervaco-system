@@ -119,32 +119,31 @@ export const formatedFormUserData = async ({
   return data;
 };
 
-export const HandleError = async ({
-  response,
-  responseBody,
-}: HandleErrorParams) => {
+export const HandleError = async (responseBody: HandleErrorParams) => {
+  console.log(responseBody);
+
   const msgError =
     "Desculpe, parece que tivemos um erro no servidor. Entre em contato com o suporte.";
 
-  if (response.status === 200) {
-    toast.info(responseBody.message);
+  if (responseBody.status === 200) {
+    toast.info(responseBody.data.message);
     return;
   }
 
-  if (response.status === 201) {
-    toast.success(responseBody.message);
+  if (responseBody.status === 201) {
+    toast.success(responseBody.data.message);
     return;
   }
 
-  if (response.status === 404) {
-    return toast.error(responseBody.message);
+  if (responseBody.status === 404) {
+    return toast.error(responseBody.data.message);
   }
 
-  if (response.status === 409) {
-    return toast.warning(responseBody.message);
+  if (responseBody.status === 409) {
+    return toast.warning(responseBody.data.message);
   }
 
-  if (response.status === 500) {
+  if (responseBody.status === 500) {
     toast.error(msgError);
     return location.replace("/dashboard");
   }
@@ -168,7 +167,13 @@ export const FetchAPI = async ({ path, method, data }: FetchAPIParams) => {
 
   const responseBody = await response.json();
 
-  await HandleError({ response, responseBody });
+  const bodyReq = {
+    data: responseBody,
+    status: response.status,
+    ok: response.ok,
+  };
 
-  return { data: responseBody, status: response.status, ok: response.ok };
+  await HandleError(bodyReq);
+
+  return bodyReq;
 };
