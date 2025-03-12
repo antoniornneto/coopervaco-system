@@ -139,6 +139,7 @@ export async function POST(req: Request) {
             inscription: body.inscription,
             image: "",
             email: body.email,
+            role: "user",
           },
         },
       },

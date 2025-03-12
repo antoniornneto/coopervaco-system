@@ -150,7 +150,7 @@ export const HandleError = async ({
   }
 };
 
-export const FetchAPI = async ({ data, method, path }: FetchAPIParams) => {
+export const FetchAPI = async ({ path, method, data }: FetchAPIParams) => {
   const options: RequestInit = {
     cache: "no-store",
     method,
@@ -170,5 +170,5 @@ export const FetchAPI = async ({ data, method, path }: FetchAPIParams) => {
 
   await HandleError({ response, responseBody });
 
-  return response;
+  return { data: responseBody, status: response.status, ok: response.ok };
 };

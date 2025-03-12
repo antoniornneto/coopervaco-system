@@ -3,9 +3,9 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import NotPermission from "@/components/pages/NotPermission";
 import HeaderSystem from "@/components/ui/system-header";
-import NewEmployeeForm from "@/components/form/NewEmployeeForm";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { ManageEmployee } from "@/components/pages/ManageEmployee";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
@@ -24,13 +24,8 @@ const page = async () => {
               color="#5DA770"
             />
           </Link>
-          <div className="w-[90%] flex justify-center mx-auto">
-            <div className="w-96 space-y-4">
-              <h1>
-                Preencha o formulário abaixo para adicionar um novo funcionário:
-              </h1>
-              <NewEmployeeForm />
-            </div>
+          <div className="px-20">
+            <ManageEmployee />
           </div>
         </div>
       ) : (

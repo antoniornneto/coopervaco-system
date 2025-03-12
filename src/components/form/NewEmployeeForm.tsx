@@ -25,8 +25,11 @@ const FormSchema = z.object({
     .max(14, "CPF inválido")
     .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
   name: z.coerce.string().min(10, "Preencha com o nome completo"),
-  inscription: z.coerce.string().min(1),
-  email: z.coerce.string(),
+  inscription: z.coerce
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(4, "Preencha com no máximo 4 digitos"),
+  email: z.coerce.string().min(1, "Campo obrigatório"),
   position: z.coerce.string(),
 });
 
@@ -45,7 +48,7 @@ const NewEmployeeForm = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
-    
+
     const { cpf, name, inscription, email, position } = values;
 
     const data = await formatedFormUserData({
@@ -62,120 +65,125 @@ const NewEmployeeForm = () => {
       data,
     });
 
-    if(callAPIRequest.ok) {
-      location.reload()
+    if (callAPIRequest.ok) {
+      location.reload();
     }
-    
 
-    if(!callAPIRequest.ok) {
+    if (!callAPIRequest.ok) {
       setAction(false);
     }
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
-        <div className="space-y-2">
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold">CPF</FormLabel>
-                <FormControl>
-                  <InputMask
-                    mask="999.999.999-99"
-                    placeholder="000.000.000-00"
-                    value={field.value}
-                    onChange={field.onChange}
-                  >
-                    {(inputProps) => <Input {...inputProps} />}
-                  </InputMask>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+    <div className="text-start space-y-4">
+      <h1 className="text-lg uppercase font-bold">Adicionar Novo Cooperado:</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-5"
+        >
+          <div className="space-y-2">
+            <FormField
+              control={form.control}
+              name="cpf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">CPF</FormLabel>
+                  <FormControl>
+                    <InputMask
+                      mask="999.999.999-99"
+                      placeholder="000.000.000-00"
+                      value={field.value}
+                      onChange={field.onChange}
+                    >
+                      {(inputProps) => <Input {...inputProps} />}
+                    </InputMask>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome Completo:</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="José Pinheiro da Silva"
+                      {...field}
+                      className="uppercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="inscription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Matrícula:</FormLabel>
+                  <FormControl>
+                    <Input max={4} placeholder="94" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>E-mail:</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="email@mail.com"
+                      {...field}
+                      className="lowercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="position"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Função:</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Presidente Diretor"
+                      {...field}
+                      className="uppercase"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            {action ? (
+              <LoadingButton width="w-full" />
+            ) : (
+              <Button
+                className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                type="submit"
+              >
+                Salvar
+              </Button>
             )}
-          />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome Completo:</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="José Pinheiro da Silva"
-                    {...field}
-                    className="uppercase"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="inscription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Matrícula:</FormLabel>
-                <FormControl>
-                  <Input placeholder="94" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-mail:</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="email@mail.com"
-                    {...field}
-                    className="lowercase"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="position"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Função:</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Presidente Diretor"
-                    {...field}
-                    className="uppercase"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div>
-          {action ? (
-            <LoadingButton width="w-full" />
-          ) : (
-            <Button
-              className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
-              type="submit"
-            >
-              Cadastrar funcionário
-            </Button>
-          )}
-        </div>
-      </form>
-    </Form>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 

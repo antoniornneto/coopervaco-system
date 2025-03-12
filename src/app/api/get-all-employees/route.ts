@@ -2,6 +2,6 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const users = await db.user.findMany();
-  return NextResponse.json(users);
+  const employees = await db.employee.findMany();
+  return NextResponse.json(employees);
 }

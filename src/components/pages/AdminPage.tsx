@@ -40,7 +40,7 @@ const AdminPage = async ({ id }: { id: string | undefined }) => {
               </Button>
               <Button className="bg-button_primary hover:bg-button_primary/70 md:flex-1">
                 <Link className="text-wrap" href={"/dashboard/manage-employee"}>
-                  Gerenciar funcionários
+                  Gerenciar Cooperados
                 </Link>
               </Button>
             </div>

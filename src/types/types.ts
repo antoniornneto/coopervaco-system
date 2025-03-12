@@ -38,6 +38,7 @@ export type EmployeeDataProps = {
   cpf: string;
   name: string;
   inscription: string;
+  email?: string;
   position: string;
   createdAt: Date;
   updatedAt: Date;
