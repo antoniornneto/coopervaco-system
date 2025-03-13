@@ -1,13 +1,27 @@
 import UsersList from "@/components/users-list";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { UsersDataProps } from "@/types/types";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
+export interface UserNoPositionDataProps {
+  id: string;
+  name: string | null;
+  role: string | null;
+  image: string | null;
+  inscription: string | null;
+  signature: string | null;
+  cpf: string | null;
+  email: string | null;
+  password: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  employeeId: string;
+}
+
 const page = async () => {
   const session = await getServerSession(authOptions);
-  const usersData: UsersDataProps[] = await db.user.findMany();
+  const usersData: UserNoPositionDataProps[] = await db.user.findMany();
 
   if (!session) {
     redirect("/sign-in");

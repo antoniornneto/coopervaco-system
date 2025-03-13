@@ -5,8 +5,9 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import LoadingButton from "./ui/loadingButton";
 import { UserProp, UsersDataProps } from "@/types/types";
+import { UserNoPositionDataProps } from "@/app/dashboard/create-ata/page";
 
-const UsersList = ({ users }: { users: UsersDataProps[] }) => {
+const UsersList = ({ users }: { users: UserNoPositionDataProps[] }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [participants, setParticipants] = useState<UserProp>([]);
