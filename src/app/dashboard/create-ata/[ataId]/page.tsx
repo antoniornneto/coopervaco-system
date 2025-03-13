@@ -6,8 +6,6 @@ import { db } from "@/lib/db";
 import { ParticipantProp, UsersDataProps, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 
-
-
 export default async function CriarAta({
   params,
 }: {
@@ -26,7 +24,7 @@ export default async function CriarAta({
 
   const date = {
     createdAt: ata?.createdAt as Date,
-    updateAt: ata?.updatedAt as Date
+    updateAt: ata?.updatedAt as Date,
   };
 
   const idArrays = ata?.participants;
@@ -39,7 +37,7 @@ export default async function CriarAta({
       where: {
         id: participants[i].id,
       },
-    })) as UserDataProps;
+    })) as UsersDataProps;
     newArrayParticipants.push(user);
   }
 
