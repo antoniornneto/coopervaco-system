@@ -18,6 +18,7 @@ interface SessionProps {
 
 const SignAta = async ({ ataId, atas }: { ataId: string; atas: string[] }) => {
   const session = (await getServerSession(authOptions)) as SessionProps;
+
   const ata = await db.ata.findUnique({
     where: {
       id: ataId,

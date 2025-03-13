@@ -13,7 +13,15 @@ const SignInButton = ({
   const handleSign = async (ataId: string) => {
     const reqAta = await fetch(`/api/ata/${ataId}`);
     const data = await reqAta.json();
-    const idArrays = data.ata?.participants;
+    const idArrays = data?.participants;
+    if (!idArrays) {
+      toast.error(
+        "Desculpe, tivemos erro inesperado. Favor contate os administradores."
+      );
+      throw new Error(
+        "Não foi possível obter a lista de participantes do backend."
+      );
+    }
     const convertString = JSON.stringify(idArrays);
     const participants: ParticipantProp[] = JSON.parse(convertString);
 

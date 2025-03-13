@@ -12,7 +12,7 @@ export async function GET(
     );
   }
 
-  const getUser = await db.user.findUnique({
+  const getUser = await db.employee.findUnique({
     where: {
       id: params.id,
     },

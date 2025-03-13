@@ -61,6 +61,7 @@ export interface UsersDataProps {
   role: string | null;
   image: string | null;
   inscription: string | null;
+  position: string | null;
   signature: string | null;
   cpf: string | null;
   email: string | null;
