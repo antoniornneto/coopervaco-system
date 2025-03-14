@@ -19,8 +19,15 @@ const PercentSignatures = async ({ ataId }: { ataId: string }) => {
   const participantsNumbers: number = participants.length;
 
   const numberInt = signaturesNumbers / participantsNumbers;
-  const percent = numberInt * 100;
-  return <div>{<span>{Math.round(percent)}%</span>}</div>;
+  const percent = Math.round(numberInt * 100);
+
+  return (
+    <div>
+      <p className={`${percent === 100 ? "bg-[#8CFF8A] rounded-lg p-1" : ""}`}>
+        {percent}%
+      </p>
+    </div>
+  );
 };
 
 export default PercentSignatures;
