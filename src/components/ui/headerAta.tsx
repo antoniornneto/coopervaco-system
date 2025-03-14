@@ -32,11 +32,11 @@ const HeaderAta = ({ date, children }: HeaderAtaProps) => {
   const formatedHour = updatedBrazilDate.format("HH:mm");
 
   return (
-    <div className="bg-[#F0F0F0] flex justify-center items-center h-44">
+    <div className="bg-[#F0F0F0] flex justify-center items-center mix-h-44 py-4">
       <div className="w-[90%] flex items-center gap-4">
-        <div className="flex-1 flex items-end flex-wrap gap-10 md:gap-5 md:justify-center md:items-center">
+        <div className="flex-1 flex items-end flex-wrap gap-10 md:gap-5 md:flex-col md:items-start">
           <h1 className="text-5xl md:flex-1 md:text-4xl">Ata de Reunião</h1>
-          <div className="flex gap-10 items-center text-lg md:flex-1 md:justify-between md:gap-4">
+          <div className="flex gap-10 items-center text-lg md:flex-1 md:gap-4 md:flex-col md:items-start">
             <p>{`${formateCreateddDate}, ${formatedCreatedHour}`}</p>
             <div className="text-sm font-bold">
               <p>
@@ -46,10 +46,10 @@ const HeaderAta = ({ date, children }: HeaderAtaProps) => {
           </div>
         </div>
         {children}
-        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] w-fit hover:text-[#D8FFE2] hover:bg-[#5DA770] fill-[#D8FFE2] hover:fill-[#5DA770]">
-          <Link href={"/dashboard"} className="flex gap-2">
-            <ArrowLeft size={20} />
-            Voltar
+        <Button className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit flex gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]">
+          <Link href={"/dashboard"} className="flex items-center gap-2">
+            <ArrowLeft size={30} />
+            <p className="md:hidden">Voltar</p>
           </Link>
         </Button>
       </div>

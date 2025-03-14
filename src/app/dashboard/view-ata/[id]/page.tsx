@@ -7,6 +7,7 @@ import { ParticipantProp, UserDataProps } from "@/types/types";
 import HeaderAta from "@/components/ui/headerAta";
 import DownloadButton from "@/components/ui/downloadButton";
 import EditButtonInPage from "@/components/ui/editButtonInPage";
+import DropdownAtaHeader from "@/components/ui/dropdownAtaHeader";
 
 const ata = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
@@ -44,6 +45,7 @@ const ata = async ({ params }: { params: { id: string } }) => {
     <main>
       {/* Header */}
       <HeaderAta date={date}>
+        <DropdownAtaHeader id={params.id} />
         <EditButtonInPage id={params.id} />
         <DownloadButton />
       </HeaderAta>

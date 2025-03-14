@@ -9,10 +9,10 @@ const DownloadButton = () => {
   return (
     <Button
       onClick={printPage}
-      className="bg-[#D8FFE2] rounded-lg p-2 text-[#5DA770] font-bold w-fit flex gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]"
+      className="bg-[#D8FFE2] md:hidden rounded-lg p-2 text-[#5DA770] font-bold w-fit flex gap-2 hover:text-[#D8FFE2] hover:bg-[#5DA770]"
     >
-      <PrinterIcon size={20} />
-      Imprimir
+      <PrinterIcon size={30} />
+      <p className="md:hidden">Imprimir</p>
     </Button>
   );
 };
