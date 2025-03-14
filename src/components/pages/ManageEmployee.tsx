@@ -53,7 +53,7 @@ const TABLE_HEAD_CONTENT = [
   { title: "Assinatura", key: "signature" },
   { title: "Matrícula", key: "inscription" },
   { title: "E-mail", key: "email" },
-  { title: "Ações", key: "actions" },
+  // { title: "Ações", key: "actions" },
 ];
 
 export const ManageEmployee = () => {
@@ -272,7 +272,7 @@ export const ManageEmployee = () => {
                     </p>
                   </TableCell>
                   <TableCell className="flex justify-center gap-4">
-                    <Dialog
+                    {/* <Dialog
                       open={isDialogEditOpen}
                       onOpenChange={setIsDialogEditOpen}
                     >
@@ -304,7 +304,7 @@ export const ManageEmployee = () => {
                       disabled={isLoading}
                     >
                       <Trash size={15} />
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               );

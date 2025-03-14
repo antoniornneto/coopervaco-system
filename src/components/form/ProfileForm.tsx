@@ -20,6 +20,7 @@ import SignatureCanvas from "react-signature-canvas";
 import Image from "next/image";
 import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 import InputMask from "react-input-mask";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   cpf: z
@@ -41,20 +42,21 @@ type employeeData = {
   email: string;
   createdAt: Date;
   updatedAt: Date;
-} | null
+} | null;
 
 const ProfileForm = ({
   userSession,
   employeeData,
 }: {
   userSession: SessionUserProps;
-  employeeData:employeeData;
+  employeeData: employeeData;
 }) => {
   const [action, setAction] = useState(false);
   const [modal, setModal] = useState(false);
   // const [file, setFile] = useState<any>();
   const [sign, setSign] = useState<SignatureCanvas | null>();
   const [url, setUrl] = useState<any>("/");
+  const router = useRouter();
 
   const handleGenerateSignature = () => {
     setModal(true);
@@ -122,6 +124,11 @@ const ProfileForm = ({
 
     if (!callAPIRequest.ok) {
       setAction(false);
+    }
+
+    if (callAPIRequest.ok) {
+      router.push("/dashboard");
+      router.refresh();
     }
   };
 
