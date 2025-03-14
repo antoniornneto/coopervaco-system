@@ -36,7 +36,7 @@ const AtasList = async () => {
                 {dayjs(ata.createdAt).format("DD/MM/YYYY")}
               </p>
               <h3 className="flex-1 text-lg md:text-sm">{ata.title}</h3>
-              <hr />
+              <hr className="hidden sm:flex" />
             </div>
             {session?.user.role === "admin" ? (
               <div className="flex items-center gap-2 md:flex-1 md:justify-evenly">
