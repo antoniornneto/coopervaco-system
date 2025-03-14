@@ -30,9 +30,12 @@ const DropdownAtaHeader = ({ id }: DropdownProps) => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-[#D8FFE2]" asChild>
+      <DropdownMenuTrigger
+        className="bg-[#D8FFE2] text-[#5DA770] w-fit p-2 hidden md:flex hover:text-[#D8FFE2] hover:bg-[#5DA770]"
+        asChild
+      >
         <Button variant={"outline"}>
-          <Settings2 color="#5DA770" size={30} />
+          <Settings2 size={25} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="md:flex">
