@@ -29,6 +29,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SquarePen from "../ui/square-pen";
 import EditEmployeeForm from "../form/EditEmployeeForm";
+import { EditEmployeeModal } from "./EditEployeeModal";
+import { EditEmployeeButton } from "../edit-employee-button";
 
 const FormSchema = z.object({
   cpf: z
@@ -53,7 +55,7 @@ const TABLE_HEAD_CONTENT = [
   { title: "Assinatura", key: "signature" },
   { title: "Matrícula", key: "inscription" },
   { title: "E-mail", key: "email" },
-  // { title: "Ações", key: "actions" },
+  { title: "Ações", key: "actions" },
 ];
 
 export const ManageEmployee = () => {
@@ -272,31 +274,10 @@ export const ManageEmployee = () => {
                     </p>
                   </TableCell>
                   <TableCell className="flex justify-center gap-4">
-                    {/* <Dialog
-                      open={isDialogEditOpen}
-                      onOpenChange={setIsDialogEditOpen}
-                    >
-                      <DialogTrigger>
-                        <Button
-                          type="button"
-                          variant={"outline"}
-                          disabled={isLoading}
-                        >
-                          <SquarePen size="15" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-lg px-20">
-                        <DialogHeader className="space-y-4">
-                          <EditEmployeeForm
-                            isLoading={isLoading}
-                            id={employee.id}
-                          />
-                        </DialogHeader>
-                        <DialogFooter>
-                          <DialogClose asChild></DialogClose>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
+                    <EditEmployeeButton
+                      id={employee.id}
+                      isLoading={isLoading}
+                    />
                     <Button
                       onClick={() => handleDeleteEmployee(employee.id)}
                       type="button"
@@ -304,7 +285,7 @@ export const ManageEmployee = () => {
                       disabled={isLoading}
                     >
                       <Trash size={15} />
-                    </Button> */}
+                    </Button>
                   </TableCell>
                 </TableRow>
               );

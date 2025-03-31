@@ -22,16 +22,18 @@ export default function PaginaDeEquipe() {
           <div className="flex-1 flex flex-col justify-center gap-4">
             <h3 className="font-bold text-lg">Nossa Equipe</h3>
             <ul className="list-disc">
-              <li>Conselho de administração / Cargos Executivos</li>
+              <li>Conselho de Administração</li>
               <li>Conselho Fiscal</li>
-              <li>Suplentes</li>
+              <li>Cooperados</li>
+              <li>Associados</li>
             </ul>
           </div>
         </div>
         {/* Team section */}
         <div className="w-[60%] flex gap-10 py-20 flex-col md:[90%]">
-          <h3 className="font-bold text-lg">
-            CONSELHO DE ADMINISTRAÇÃO / CARGOS EXECUTIVOS
+          <h3 className="font-bold text-lg uppercase">
+            Conselho de administração / Conselho Fiscal / Cooperados /
+            Associados
           </h3>
           <h4>
             Nova Composição do Conselho de Administração/Quadriênio 2023/2026.
@@ -46,15 +48,19 @@ export default function PaginaDeEquipe() {
               Fábio Deodoro de Souza
             </p>
             <p>
-              <strong>Diretor de Certificações Bancárias e Educação Financeira: </strong>
+              <strong>
+                Diretor de Certificações Bancárias e Educação Financeira:{" "}
+              </strong>
               Glauco de Lima Cruz
             </p>
             <p>
               <strong>Diretor Adjunto de Cetificação Bancária: </strong>
-              Natália Cecília Silva Martins Almeida 
+              Natália Cecília Silva Martins Almeida
             </p>
             <p>
-              <strong>Diretora de Coordenação Cooperativista e Eventos do Dia C: </strong>
+              <strong>
+                Diretora de Coordenação Cooperativista e Eventos do Dia C:{" "}
+              </strong>
               Edwania Martins Lopes Fonseca
             </p>
             <p>
@@ -75,29 +81,31 @@ export default function PaginaDeEquipe() {
             </p>
           </div>
           <h4>
-            Composição do Conselho Fiscal para o Mandato de Janeiro a Dezembro
-            de 2024. Um ano conf.Lei 12.690/2012.
+            Composição da Diretoria do Conselho Fiscal Mandato 2024/2026 para o
+            Mandato de 2024 conforme 12.690/2012 e Lei 5.762 /1971:
           </h4>
           <div>
             <h4 className="font-bold">Diretores do Conselho Fiscal: </h4>
             <p>Edmilson Neves de Souza</p>
             <p>Cláudio Roberto de Oliveira Silva</p>
             <p>Werlen Carlos Lopes Silva</p>
-            <p>José Márcio Pereira Barbosa</p>
+            <p>Alessandra Ribeiro Lima</p>
+            <p>José Maria Pereira Chagas</p>
             <p>Evelyn Eymard Mesquita Vieira</p>
           </div>
-          <br />
           <div className="flex justify-between gap-10 md:flex-col">
             <div>
-              <h4 className="font-bold uppercase">Conselheiro Fiscal</h4>
-              <p className="font-semibold">Membros efetivos</p>
+              <h4 className="font-bold uppercase">Membros Efetivos:</h4>
+              <p>Edimilson Neves de Souza</p>
               <p>Cláudio Roberto de Oliveira Silva</p>
-              <p>Edmilson Neves de Souza</p>
-              <p>Elaine Gonçalves da Silva Drumond</p>
+              <p>Werlen Carlos Lopes Silva</p>
+              {/* <p>Eberton Tiago de Brito Mendes</p> */}
+              {/* <p>Fabiana Cláudia D. Nunes</p> */}
             </div>
             <div>
-              <h4 className="font-bold uppercase">Suplentes</h4>
-              <p>José Márcio Pereira Barbosa</p>
+              <h4 className="font-bold uppercase">Membros Suplentes:</h4>
+              <p>Alessandra Ribeiro Lima</p>
+              <p>José Maria Pereira Chagas</p>
               <p>Evelyn Eymard Mesquita Vieira</p>
               {/* <p>Eberton Tiago de Brito Mendes</p> */}
               {/* <p>Fabiana Cláudia D. Nunes</p> */}

@@ -43,8 +43,6 @@ const FormSchema = z.object({
 const EditEmployeeForm = ({ isLoading, id }: OnSubmitFormProps) => {
   const [user, setUser] = useState<UsersDataProps>();
 
-  console.log(id);
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/user/${id}`);
