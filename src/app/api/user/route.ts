@@ -132,3 +132,34 @@ export async function PATCH(req: NextRequest) {
 
   return NextResponse.json({ status: 200 });
 }
+
+export async function PUT(req: NextRequest) {
+  const { id, cpf, name, role, inscription, email } = await req.json();
+
+  if (!id) {
+    return NextResponse.json(
+      {
+        message: "Sem o ID não é possível encontrar o usuário.",
+      },
+      { status: 400 }
+    );
+  }
+
+  await db.user.update({
+    where: {
+      id,
+    },
+    data: {
+      cpf,
+      name,
+      role,
+      inscription,
+      email,
+    },
+  });
+
+  return NextResponse.json(
+    { message: "Usuário atualizado com sucesso." },
+    { status: 200 }
+  );
+}

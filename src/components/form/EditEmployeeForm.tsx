@@ -16,8 +16,6 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 import InputMask from "react-input-mask";
-import { FetchAPI, formatedFormUserData } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { UsersDataProps } from "@/types/types";
 
 type OnSubmitFormProps = {
@@ -42,8 +40,6 @@ const FormSchema = z.object({
 
 const EditEmployeeForm = ({ isLoading, id }: OnSubmitFormProps) => {
   const [user, setUser] = useState<UsersDataProps>();
-
-  console.log(id);
 
   useEffect(() => {
     const fetchData = async () => {
