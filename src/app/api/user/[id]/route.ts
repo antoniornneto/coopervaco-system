@@ -29,6 +29,12 @@ export async function DELETE(
     },
   });
 
+  await db.employee.delete({
+    where: {
+      id: params.id,
+    },
+  });
+
   return NextResponse.json(
     { message: "Usuário excluído com sucesso." },
     { status: 200 }
