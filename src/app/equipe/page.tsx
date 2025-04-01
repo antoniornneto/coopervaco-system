@@ -99,16 +99,12 @@ export default function PaginaDeEquipe() {
               <p>Edimilson Neves de Souza</p>
               <p>Cláudio Roberto de Oliveira Silva</p>
               <p>Werlen Carlos Lopes Silva</p>
-              {/* <p>Eberton Tiago de Brito Mendes</p> */}
-              {/* <p>Fabiana Cláudia D. Nunes</p> */}
             </div>
             <div>
               <h4 className="font-bold uppercase">Membros Suplentes:</h4>
               <p>Alessandra Ribeiro Lima</p>
               <p>José Maria Pereira Chagas</p>
               <p>Evelyn Eymard Mesquita Vieira</p>
-              {/* <p>Eberton Tiago de Brito Mendes</p> */}
-              {/* <p>Fabiana Cláudia D. Nunes</p> */}
             </div>
           </div>
         </div>

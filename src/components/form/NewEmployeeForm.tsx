@@ -9,37 +9,44 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
 import InputMask from "react-input-mask";
-import { FetchAPI, formatedFormUserData } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type OnSubmitFormProps = {
   isLoading: boolean;
-  form: UseFormReturn<
-    {
-      name: string;
-      cpf: string;
-      inscription: string;
-      email: string;
-      position: string;
-    },
-    any,
-    undefined
-  >;
   onSubmitForm: (values: any) => void;
 };
 
-const NewEmployeeForm = ({
-  onSubmitForm,
-  form,
-  isLoading,
-}: OnSubmitFormProps) => {
+const FormSchema = z.object({
+  cpf: z
+    .string()
+    .min(14, "CPF inválido")
+    .max(14, "CPF inválido")
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+  name: z.coerce.string().min(10, "Preencha com o nome completo"),
+  inscription: z.coerce
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(4, "Preencha com no máximo 4 digitos"),
+  email: z.coerce.string().min(1, "Campo obrigatório"),
+  position: z.coerce.string().min(1, "Campo obrigatório"),
+});
+
+const NewEmployeeForm = ({ onSubmitForm, isLoading }: OnSubmitFormProps) => {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      cpf: "",
+      name: "",
+      inscription: "",
+      email: "",
+      position: "",
+    },
+  });
   return (
     <div className="text-start space-y-4">
       <h1 className="text-lg uppercase font-bold">Adicionar Novo Cooperado:</h1>

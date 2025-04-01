@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UsersDataProps } from "@/types/types";
-import { Loader2, Pen, Plus, Trash } from "lucide-react";
+import { Loader2, Plus, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,9 +27,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SquarePen from "../ui/square-pen";
-import EditEmployeeForm from "../form/EditEmployeeForm";
-import { EditEmployeeModal } from "./EditEployeeModal";
 import { EditEmployeeButton } from "../edit-employee-button";
 
 const FormSchema = z.object({
@@ -62,7 +59,6 @@ export const ManageEmployee = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [listEmployees, setListEmployees] = useState<UsersDataProps[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isDialogEditOpen, setIsDialogEditOpen] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -90,7 +86,6 @@ export const ManageEmployee = () => {
     },
   });
 
-  // Reset form when dialog opens
   useEffect(() => {
     if (isDialogOpen) {
       form.reset({
@@ -122,8 +117,11 @@ export const ManageEmployee = () => {
       data,
     });
 
+    console.log(callAPIRequest);
+
     if (!callAPIRequest.ok) {
       setIsLoading(false);
+      return;
     }
 
     setIsLoading(false);
@@ -135,7 +133,7 @@ export const ManageEmployee = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/api/employee/${id}`);
+      const response = await fetch(`/api/user/${id}`);
       const data = await response.json();
 
       if (data.role === "admin") {
@@ -150,7 +148,7 @@ export const ManageEmployee = () => {
       }
 
       const deleteResponse = await FetchAPI({
-        path: `/api/employee/${id}`,
+        path: `/api/user/${id}`,
         method: "DELETE",
       });
 
@@ -174,21 +172,25 @@ export const ManageEmployee = () => {
     label: role === "user" ? "COMUM" : "ADMINISTRADOR",
     className: `text-center rounded-xl ${
       role === "user"
-        ? "bg-blue-200 text-blue-700"
-        : "bg-yellow-200 text-yellow-700"
+        ? "bg-blue-200 m-auto w-fit py-1 px-2 text-blue-700"
+        : "bg-yellow-200 m-auto w-fit py-1 px-2 text-yellow-700"
     }`,
   });
 
   const getSignatureDisplay = (signature: string | null) => ({
     label: signature ? "Criada" : "Pendente",
     className: `text-center rounded-xl ${
-      !signature ? "bg-red-200 text-red-700" : "bg-green-200 text-green-700"
+      !signature
+        ? "bg-red-200 m-auto w-fit py-1 px-2 text-red-700"
+        : "bg-green-200 m-auto w-fit py-1 px-2 text-green-700"
     }`,
   });
 
   const getEmailDisplay = (email: string | null) => ({
     label: email ? email : "Pendente",
-    className: `text-center rounded-xl ${!email && "bg-red-200 text-red-700"}`,
+    className: `text-center m-auto w-fit py-1 px-2 rounded-xl ${
+      !email && "bg-red-200 m-auto w-fit py-1 px-2 text-red-700"
+    }`,
   });
 
   return (
@@ -215,7 +217,6 @@ export const ManageEmployee = () => {
               <DialogHeader className="space-y-4">
                 <NewEmployeeForm
                   onSubmitForm={onSubmitForm}
-                  form={form}
                   isLoading={isLoading}
                 />
               </DialogHeader>
@@ -274,18 +275,41 @@ export const ManageEmployee = () => {
                     </p>
                   </TableCell>
                   <TableCell className="flex justify-center gap-4">
-                    <EditEmployeeButton
-                      id={employee.id}
-                      isLoading={isLoading}
-                    />
-                    <Button
-                      onClick={() => handleDeleteEmployee(employee.id)}
-                      type="button"
-                      variant={"outline"}
-                      disabled={isLoading}
-                    >
-                      <Trash size={15} />
-                    </Button>
+                    {isLoading ? (
+                      <>
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Loader2 className="animate-spin" size={20} />
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Loader2 className="animate-spin" size={20} />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <EditEmployeeButton
+                          id={employee.id}
+                          isLoading={isLoading}
+                        />
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Trash size={15} />
+                        </Button>
+                      </>
+                    )}
                   </TableCell>
                 </TableRow>
               );

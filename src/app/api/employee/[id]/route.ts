@@ -5,6 +5,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  console.log(params.id);
   if (!params.id) {
     return NextResponse.json(
       { message: "Não foi possível capturar o ID do cooperado." },
@@ -17,6 +18,12 @@ export async function GET(
       id: params.id,
     },
   });
+
+  if (!getUser) {
+    return NextResponse.json({ message: "Usuário não encontrado" });
+  }
+
+  console.log(getUser);
 
   return NextResponse.json(getUser, { status: 200 });
 }
