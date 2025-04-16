@@ -242,79 +242,71 @@ export const ManageEmployee = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {listEmployees
-              .sort((a, b) => (a?.name || "").localeCompare(b?.name || ""))
-              .map((employee) => {
-                const roleDisplay = getRoleDisplay(employee.role);
-                const signatureDisplay = getSignatureDisplay(
-                  employee.signature
-                );
-                const emailDisplay = getEmailDisplay(employee.email);
+            {listEmployees.map((employee) => {
+              const roleDisplay = getRoleDisplay(employee.role);
+              const signatureDisplay = getSignatureDisplay(employee.signature);
+              const emailDisplay = getEmailDisplay(employee.email);
 
-                return (
-                  <TableRow key={`cooperado-${employee.id}`}>
-                    <TableCell className="text-center">
-                      {employee.cpf}
-                    </TableCell>
-                    <TableCell>{employee.name}</TableCell>
-                    <TableCell>
-                      <p className={roleDisplay.className}>
-                        {roleDisplay.label}
-                      </p>
-                    </TableCell>
-                    <TableCell>
-                      <p className={signatureDisplay.className}>
-                        {signatureDisplay.label}
-                      </p>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {employee.inscription}
-                    </TableCell>
-                    <TableCell>
-                      <p className={emailDisplay.className}>
-                        {emailDisplay.label}
-                      </p>
-                    </TableCell>
-                    <TableCell className="flex justify-center gap-4">
-                      {isLoading ? (
-                        <>
-                          <Button
-                            onClick={() => handleDeleteEmployee(employee.id)}
-                            type="button"
-                            variant={"outline"}
-                            disabled={isLoading}
-                          >
-                            <Loader2 className="animate-spin" size={20} />
-                          </Button>
-                          <Button
-                            onClick={() => handleDeleteEmployee(employee.id)}
-                            type="button"
-                            variant={"outline"}
-                            disabled={isLoading}
-                          >
-                            <Loader2 className="animate-spin" size={20} />
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <EditEmployeeButton
-                            id={employee.id}
-                            isLoading={isLoading}
-                          />
-                          <Button
-                            onClick={() => handleDeleteEmployee(employee.id)}
-                            type="button"
-                            variant={"outline"}
-                            disabled={isLoading}
-                          >
-                            <Trash size={15} />
-                          </Button>
-                        </>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              return (
+                <TableRow key={`cooperado-${employee.id}`}>
+                  <TableCell className="text-center">{employee.cpf}</TableCell>
+                  <TableCell>{employee.name}</TableCell>
+                  <TableCell>
+                    <p className={roleDisplay.className}>{roleDisplay.label}</p>
+                  </TableCell>
+                  <TableCell>
+                    <p className={signatureDisplay.className}>
+                      {signatureDisplay.label}
+                    </p>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {employee.inscription}
+                  </TableCell>
+                  <TableCell>
+                    <p className={emailDisplay.className}>
+                      {emailDisplay.label}
+                    </p>
+                  </TableCell>
+                  <TableCell className="flex justify-center gap-4">
+                    {isLoading ? (
+                      <>
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Loader2 className="animate-spin" size={20} />
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Loader2 className="animate-spin" size={20} />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <EditEmployeeButton
+                          id={employee.id}
+                          isLoading={isLoading}
+                        />
+                        <Button
+                          onClick={() => handleDeleteEmployee(employee.id)}
+                          type="button"
+                          variant={"outline"}
+                          disabled={isLoading}
+                        >
+                          <Trash size={15} />
+                        </Button>
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       )}
