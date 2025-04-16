@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NewEmployeeForm from "../form/NewEmployeeForm";
 import {
   Table,

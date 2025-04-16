@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"; // Changed to import from your UI components
-import { FetchAPI } from "@/lib/utils";
+import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 
 interface ModalProps {
   closeModal: () => void;
@@ -94,7 +94,7 @@ export function EditEmployeeModal({ closeModal, id }: ModalProps) {
       data: {
         id: id,
         cpf: values.cpf,
-        name: values.name,
+        name: values.name.toUpperCase(),
         role: values.role,
         inscription: values.inscription,
         email: values.email,
