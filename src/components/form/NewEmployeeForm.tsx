@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -33,7 +33,6 @@ const FormSchema = z.object({
     .min(1, "Campo obrigatório")
     .max(4, "Preencha com no máximo 4 digitos"),
   email: z.coerce.string().min(1, "Campo obrigatório"),
-  position: z.coerce.string().min(1, "Campo obrigatório"),
 });
 
 const NewEmployeeForm = ({ onSubmitForm, isLoading }: OnSubmitFormProps) => {
@@ -44,7 +43,6 @@ const NewEmployeeForm = ({ onSubmitForm, isLoading }: OnSubmitFormProps) => {
       name: "",
       inscription: "",
       email: "",
-      position: "",
     },
   });
   return (
@@ -118,23 +116,6 @@ const NewEmployeeForm = ({ onSubmitForm, isLoading }: OnSubmitFormProps) => {
                       placeholder="email@mail.com"
                       {...field}
                       className="lowercase"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="position"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Função:</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Presidente Diretor"
-                      {...field}
-                      className="uppercase"
                     />
                   </FormControl>
                   <FormMessage />
