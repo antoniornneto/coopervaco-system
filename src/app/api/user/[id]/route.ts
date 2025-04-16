@@ -19,9 +19,27 @@ export async function DELETE(
 ) {
   if (!params.id) {
     return NextResponse.json({
-      message: "ID não informado. Não foi possível excluir o usuário.",
+      message: "Não foi possível encontrar o ID do usuário.",
     });
   }
+
+  const getEmployeeId = await db.user.findUnique({
+    where: {
+      id: params.id,
+    },
+    select: {
+      employeeId: true,
+    },
+  });
+
+  if (!getEmployeeId) {
+    return NextResponse.json(
+      { message: "Não foi possível encontrar o ID do cooperado." },
+      { status: 400 }
+    );
+  }
+
+  const employeeId = getEmployeeId?.employeeId.toString();
 
   await db.user.delete({
     where: {
@@ -31,7 +49,7 @@ export async function DELETE(
 
   await db.employee.delete({
     where: {
-      id: params.id,
+      id: employeeId,
     },
   });
 

@@ -117,8 +117,6 @@ export const ManageEmployee = () => {
       data,
     });
 
-    console.log(callAPIRequest);
-
     if (!callAPIRequest.ok) {
       setIsLoading(false);
       return;
@@ -132,32 +130,30 @@ export const ManageEmployee = () => {
   const handleDeleteEmployee = async (id: string) => {
     setIsLoading(true);
 
-    try {
-      const response = await fetch(`/api/user/${id}`);
-      const data = await response.json();
+    const response = await fetch(`/api/user/${id}`);
+    const data = await response.json();
 
-      if (data.role === "admin") {
-        const confirmDelete = window.confirm(
-          "Esse usuário é um administrador, tem certeza que deseja prosseguir?"
-        );
+    if (data.role === "admin") {
+      const confirmDelete = window.confirm(
+        "Esse usuário é um administrador, tem certeza que deseja prosseguir?"
+      );
 
-        if (!confirmDelete) {
-          toast.info("Usuário mantido.");
-          return;
-        }
+      if (!confirmDelete) {
+        toast.info("Usuário mantido.");
+        return;
       }
-
-      const deleteResponse = await FetchAPI({
-        path: `/api/user/${id}`,
-        method: "DELETE",
-      });
-
-      if (deleteResponse.ok) {
-        setListEmployees((prev) => prev.filter((emp) => emp.id !== id));
-      }
-    } finally {
-      setIsLoading(false);
     }
+
+    const deleteResponse = await FetchAPI({
+      path: `/api/user/${id}`,
+      method: "DELETE",
+    });
+
+    if (deleteResponse.ok) {
+      setListEmployees((prev) => prev.filter((emp) => emp.id !== id));
+    }
+
+    location.reload();
   };
 
   // Status display helpers
