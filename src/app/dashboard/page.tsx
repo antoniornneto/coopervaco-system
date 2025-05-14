@@ -14,7 +14,7 @@ const page = async () => {
 
   return (
     <div>
-      {session?.user.role == "admin" ? (
+      {session?.user.role === "admin" ? (
         <AdminPage id={userId} />
       ) : (
         <UserPage id={userId} />

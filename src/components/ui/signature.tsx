@@ -9,16 +9,20 @@ const Signature = async ({ id }: { id: string }) => {
     },
   });
 
+  if (user === null || user?.name === undefined) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col items-center w-72 h-40">
       {user?.signature === null ? (
         <>
-        <FileSignature className="flex-1" />
+          <FileSignature className="flex-1" />
         </>
       ) : (
         <div className="w-40 h-32 relative">
           <Image
-            src={`${user?.signature}`}
+            src={`${user?.signature || ""}`}
             alt={`Assinatura de ${user?.name}`}
             fill
             sizes="100vw"

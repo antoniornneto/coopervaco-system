@@ -8,6 +8,7 @@ import { AtasDataProps } from "@/types/types";
 import { dayjs } from "@/lib/utils";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { FilePlus2 } from "lucide-react";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,26 +24,41 @@ const AdminPage = async ({ id }: { id: string | undefined }) => {
       <HeaderSystem />
       {/* topo da página */}
       <div>
-        <div className="bg-[#F0F0F0] w-full flex flex-col justify-center p-5">
-          <SignatureAlert id={id} />
-          <div className="w-[90%] h-32 flex items-center gap-2 md:flex-col md:h-fit md:py-2">
-            <h1 className="text-4xl md:text-3xl">Atas de Reuniões</h1>
-            <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
+        <div className="bg-[#F0F0F0] flex flex-col items-center py-5">
+          <div className="w-[90%] flex flex-col">
+            <SignatureAlert id={id} />
+            <div className="flex justify-between items-end py-5 gap-4 md:flex-col md:h-fit md:py-2 md:items-start">
+              <div className="text-[#606060] max-w-[26rem]">
+                <h1 className="text-4xl font-bold md:text-3xl">
+                  Atas de Reuniões
+                </h1>
+                <p>
+                  A cada reunião realizada o administrador da reunião deixará a
+                  ata disponível para você visualizar e assinar.{" "}
+                </p>
+              </div>
+              <Button className="bg-button_primary space-x-2 hover:bg-button_primary/70 md:flex-1">
+                <FilePlus2 />
+                <Link href={"/dashboard/create-ata"}>Criar Ata</Link>
+              </Button>
+              {/* <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
               {uniqueYears.map((year) => (
                 <option key={`${year}`} value={`${year}`}>
                   {year}
                 </option>
               ))}
-            </select>
+            </select> */}
+              {/* <div className="w-[24rem]">
+              
+            </div>
             <div className="flex flex-1 flex-wrap gap-2">
-              <Button className="bg-button_primary hover:bg-button_primary/70 md:flex-1">
-                <Link href={"/dashboard/create-ata"}>Criar Ata</Link>
-              </Button>
+              
               <Button className="bg-button_primary hover:bg-button_primary/70 md:flex-1">
                 <Link className="text-wrap" href={"/dashboard/manage-employee"}>
                   Gerenciar Cooperados
                 </Link>
               </Button>
+            </div> */}
             </div>
           </div>
         </div>

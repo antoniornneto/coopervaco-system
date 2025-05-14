@@ -10,17 +10,22 @@ const SignatureAlert = async ({ id }: { id: string | undefined }) => {
   });
 
   const isUserSignature = getUser?.signature ? true : false;
-
+  // const isUserSignature = false; teste para mostrar
   return (
     <div>
       {!isUserSignature && (
-        <div className="text-yellow-800 bg-yellow-100 rounded-lg p-5 flex items-center gap-2">
-          <AlertCircle />
+        <div className="text-yellow-800 bg-yellow-100 rounded-lg p-5 flex items-center w-fit gap-2">
+          <AlertCircle color="#FF0000" />
           <p>
-            Para ter acesso completo as funcionalidades do sistema, lembre-se de
-            criar sua assinatura <Link className="underline" href={"/dashboard/profile"}>clicando aqui</Link>.
+            Você ainda não criou sua assinatura, crie{" "}
+            <Link
+              className="underline text-[#666BFF]"
+              href={"/dashboard/profile"}
+            >
+              clicando aqui
+            </Link>
+            .
           </p>
-            <ExternalLink size={15} />
         </div>
       )}
     </div>

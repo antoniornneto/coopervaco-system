@@ -1,6 +1,5 @@
 "use client";
 import { Trash2 } from "lucide-react";
-import { Button } from "./button";
 import { toast } from "sonner";
 
 const DeleteButton = ({ ataId }: { ataId: string }) => {
@@ -21,12 +20,13 @@ const DeleteButton = ({ ataId }: { ataId: string }) => {
     }, 2000);
   };
   return (
-    <Button
-      className="bg-transparent w-fit hover:bg-transparent p-2"
+    <button
       onClick={(e) => deleteAta(ataId)}
+      className="rounded-md p-1 hover:bg-gray-100 flex items-center"
     >
-      <Trash2 color="black" size={20} />
-    </Button>
+      <Trash2 color="black" className="mr-3" size={18} />
+      <p>Deletar</p>
+    </button>
   );
 };
 

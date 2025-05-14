@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { DoorOpen } from "lucide-react";
 
 const LogoutButton = () => {
   return (
@@ -12,9 +13,9 @@ const LogoutButton = () => {
           callbackUrl: `${window.location.origin}/sign-in`,
         })
       }
-      className="bg-transparent font-normal text-base p-0 hover:bg-transparent hover:underline"
+      className="bg-[#11414C] px-2 hover:border-[#11414C] border-[1px] border-transparent"
     >
-      Sair
+      <DoorOpen color="#5DA770" />
     </Button>
   );
 };
