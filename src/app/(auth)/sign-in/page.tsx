@@ -45,19 +45,25 @@ export default async function LoginPage() {
             className="hidden md:w-72 md:block"
           />
           <div className="px-4 max-w-96">
-            <h1>
-              Se for o seu primeiro acesso, por motivos de segurança precisamos
-              verificar se você é um funcionário da Coopervaço. Clique{" "}
-              <Link
-                className="underline font-semibold text-[#5DA770]"
-                href={"./employee-verify"}
-              >
-                aqui.
-              </Link>
-            </h1>
-            <br />
-            <h1 className="mb-5">Caso contrário, faça o login abaixo.</h1>
             <SignInForm />
+            <div className="flex flex-col ">
+              <h1 className="text-2xl font-bold mt-10">
+                É seu primeiro acesso?
+              </h1>
+              <div className="flex flex-col gap-4">
+                <p className="text-gray-400">Então cadastre-se aqui:</p>
+                <Link
+                  className="border-[1px] border-[#5DA770] text-[#5DA770] h-14 rounded-lg flex items-center justify-center hover:bg-[#5DA770] hover:text-white hover:border-white transition-all ease-in-out duration-500"
+                  href={"./employee-verify"}
+                >
+                  Cadastrar-me
+                </Link>
+                <p className="text-gray-400 text-sm">
+                  Por motivos de segurança, precisamos verificar se você é um
+                  funcionário da Coopervaço.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

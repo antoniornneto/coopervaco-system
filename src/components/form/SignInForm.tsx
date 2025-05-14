@@ -76,7 +76,11 @@ const SignInForm = () => {
                 <FormItem>
                   <FormLabel className="font-bold">E-mail</FormLabel>
                   <FormControl>
-                    <Input placeholder="joao@coopervaco.com" {...field} />
+                    <Input
+                      className="h-14 bg-gray-200"
+                      placeholder="joao@coopervaco.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,6 +94,7 @@ const SignInForm = () => {
                   <FormLabel className="font-bold">Senha</FormLabel>
                   <FormControl>
                     <Input
+                      className="h-14 bg-gray-200"
                       type="password"
                       placeholder="Insira a senha"
                       {...field}
@@ -105,7 +110,7 @@ const SignInForm = () => {
               <LoadingButton width="w-full" />
             ) : (
               <Button
-                className="w-full bg-[#5DA770] hover:bg-[#5DA770]/80"
+                className="w-full h-14 bg-[#5DA770] hover:bg-[#5DA770]/80"
                 type="submit"
               >
                 Entrar
