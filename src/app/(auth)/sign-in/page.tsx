@@ -54,7 +54,7 @@ export default async function LoginPage() {
                 <p className="text-gray-400">Então cadastre-se aqui:</p>
                 <Link
                   className="border-[1px] border-[#5DA770] text-[#5DA770] h-14 rounded-lg flex items-center justify-center hover:bg-[#5DA770] hover:text-white hover:border-white transition-all ease-in-out duration-500"
-                  href={"./employee-verify"}
+                  href={"./employeeverify"}
                 >
                   Cadastrar-me
                 </Link>
