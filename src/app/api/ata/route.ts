@@ -1,7 +1,15 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
   try {
     const atas = await db.ata.findMany();
 
@@ -15,6 +23,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   try {
     const participants = await req.json();
     const newAta = await db.ata.create({
@@ -33,9 +46,13 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   try {
-    const { id, title, topics, approved_topics } =
-      await req.json();
+    const { id, title, topics, approved_topics } = await req.json();
 
     const updateAta = await db.ata.update({
       where: {
