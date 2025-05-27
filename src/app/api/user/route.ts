@@ -1,8 +1,9 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { hash } from "bcrypt";
-import { User } from "@prisma/client";
 import * as z from "zod";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 // Schema de validação
 const userSchema = z.object({
@@ -22,6 +23,12 @@ const userSchema = z.object({
 });
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
   const params = req.nextUrl.searchParams;
   const cpf = params.get("cpf") as string;
   const email = params.get("email") as string;
@@ -50,7 +57,7 @@ export async function GET(req: NextRequest) {
     if (existingUser?.email) {
       return NextResponse.json(
         { message: "Usuário já possui um cadastro" },
-        { status: 404 }
+        { status: 409 }
       );
     }
 
@@ -59,6 +66,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
   try {
     const body = await req.json();
     const { cpf, name, email, password, position, inscription } =
@@ -97,7 +110,6 @@ export async function POST(req: NextRequest) {
       {
         message:
           "Desculpe, tivemos um problema no servidor. Contate o administrador.",
-        error,
       },
       { status: 500 }
     );
@@ -106,6 +118,13 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   const { id, signature } = await req.json();
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
 
   if (!id) {
     return NextResponse.json(
@@ -135,6 +154,13 @@ export async function PATCH(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const { id, cpf, name, role, inscription, email } = await req.json();
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
 
   if (!id) {
     return NextResponse.json(

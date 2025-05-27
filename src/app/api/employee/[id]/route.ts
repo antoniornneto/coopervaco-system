@@ -1,11 +1,18 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  console.log(params.id);
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+
   if (!params.id) {
     return NextResponse.json(
       { message: "Não foi possível capturar o ID do cooperado." },
@@ -23,7 +30,6 @@ export async function GET(
     return NextResponse.json({ message: "Usuário não encontrado" });
   }
 
-  console.log(getUser);
 
   return NextResponse.json(getUser, { status: 200 });
 }
@@ -32,6 +38,13 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
+  
   if (!params.id) {
     return NextResponse.json(
       { message: "Não foi possível capturar o ID do cooperado." },

@@ -13,7 +13,6 @@ import {
   FormatedDataParams,
   HandleErrorParams,
 } from "@/types/types";
-import { useRouter } from "next/router";
 
 dayjs.extend(localizeFormat);
 dayjs.locale("pt-br");
