@@ -1,10 +1,17 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   const ata = await db.ata.findUnique({
     where: {
       id: params.id,
@@ -18,6 +25,11 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   try {
     if (!params.id) {
       return NextResponse.json({ message: `Ata inexistente` }, { status: 404 });
@@ -59,6 +71,11 @@ export async function PUT(
 }
 
 export async function PATCH(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   const { participants, id } = await req.json();
 
   const ata = await db.ata.update({
@@ -77,6 +94,11 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+  }
   try {
     const deleteAta = await db.ata.delete({
       where: {
