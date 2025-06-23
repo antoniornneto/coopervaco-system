@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import LoadingButton from "../ui/loadingButton";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { SessionUserProps, EmployeeDataProps } from "@/types/types";
+import { SessionUserProps } from "@/types/types";
 import { toast } from "sonner";
 import SignatureCanvas from "react-signature-canvas";
 import Image from "next/image";
@@ -22,17 +22,24 @@ import { FetchAPI, formatedFormUserData } from "@/lib/utils";
 import InputMask from "react-input-mask";
 import { useRouter } from "next/navigation";
 
-const FormSchema = z.object({
-  cpf: z
-    .string()
-    .min(14, "CPF inválido")
-    .max(14, "CPF inválido")
-    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
-  name: z.coerce.string(),
-  inscription: z.coerce.string().min(1),
-  position: z.coerce.string(),
-  email: z.coerce.string().email(),
-});
+const FormSchema = z
+  .object({
+    cpf: z
+      .string()
+      .min(14, "CPF inválido")
+      .max(14, "CPF inválido")
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido"),
+    name: z.coerce.string(),
+    inscription: z.coerce.string().min(1),
+    position: z.coerce.string(),
+    email: z.coerce.string().email(),
+    password: z.string().min(6, "A senha precisa ter no mínimo 6 caracteres"),
+    confirmPassword: z.string().min(1, "Confirme sua senha"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "As senhas precisam ser iguais",
+  });
 type employeeData = {
   id: string;
   cpf: string;
@@ -100,24 +107,30 @@ const ProfileForm = ({
       inscription: employeeData?.inscription,
       position: employeeData?.position!,
       email: userSession?.email,
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
 
-    const { name, cpf, email, inscription, position } = values;
+    const { name, cpf, email, inscription, position, password } = values;
 
     const data = await formatedFormUserData({
-      name,
-      cpf,
-      email,
-      inscription,
-      position,
+      id: userSession?.userId,
+      cpf: cpf,
+      name: name,
+      position: position,
+      inscription: inscription,
+      email: email,
+      password: password,
     });
 
+    console.log(data);
+
     const callAPIRequest = await FetchAPI({
-      path: "/api/employee",
+      path: "/api/user",
       method: "PUT",
       data,
     });
@@ -227,6 +240,24 @@ const ProfileForm = ({
                 </FormItem>
               )}
             />
+            {["password", "confirmPassword"].map((field) => (
+              <FormField
+                key={field}
+                control={form.control}
+                name={field as "password" | "confirmPassword"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">
+                      {field.name === "password" ? "Senha" : "Repita sua senha"}
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
             {/* <FormField
               control={form.control}
               name="birthday"

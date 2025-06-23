@@ -117,7 +117,7 @@ const SignInForm = () => {
                 Entrar
               </Button>
             )}
-{/*             <Link
+            {/*             <Link
               className="w-full py-2 flex justify-center items-center rounded-full border-[#5DA770] border-[1px] bg-white text-[#5DA770] hover:bg-[#5DA770] hover:text-white transition ease-in-out duration-300"
               href={"/passwordrecovery"}
               type="submit"

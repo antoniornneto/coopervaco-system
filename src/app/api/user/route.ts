@@ -68,10 +68,6 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-  }
-
   try {
     const body = await req.json();
     const { cpf, name, email, password, position, inscription } =
@@ -125,7 +121,6 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
   }
 
-
   if (!id) {
     return NextResponse.json(
       { message: "Aconteceu um erro inesperado" },
@@ -153,7 +148,8 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const { id, cpf, name, role, inscription, email } = await req.json();
+  const { id, cpf, name, role, inscription, email, password, isReset } =
+    await req.json();
 
   const session = await getServerSession(authOptions);
 
@@ -161,13 +157,45 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
   }
 
-
   if (!id) {
     return NextResponse.json(
       {
         message: "Sem o ID não é possível encontrar o usuário.",
       },
       { status: 400 }
+    );
+  }
+
+  if (isReset) {
+    const hashPassword = await hash(password, 10);
+    await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hashPassword,
+      },
+    });
+
+    return NextResponse.json(
+      { message: `A senha do usuário foi resetada para "coopervaco2025".` },
+      { status: 200 }
+    );
+  } else {
+    const hashPassword = await hash(password, 10);
+
+    await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hashPassword,
+      },
+    });
+
+    return NextResponse.json(
+      { message: `Senha alterada.` },
+      { status: 200 }
     );
   }
 

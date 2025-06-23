@@ -9,12 +9,6 @@ export async function GET(req: NextRequest) {
     const params = req.nextUrl.searchParams;
     const cpfParams = params.get("cpf") || undefined;
 
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-    }
-
     if (!cpfParams) {
       return NextResponse.json(
         { message: "CPF não foi informado." },
@@ -78,12 +72,6 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: Request) {
   const body: Employee = await req.json();
-
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-  }
 
   try {
     // checando se o CPF já existe para outro usuário
@@ -170,12 +158,6 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   const { cpf, name, inscription, position, email } = await req.json();
-
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-  }
 
   try {
     await db.employee.update({

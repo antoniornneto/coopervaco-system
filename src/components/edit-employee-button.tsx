@@ -23,6 +23,7 @@ export const EditEmployeeButton = ({ id, isLoading }: Props) => {
         type="button"
         variant={"outline"}
         disabled={isLoading}
+        title="Editar Cooperado"
       >
         <Pen size={15} />
       </Button>
