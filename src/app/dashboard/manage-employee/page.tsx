@@ -17,13 +17,15 @@ const page = async () => {
       {session.user.role === "admin" ? (
         <div>
           <HeaderSystem />
-          <Link href={"/dashboard"}>
-            <ArrowLeft
-              className="bg-[#F0F0F0] rounded-lg m-10"
-              size={40}
-              color="#5DA770"
-            />
-          </Link>
+          <div className="w-10">
+            <Link className="w-fit" href={"/dashboard"}>
+              <ArrowLeft
+                className="bg-[#F0F0F0] rounded-lg m-10 w-fit"
+                size={40}
+                color="#5DA770"
+              />
+            </Link>
+          </div>
           <div className="px-20">
             <ManageEmployee />
           </div>

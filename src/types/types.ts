@@ -26,6 +26,7 @@ export interface FetchAPIParams {
 }
 
 export type FormatedDataParams = {
+  id?: string;
   cpf?: string;
   name?: string;
   position?: string;

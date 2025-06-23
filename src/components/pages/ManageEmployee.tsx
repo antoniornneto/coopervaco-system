@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UsersDataProps } from "@/types/types";
-import { Loader2, Plus, Trash } from "lucide-react";
+import { KeyRound, Loader2, Plus, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -154,6 +154,24 @@ export const ManageEmployee = () => {
     }
 
     location.reload();
+  };
+
+  const resetPassword = async (id: string) => {
+    const data = {
+      id,
+      isReset: true,
+      password: "coopervaco2025",
+    };
+
+    const callAPIRequest = await FetchAPI({
+      path: `/api/user`,
+      method: "PUT",
+      data,
+    });
+
+    if (!callAPIRequest.ok) {
+      setIsLoading(false);
+    }
   };
 
   // Status display helpers
@@ -302,8 +320,18 @@ export const ManageEmployee = () => {
                             type="button"
                             variant={"outline"}
                             disabled={isLoading}
+                            title="Excluir Cooperado"
                           >
                             <Trash size={15} />
+                          </Button>
+                          <Button
+                            onClick={() => resetPassword(employee.id)}
+                            type="button"
+                            variant={"outline"}
+                            disabled={isLoading}
+                            title="Resetar Senha"
+                          >
+                            <KeyRound size={15} />
                           </Button>
                         </>
                       )}

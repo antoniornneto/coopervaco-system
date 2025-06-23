@@ -82,6 +82,7 @@ export const templateEmail = ({ titleText, date }: templateEmail) => {
 };
 
 export const formatedFormUserData = async ({
+  id,
   cpf,
   name,
   position,
@@ -95,6 +96,18 @@ export const formatedFormUserData = async ({
   const formatedInscription = await inscription?.toString().padStart(4, "0");
 
   let data = {};
+
+  if (id) {
+    return (data = {
+      id,
+      cpf: cpf,
+      name: nameToUpper,
+      position: positionToUpper,
+      email: emailToLower,
+      inscription: formatedInscription,
+      password,
+    });
+  }
 
   if (password) {
     return (data = {
