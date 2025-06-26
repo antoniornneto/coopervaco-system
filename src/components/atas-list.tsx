@@ -85,12 +85,9 @@ const AtasList = async () => {
             </div>
             <div
               key={ata.id}
-              className="border-y-[1px] justify-center flex-wrap items-center px-4 py-3 hover:bg-[#F0FFF4]"
+              className="hidden md:flex border-y-[1px] hover:bg-[#F0FFF4]"
             >
-              <Link
-                href={`/dashboard/view-ata/${ata.id}`}
-                className="hidden md:flex md:flex-col md:items-start md:gap-2"
-              >
+              <Link href={`/dashboard/view-ata/${ata.id}`} className="md:flex md:flex-1 md:flex-col md:items-start md:gap-2 justify-center flex-wrap items-center px-2 py-3">
                 <div className="flex flex-1 gap-10 md:flex-col md:gap-2">
                   <p className="font-bold text-lg md:text-sm">
                     {dayjs(ata.createdAt).format("DD/MM/YYYY")}

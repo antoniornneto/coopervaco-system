@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import EditAtaForm from "@/components/form/EditAtaForm";
-import HeaderAta from "@/components/ui/headerAta";
+import HeaderEditAta from "@/components/ui/headerAtaEdit";
 
 const editAta = async ({ params }: { params: { id: string } }) => {
   const ata = await db.ata.findUnique({
@@ -11,13 +11,13 @@ const editAta = async ({ params }: { params: { id: string } }) => {
 
   const date = {
     createdAt: ata?.createdAt as Date,
-    updateAt: ata?.updatedAt as Date
+    updateAt: ata?.updatedAt as Date,
   };
 
   return (
     <main>
       {/* Header */}
-      <HeaderAta date={date} />
+      <HeaderEditAta id={params.id} date={date} />
       {/* Body */}
       <div className="flex justify-center">
         <EditAtaForm ata={ata} />

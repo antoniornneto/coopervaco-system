@@ -30,12 +30,28 @@ export async function PUT(
   if (!session) {
     return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
   }
+
   try {
     if (!params.id) {
       return NextResponse.json({ message: `Ata inexistente` }, { status: 404 });
     }
 
-    const { title, topics, approved_topics, participants } = await req.json();
+    const { title, topics, approved_topics, participants, createdAt } =
+      await req.json();
+
+    if (createdAt) {
+      await db.ata.update({
+        where: {
+          id: params.id,
+        },
+        data: {
+          createdAt,
+        },
+      });
+
+      return NextResponse.json({ message: "Data alterada." }, { status: 200 });
+    }
+
     if (!title && !topics && !approved_topics && !participants) {
       return NextResponse.json(
         { message: `Dados inválidos ou mal informados para atualizar a ata.` },
