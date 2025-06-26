@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "./button";
 import { useEffect, useState } from "react";
 import { contextType } from "react-signature-canvas";
+import { toast } from "sonner";
 
 interface HeaderAtaProps {
   date: {
@@ -29,6 +30,14 @@ const HeaderEditAta = ({ id, date }: HeaderAtaProps) => {
       method: "PUT",
       body: JSON.stringify({ createdAt: isoDate.toISOString() }),
     });
+
+    const response = await callApiFetch.json();
+
+    if (!response) {
+      toast.error("Data inválida");
+    } else {
+      toast.success(response.message);
+    }
   };
 
   const [formatedDates, setFormatedDates] = useState({
