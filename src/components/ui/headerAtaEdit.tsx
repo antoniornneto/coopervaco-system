@@ -55,7 +55,7 @@ const HeaderEditAta = ({ id, date }: HeaderAtaProps) => {
 
     setFormatedDates({
       created: `${createdBrazilDate.format(
-        "D [de] MMMM, YYYY"
+        "DD/MM/YYYY"
       )}, ${createdBrazilDate.format("HH:mm")}`,
       updated: `${updatedBrazilDate.format(
         "DD/MM/YYYY"
@@ -79,6 +79,7 @@ const HeaderEditAta = ({ id, date }: HeaderAtaProps) => {
               Salvar Data
             </Button>
             <div className="text-sm font-bold">
+              <p>Data da Criação: {formatedDates.created}</p>
               <p>Última atualização: {formatedDates.updated}</p>
             </div>
           </div>
