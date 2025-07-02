@@ -1,8 +1,6 @@
 import { dayjs } from "@/lib/utils";
-import DeleteButton from "./ui/deleteButton";
 import { db } from "@/lib/db";
 import ViewButton from "./ui/viewButton";
-import EditButton from "./ui/editButton";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import SignAta from "./ui/signAta";
@@ -10,6 +8,7 @@ import { AtasDataProps, ParticipantProp } from "@/types/types";
 import PercentSignatures from "./ui/ataSignaturesPercent";
 import DropdownAtaSettings from "./ui/DropdownAtaSettings";
 import Link from "next/link";
+import UpdatePage from "./ui/updatePage";
 
 const AtasList = async () => {
   const session = await getServerSession(authOptions);
@@ -27,19 +26,25 @@ const AtasList = async () => {
 
   const years: string[] = [];
   ataData.map((ata) => years.push(dayjs(ata.createdAt).format("YYYY")));
+  const sortAta = ataData.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
   const uniqueYears = [...new Set(years)];
 
   return (
     <div className="py-10">
-      <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
-        {uniqueYears.map((year) => (
-          <option key={`${year}`} value={`${year}`}>
-            {year}
-          </option>
-        ))}
-      </select>
+      <div className="flex gap-2">
+        <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
+          {uniqueYears.map((year) => (
+            <option key={`${year}`} value={`${year}`}>
+              {year}
+            </option>
+          ))}
+        </select>
+        <UpdatePage />
+      </div>
       <div className="border-x-2 mt-5">
-        {ataData.map((ata) => (
+        {sortAta.map((ata) => (
           <div key={"container"}>
             <div
               key={ata.id}
@@ -87,7 +92,10 @@ const AtasList = async () => {
               key={ata.id}
               className="hidden md:flex border-y-[1px] hover:bg-[#F0FFF4]"
             >
-              <Link href={`/dashboard/view-ata/${ata.id}`} className="md:flex md:flex-1 md:flex-col md:items-start md:gap-2 justify-center flex-wrap items-center px-2 py-3">
+              <Link
+                href={`/dashboard/view-ata/${ata.id}`}
+                className="md:flex md:flex-1 md:flex-col md:items-start md:gap-2 justify-center flex-wrap items-center px-2 py-3"
+              >
                 <div className="flex flex-1 gap-10 md:flex-col md:gap-2">
                   <p className="font-bold text-lg md:text-sm">
                     {dayjs(ata.createdAt).format("DD/MM/YYYY")}

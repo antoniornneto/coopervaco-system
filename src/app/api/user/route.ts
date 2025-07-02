@@ -166,6 +166,26 @@ export async function PUT(req: NextRequest) {
     );
   }
 
+  if (!password) {
+    await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        cpf,
+        name,
+        role,
+        inscription,
+        email,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Usuário atualizado com sucesso." },
+      { status: 200 }
+    );
+  }
+
   if (isReset) {
     const hashPassword = await hash(password, 10);
     await db.user.update({
@@ -193,27 +213,6 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(
-      { message: `Senha alterada.` },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: `Senha alterada.` }, { status: 200 });
   }
-
-  await db.user.update({
-    where: {
-      id,
-    },
-    data: {
-      cpf,
-      name,
-      role,
-      inscription,
-      email,
-    },
-  });
-
-  return NextResponse.json(
-    { message: "Usuário atualizado com sucesso." },
-    { status: 200 }
-  );
 }

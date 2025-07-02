@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { ParticipantProp, UsersDataProps, UserDataProps } from "@/types/types";
-import HeaderAta from "@/components/ui/headerAta";
+import HeaderEditAta from "@/components/ui/headerAtaEdit";
 
 export default async function CriarAta({
   params,
@@ -45,7 +45,7 @@ export default async function CriarAta({
     <main className="pb-10">
       <div className="text-[#606060]">
         {/* Header */}
-        <HeaderAta date={date} />
+        <HeaderEditAta id={params.ataId} date={date} />
         <div className="flex flex-col items-center">
           {/* Mid content */}
           <NewAtaForm />
