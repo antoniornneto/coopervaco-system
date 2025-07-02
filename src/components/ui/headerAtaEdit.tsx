@@ -69,12 +69,15 @@ const HeaderEditAta = ({ id, date }: HeaderAtaProps) => {
         <div className="flex-1 flex items-end flex-wrap gap-10 md:gap-5 md:flex-col md:items-start">
           <h1 className="text-5xl md:flex-1 md:text-4xl">Ata de Reunião</h1>
           <div className="flex gap-10 items-center text-lg md:flex-1 md:gap-4 md:flex-col md:items-start">
-            <input
-              id="ata-date"
-              className="border-[1px] px-2 rounded-lg"
-              type="datetime-local"
-              onChange={(e) => setFullDate(e.target.value)}
-            />
+            <label className="flex flex-col">
+              <p className="text-sm">Altere a data clicando no campo abaixo:</p>
+              <input
+                id="ata-date"
+                className="border-black border-2 px-2 rounded-lg"
+                type="datetime-local"
+                onChange={(e) => setFullDate(e.target.value)}
+              />
+            </label>
             <Button type="button" onClick={() => updateDate(id, fullDate)}>
               Salvar Data
             </Button>
