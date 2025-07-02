@@ -71,7 +71,7 @@ const HeaderEditAta = ({ id, date }: HeaderAtaProps) => {
           <div className="flex gap-10 items-center text-lg md:flex-1 md:gap-4 md:flex-col md:items-start">
             <input
               id="ata-date"
-              className="bg-transparent"
+              className="border-[1px] px-2 rounded-lg"
               type="datetime-local"
               onChange={(e) => setFullDate(e.target.value)}
             />
