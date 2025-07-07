@@ -25,8 +25,6 @@ const DropdownAtaSettings = ({ id }: DropdownProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40 md:flex">
         <DropdownMenuGroup className="flex flex-col gap-1 text-sm md:gap-3 md:text-base">
-          {/* <EditButton ataId={ata.id} />
-          <DeleteButton ataId={ata.id} /> */}
           <button className="rounded-md p-1 hover:bg-gray-100">
             <Link
               className="flex justify-start items-center"

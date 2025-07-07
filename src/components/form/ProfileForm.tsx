@@ -33,8 +33,8 @@ const FormSchema = z
     inscription: z.coerce.string().min(1),
     position: z.coerce.string(),
     email: z.coerce.string().email(),
-    password: z.string().min(6, "A senha precisa ter no mínimo 6 caracteres"),
-    confirmPassword: z.string().min(1, "Confirme sua senha"),
+    password: z.string(),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -117,7 +117,9 @@ const ProfileForm = ({
 
     const { name, cpf, email, inscription, position, password } = values;
 
-    const data = await formatedFormUserData({
+    console.log(name, userSession?.userId);
+
+    const dataWithPassword = await formatedFormUserData({
       id: userSession?.userId,
       cpf: cpf,
       name: name,
@@ -127,21 +129,45 @@ const ProfileForm = ({
       password: password,
     });
 
-    console.log(data);
-
-    const callAPIRequest = await FetchAPI({
-      path: "/api/user",
-      method: "PUT",
-      data,
+    const data = await formatedFormUserData({
+      id: userSession?.userId,
+      cpf: cpf,
+      name: name,
+      position: position,
+      inscription: inscription,
+      email: email,
     });
 
-    if (!callAPIRequest.ok) {
-      setAction(false);
-    }
+    if (!password) {
+      const callAPIRequest = await FetchAPI({
+        path: "/api/user",
+        method: "PUT",
+        data,
+      });
 
-    if (callAPIRequest.ok) {
-      router.push("/dashboard");
-      router.refresh();
+      if (!callAPIRequest.ok) {
+        setAction(false);
+      }
+
+      if (callAPIRequest.ok) {
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } else {
+      const callAPIRequest = await FetchAPI({
+        path: "/api/user",
+        method: "PUT",
+        data: dataWithPassword,
+      });
+
+      if (!callAPIRequest.ok) {
+        setAction(false);
+      }
+
+      if (callAPIRequest.ok) {
+        router.push("/dashboard");
+        router.refresh();
+      }
     }
   };
 

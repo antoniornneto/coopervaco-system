@@ -1,8 +1,14 @@
-"use client";
-import { Trash2 } from "lucide-react";
+"use cliente";
+import { useState } from "react";
 import { toast } from "sonner";
 
-const DeleteButton = ({ ataId }: { ataId: string }) => {
+const useDelete = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModal = (modalState: boolean) => {
+    setModalOpen(!modalState);
+  };
+
   const deleteAta = async (id: string) => {
     setTimeout(() => {
       const reqDelete = fetch(`/api/ata/${id}`, {
@@ -19,15 +25,8 @@ const DeleteButton = ({ ataId }: { ataId: string }) => {
       });
     }, 2000);
   };
-  return (
-    <button
-      onClick={() => deleteAta(ataId)}
-      className="rounded-md p-1 hover:bg-gray-100 flex items-center"
-    >
-      <Trash2 color="black" className="mr-3" size={18} />
-      <p>Deletar</p>
-    </button>
-  );
+
+  return { modalOpen, setModalOpen, handleModal, deleteAta };
 };
 
-export default DeleteButton;
+export default useDelete;

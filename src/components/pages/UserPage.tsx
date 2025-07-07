@@ -12,9 +12,6 @@ const UserPage = async ({ id }: { id: string | undefined }) => {
           <SignatureAlert id={id} />
           <div className="w-[90%] h-32 flex items-center gap-10">
             <h1 className="text-4xl">Atas de Reuniões</h1>
-            <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
-              <option value="2024">2024</option>
-            </select>
           </div>
         </div>
       </div>
