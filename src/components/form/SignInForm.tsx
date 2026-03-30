@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 import LoadingButton from "../ui/loadingButton";
+import Link from "next/link";
 
 const FormSchema = z.object({
   email: z
@@ -105,7 +106,7 @@ const SignInForm = () => {
               )}
             />
           </div>
-          <div>
+          <div className="flex flex-col gap-4">
             {action ? (
               <LoadingButton width="w-full" />
             ) : (
@@ -116,6 +117,13 @@ const SignInForm = () => {
                 Entrar
               </Button>
             )}
+            <Link
+              className="w-full py-2 flex justify-center items-center rounded-full border-[#5DA770] border-[1px] bg-white text-[#5DA770] hover:bg-[#5DA770] hover:text-white transition ease-in-out duration-300"
+              href={"/passwordrecovery"}
+              type="submit"
+            >
+              Esqueceu sua senha?
+            </Link>
           </div>
         </form>
       </Form>

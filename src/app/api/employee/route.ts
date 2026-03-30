@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
 import { Employee } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,31 +10,7 @@ export async function GET(req: NextRequest) {
     if (!cpfParams) {
       return NextResponse.json(
         { message: "CPF não foi informado." },
-        { status: 400 }
-      );
-    }
-
-    const employeeIsUser = await db.user.findUnique({
-      where: {
-        cpf: cpfParams,
-      },
-    });
-
-    if (!employeeIsUser) {
-      return NextResponse.json(
-        {
-          message:
-            "Usuário não encontrado, entre em contato com os administradores.",
-        },
-        { status: 404 }
-      );
-    }
-
-    // Checando se existe password para decidir se o usário pode criar o cadastro
-    if (employeeIsUser?.password !== null) {
-      return NextResponse.json(
-        { message: "Usuário já possui cadastro." },
-        { status: 409 }
+        { status: 400 },
       );
     }
 
@@ -46,8 +22,26 @@ export async function GET(req: NextRequest) {
 
     if (!existingEmployee) {
       return NextResponse.json(
-        { message: "Funcionário não encontrado." },
-        { status: 404 }
+        {
+          message:
+            "Funcionário não encontrado, entre em contato com os administradores.",
+        },
+        { status: 404 },
+      );
+    }
+
+    // Checando se já existe usuário criado para este funcionário
+    const employeeIsUser = await db.user.findUnique({
+      where: {
+        cpf: cpfParams,
+      },
+    });
+
+    // Se existe na user e já tem senha, o cadastro já foi realizado
+    if (employeeIsUser && employeeIsUser.password !== null) {
+      return NextResponse.json(
+        { message: "Usuário já possui cadastro." },
+        { status: 409 },
       );
     }
 
@@ -61,7 +55,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Funcionário encontrado.", data },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -81,7 +75,7 @@ export async function POST(req: Request) {
     if (existingEmployeeByCpf) {
       return NextResponse.json(
         { message: "CPF cadastrado em outro(a) usuário(a)." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -94,7 +88,7 @@ export async function POST(req: Request) {
     if (existingEmployeeByName) {
       return NextResponse.json(
         { message: "NOME cadastrado em outro(a) usuário(a)." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -108,7 +102,7 @@ export async function POST(req: Request) {
     if (existingEmployeeByInscription) {
       return NextResponse.json(
         { message: "MATRÍCULA cadastrada em outro(a) usuário(a)." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -121,7 +115,7 @@ export async function POST(req: Request) {
     if (existingEmployeeByEmail) {
       return NextResponse.json(
         { message: "EMAIL cadastrado em outro(a) usuário(a)." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -147,7 +141,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       { newEmployee, message: "Funcionário cadastrado com sucesso" },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -183,7 +177,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(
       { message: "Cadastro atualizado!" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
