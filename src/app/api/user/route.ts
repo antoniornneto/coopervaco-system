@@ -65,18 +65,38 @@ export async function POST(req: NextRequest) {
       userSchema.parse(body);
     const hashPassword = await hash(password, 10);
 
+    const employee = await db.employee.findUnique({ where: { cpf } });
+
+    if (!employee) {
+      return NextResponse.json(
+        { message: "Funcionário não encontrado." },
+        { status: 404 }
+      );
+    }
+
     await db.employee.update({
       where: {
         cpf,
       },
       data: {
         user: {
-          update: {
-            name,
-            inscription,
-            email,
-            role: "user",
-            password: hashPassword,
+          upsert: {
+            create: {
+              cpf,
+              name,
+              inscription,
+              image: "",
+              email,
+              role: "user",
+              password: hashPassword,
+            },
+            update: {
+              name,
+              inscription,
+              email,
+              role: "user",
+              password: hashPassword,
+            },
           },
         },
         name,

@@ -9,15 +9,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import * as z from "zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FetchAPI } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import LoadingButton from "../ui/loadingButton";
+import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
-import { FetchAPI } from "@/lib/utils";
+import * as z from "zod";
+import LoadingButton from "../ui/loadingButton";
 
 const FormSchema = z.object({
   cpf: z
@@ -41,17 +41,20 @@ const EmployeeVerify = () => {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setAction(true);
     const { cpf } = values;
+    console.log(cpf);
 
     const callAPIRequest = await FetchAPI({
       method: "GET",
-      path: `/api/employee?cpf=${cpf}`
+      path: `/api/employee?cpf=${cpf}`,
     });
 
-    if(callAPIRequest.ok) {
-      router.push(`/sign-up?cpf=${cpf}`)
+    console.log(callAPIRequest);
+
+    if (callAPIRequest.ok) {
+      router.push(`/sign-up?cpf=${cpf}`);
     }
-    
-    if(!callAPIRequest.ok) {
+
+    if (!callAPIRequest.ok) {
       setAction(false);
     }
   };
@@ -90,7 +93,6 @@ const EmployeeVerify = () => {
                 </FormItem>
               )}
             />
-
           </div>
           <div className="flex gap-4 md:flex-col">
             <div className="flex-1">
