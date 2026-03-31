@@ -4,7 +4,11 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const page = async () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams?: { year?: string };
+}) => {
   const session = await getServerSession(authOptions);
   const userId = session?.user.userId;
 
@@ -15,9 +19,9 @@ const page = async () => {
   return (
     <div>
       {session?.user.role === "admin" ? (
-        <AdminPage id={userId} />
+        <AdminPage id={userId} year={searchParams?.year} />
       ) : (
-        <UserPage id={userId} />
+        <UserPage id={userId} year={searchParams?.year} />
       )}
     </div>
   );

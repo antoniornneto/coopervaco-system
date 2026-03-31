@@ -1,8 +1,14 @@
 import AtasList from "../atas-list";
-import HeaderSystem from "../ui/system-header";
 import SignatureAlert from "../ui/signatureAlert";
+import HeaderSystem from "../ui/system-header";
 
-const UserPage = async ({ id }: { id: string | undefined }) => {
+const UserPage = async ({
+  id,
+  year,
+}: {
+  id: string | undefined;
+  year?: string;
+}) => {
   return (
     <div>
       <HeaderSystem />
@@ -12,16 +18,16 @@ const UserPage = async ({ id }: { id: string | undefined }) => {
           <SignatureAlert id={id} />
           <div className="w-[90%] h-32 flex items-center gap-10">
             <h1 className="text-4xl">Atas de Reuniões</h1>
-            <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
+            {/* <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
               <option value="2024">2024</option>
-            </select>
+            </select> */}
           </div>
         </div>
       </div>
       {/* lista de atas */}
       <div className="w-full flex justify-center">
         <div className="w-[90%]">
-          <AtasList />
+          <AtasList year={year} />
         </div>
       </div>
     </div>
