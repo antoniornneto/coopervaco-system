@@ -9,10 +9,23 @@ import SignAta from "./ui/signAta";
 import { AtasDataProps, ParticipantProp } from "@/types/types";
 import PercentSignatures from "./ui/ataSignaturesPercent";
 import DropdownAtaSettings from "./ui/DropdownAtaSettings";
+import YearFilter from "./ui/YearFilter";
 
-const AtasList = async () => {
+const AtasList = async ({ year }: { year?: string }) => {
   const session = await getServerSession(authOptions);
-  const ataData: AtasDataProps = await db.ata.findMany();
+  const allAtas: AtasDataProps = await db.ata.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+
+  const years = [...new Set(allAtas.map((ata) => dayjs(ata.createdAt).format("YYYY")))].sort(
+    (a, b) => Number(b) - Number(a)
+  );
+
+  const selectedYear = year && years.includes(year) ? year : (years[0] ?? "");
+
+  const ataData = allAtas.filter(
+    (ata) => dayjs(ata.createdAt).format("YYYY") === selectedYear
+  );
 
   let ataWithUser: string[] = [];
   ataData.some((ata) => {
@@ -24,19 +37,9 @@ const AtasList = async () => {
     }
   });
 
-  const years: string[] = [];
-  ataData.map((ata) => years.push(dayjs(ata.createdAt).format("YYYY")));
-  const uniqueYears = [...new Set(years)];
-
   return (
     <div className="py-10">
-      <select className="border-2 border-zinc-300 bg-transparent rounded-lg px-4 text-lg">
-        {uniqueYears.map((year) => (
-          <option key={`${year}`} value={`${year}`}>
-            {year}
-          </option>
-        ))}
-      </select>
+      <YearFilter years={years} selectedYear={selectedYear} />
       <div className="border-x-2 mt-5">
         {ataData.map((ata) => (
           <div
