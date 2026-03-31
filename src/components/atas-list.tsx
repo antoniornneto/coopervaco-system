@@ -21,11 +21,11 @@ const AtasList = async ({ year }: { year?: string }) => {
     (a, b) => Number(b) - Number(a)
   );
 
-  const selectedYear = year && years.includes(year) ? year : (years[0] ?? "");
+  const selectedYear = year === "all" ? "all" : (year && years.includes(year) ? year : "all");
 
-  const ataData = allAtas.filter(
-    (ata) => dayjs(ata.createdAt).format("YYYY") === selectedYear
-  );
+  const ataData = selectedYear === "all"
+    ? allAtas
+    : allAtas.filter((ata) => dayjs(ata.createdAt).format("YYYY") === selectedYear);
 
   let ataWithUser: string[] = [];
   ataData.some((ata) => {

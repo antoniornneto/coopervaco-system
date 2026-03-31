@@ -23,6 +23,7 @@ const YearFilter = ({ years, selectedYear }: YearFilterProps) => {
       value={selectedYear}
       onChange={handleChange}
     >
+      <option value="all">Todos</option>
       {years.map((year) => (
         <option key={year} value={year}>
           {year}
